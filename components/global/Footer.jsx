@@ -40,7 +40,7 @@ export default function Footer() {
   };
 
   return (
-    <footer id="footer" className="w-full bg-transparent text-[#e6e4e2] px-6 md:px-12 py-16 md:py-24 border-t border-white/5 font-sans">
+    <footer id="footer" className="w-full bg-transparent text-[#e6e4e2] px-6 md:px-12 py-16 md:py-24 border-t border-white/5 font-sans relative z-10">
       <div className="max-w-7xl mx-auto flex flex-col gap-16">
         
         {/* Upper Footer: Logo and Contact Title */}

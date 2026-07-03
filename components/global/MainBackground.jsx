@@ -31,80 +31,102 @@ export default function MainBackground() {
     const fadeBg = (activeLayerClass) => {
       const layers = [".bg-hero-layer", ".bg-philosophy-layer", ".bg-projects-layer", ".bg-company-layer"];
       layers.forEach(layer => {
-        if (layer === activeLayerClass) {
-          gsap.to(layer, { opacity: 0.99, duration: 1.8, overwrite: "auto", ease: "power1.inOut" });
-        } else {
-          gsap.to(layer, { opacity: 0, duration: 1.8, overwrite: "auto", ease: "power1.inOut" });
+        if (layer !== activeLayerClass) {
+          gsap.to(layer, { opacity: 0, duration: 0.6, overwrite: "auto", ease: "power1.inOut" });
         }
       });
+      gsap.to(activeLayerClass, { opacity: 0.99, duration: 0.6, delay: 0.2, overwrite: "auto", ease: "power1.inOut" });
     };
 
     const fadeAllOut = () => {
-      gsap.to(".bg-image-layer", { opacity: 0, duration: 1.5, overwrite: "auto", ease: "power1.inOut" });
+      gsap.to(".bg-image-layer", { opacity: 0, duration: 0.6, overwrite: "auto", ease: "power1.inOut" });
+    };
+
+    const updateBackgrounds = () => {
+      const footerTrigger = ScrollTrigger.getById("footer");
+      if (footerTrigger && footerTrigger.isActive) {
+        fadeAllOut();
+        return;
+      }
+
+      const activeSection = [
+        { id: "hero", layer: ".bg-hero-layer" },
+        { id: "philosophy", layer: ".bg-philosophy-layer" },
+        { id: "projects", layer: ".bg-projects-layer" },
+        { id: "company", layer: ".bg-company-layer" }
+      ].find(sec => {
+        const trigger = ScrollTrigger.getById(sec.id);
+        return trigger && trigger.isActive;
+      });
+
+      if (activeSection) {
+        fadeBg(activeSection.layer);
+      } else {
+        fadeAllOut();
+      }
     };
 
     // Create ScrollTriggers and refresh after a short delay to ensure correct positioning of all pushed sections
+    const triggers = [];
     const timer = setTimeout(() => {
-      // Hero Background: active when Hero is in viewport center
-      ScrollTrigger.create({
-        trigger: "#hero",
-        start: "top 50%",
-        end: "bottom 70%",
-        onToggle: (self) => {
-          if (self.isActive) {
-            fadeBg(".bg-hero-layer");
-          } else {
-            fadeAllOut();
-          }
-        }
-      });
+      triggers.push(
+        ScrollTrigger.create({
+          id: "hero",
+          trigger: "#hero",
+          start: "top 50%",
+          end: "bottom 50%",
+          onToggle: updateBackgrounds
+        })
+      );
 
-      // Philosophy Background: active when Philosophy is in viewport center
-      ScrollTrigger.create({
-        trigger: "#philosophy",
-        start: "top 50%",
-        end: "bottom 70%",
-        onToggle: (self) => {
-          if (self.isActive) {
-            fadeBg(".bg-philosophy-layer");
-          } else {
-            fadeAllOut();
-          }
-        }
-      });
+      triggers.push(
+        ScrollTrigger.create({
+          id: "philosophy",
+          trigger: "#philosophy",
+          start: "top 50%",
+          end: "bottom 50%",
+          onToggle: updateBackgrounds
+        })
+      );
 
-      // Projects Background: active when Projects is in viewport center
-      ScrollTrigger.create({
-        trigger: "#projects",
-        start: "top 50%",
-        end: "bottom 100%",
-        onToggle: (self) => {
-          if (self.isActive) {
-            fadeBg(".bg-projects-layer");
-          } else {
-            fadeAllOut();
-          }
-        }
-      });
+      triggers.push(
+        ScrollTrigger.create({
+          id: "projects",
+          trigger: "#projects",
+          start: "top 50%",
+          end: "bottom 50%",
+          onToggle: updateBackgrounds
+        })
+      );
 
-      // Company Background: active when Company is in viewport center
-      ScrollTrigger.create({
-        trigger: "#company",
-        start: "top 50%",
-        end: "bottom 50%",
-        onToggle: (self) => {
-          if (self.isActive) {
-            fadeBg(".bg-company-layer");
-          } else {
-            fadeAllOut();
-          }
-        }
-      });
+      triggers.push(
+        ScrollTrigger.create({
+          id: "company",
+          trigger: "#company",
+          start: "top 70%",
+          end: "bottom bottom",
+          onToggle: updateBackgrounds
+        })
+      );
 
+      triggers.push(
+        ScrollTrigger.create({
+          id: "footer",
+          trigger: "#footer",
+          start: "top bottom",
+          end: "bottom bottom",
+          onToggle: updateBackgrounds
+        })
+      );
+
+      updateBackgrounds();
       ScrollTrigger.refresh();
     }, 1000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      triggers.forEach(t => t.kill());
+    };
   });
 
   return (
@@ -149,7 +171,7 @@ export default function MainBackground() {
           left: 0,
           right: 0,
           backgroundImage: `url(${PROJECTS_IMAGE_URL})`,
-          opacity: 0.8,
+          opacity: 0,
           backgroundColor: "#000000",
         }}
       />
@@ -163,7 +185,7 @@ export default function MainBackground() {
           left: 0,
           right: 0,
           backgroundImage: `url(${COMPANY_IMAGE_URL})`,
-          opacity: 0.5,
+          opacity: 0,
           backgroundColor: "#000000",
         }}
       />

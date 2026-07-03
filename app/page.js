@@ -20,7 +20,7 @@ export default function Home() {
           <Philosophy />
           <div className="h-60 md:h-[40vh]" />
           <Projects />
-          <div className="h-60 md:h-[40vh]" />
+          <div className="h-28 md:h-[25vh]" />
           <Company />
         </main>
         <Footer />
