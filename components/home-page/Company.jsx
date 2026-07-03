@@ -1,0 +1,157 @@
+"use client";
+import React, { useRef, useState, useEffect } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "@/lib/gsap";
+import Logo from "../global/Logo";
+
+// Constants for assets to allow easy swapping later
+const COMP_BG_IMG = "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600"; // Quiet minimal office/interior space
+
+export default function Company() {
+  const containerRef = useRef(null);
+  const contentRef = useRef(null);
+  const bgRef = useRef(null);
+
+  const [dubaiTime, setDubaiTime] = useState({ h: "00", m: "00", s: "00" });
+  const [tokyoTime, setTokyoTime] = useState({ h: "00", m: "00", s: "00" });
+
+  const getTzTimeObj = (offsetHours) => {
+    const date = new Date();
+    const utc = date.getTime() + date.getTimezoneOffset() * 60000;
+    const tzDate = new Date(utc + 3600000 * offsetHours);
+    return {
+      h: String(tzDate.getHours()).padStart(2, "0"),
+      m: String(tzDate.getMinutes()).padStart(2, "0"),
+      s: String(tzDate.getSeconds()).padStart(2, "0")
+    };
+  };
+
+  useEffect(() => {
+    const updateTimes = () => {
+      setDubaiTime(getTzTimeObj(5.5)); // IST (UTC+5.5)
+      setTokyoTime(getTzTimeObj(-4));  // EDT (UTC-4)
+    };
+    updateTimes();
+    const timer = setInterval(updateTimes, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useGSAP(() => {
+    // Fade and slide content up on scroll
+    if (contentRef.current) {
+      gsap.fromTo(
+        contentRef.current.children,
+        { opacity: 0, y: 35 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          stagger: 0.15,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: contentRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }
+
+    // Parallax background image (subtle translate)
+    if (bgRef.current) {
+      gsap.to(bgRef.current, {
+        yPercent: 12,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }
+  }, { scope: containerRef });
+
+  return (
+    <section
+      ref={containerRef}
+      id="company"
+      className="relative w-full min-h-screen bg-transparent text-[#e6e4e2] flex items-center justify-center py-24 md:py-36 px-6 md:px-12 overflow-hidden border-b border-white/5"
+    >
+
+      <div
+        ref={contentRef}
+        className="relative z-10 w-full max-w-4xl flex flex-col items-center justify-center text-center gap-10 md:gap-14 font-sans"
+      >
+        
+        {/* Track Label */}
+        <span className="text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium">
+          company
+        </span>
+
+        {/* Logo Icon */}
+        <div className="flex flex-col items-center justify-center text-[#e6e4e2] select-none scale-110">
+          <Logo className="w-14 h-28 md:w-16 md:h-32" />
+        </div>
+
+        {/* Heading */}
+        <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#e6e4e2] font-light tracking-wide lowercase select-none">
+          who we are
+        </h2>
+
+        {/* Text descriptions */}
+        <div className="flex flex-col gap-6 max-w-2xl text-sm sm:text-base leading-relaxed text-[#908e8b] font-light text-center px-4">
+          <p>
+            no matter how the world changes, what truly enriches human life remains the same.
+            across japan, dubai, and beyond, we nurture life through education, shape daily
+            beauty through craft, and guide a return to oneself through healing.
+          </p>
+          <p>
+            across cultures and borders, we carry a way of being — ancient and quietly alive —
+            where one&apos;s inner nature is free to unfold.
+          </p>
+        </div>
+
+        {/* Clocks Detail Container */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-16 w-full max-w-lg border-y border-white/5 py-8 mt-4 select-none">
+          
+          {/* New Delhi Clock */}
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex items-center gap-3 font-mono text-3xl md:text-4xl text-white font-extralight tracking-wider">
+              <span>{dubaiTime.h}</span>
+              <span className="text-white/30 font-light select-none"> </span>
+              <span>{dubaiTime.m}</span>
+              <span className="text-white/30 font-light select-none"> </span>
+              <span className="text-white/60 text-2xl md:text-3xl font-light">{dubaiTime.s}</span>
+            </div>
+            <span className="text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">new delhi (ist, utc+5.5)</span>
+          </div>
+
+          {/* New York Clock */}
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex items-center gap-3 font-mono text-3xl md:text-4xl text-white font-extralight tracking-wider">
+              <span>{tokyoTime.h}</span>
+              <span className="text-white/30 font-light select-none"> </span>
+              <span>{tokyoTime.m}</span>
+              <span className="text-white/30 font-light select-none"> </span>
+              <span className="text-white/60 text-2xl md:text-3xl font-light">{tokyoTime.s}</span>
+            </div>
+            <span className="text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">new york (edt, utc-4)</span>
+          </div>
+
+        </div>
+
+        {/* Button */}
+        <div className="pt-4">
+          <a
+            href="#company-details"
+            className="line-draw font-serif text-lg md:text-xl text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase"
+          >
+            view company
+          </a>
+        </div>
+
+      </div>
+    </section>
+  );
+}
