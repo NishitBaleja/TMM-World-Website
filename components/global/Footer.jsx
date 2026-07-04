@@ -1,5 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "@/lib/gsap";
 import Link from "next/link";
 import Logo from "./Logo";
 
@@ -32,6 +34,8 @@ export default function Footer() {
     return () => clearInterval(interval);
   }, []);
 
+  const footerRef = useRef(null);
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -39,12 +43,35 @@ export default function Footer() {
     });
   };
 
+  // Hierarchical scroll-reveal for footer sections
+  useGSAP(() => {
+    const sections = footerRef.current?.querySelectorAll(".footer-reveal");
+    if (sections && sections.length > 0) {
+      const footerTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: "top 90%",
+          toggleActions: "play none none none",
+        },
+      });
+
+      sections.forEach((el, i) => {
+        footerTl.fromTo(
+          el,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
+          i * 0.2
+        );
+      });
+    }
+  }, { scope: footerRef });
+
   return (
-    <footer id="footer" className="w-full bg-transparent text-[#e6e4e2] px-6 md:px-12 py-16 md:py-24 border-t border-white/5 font-sans relative z-10">
+    <footer ref={footerRef} id="footer" className="w-full bg-transparent text-[#e6e4e2] px-6 md:px-12 py-16 md:py-24 font-sans relative z-10">
       <div className="max-w-7xl mx-auto flex flex-col gap-16">
         
         {/* Upper Footer: Logo and Contact Title */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 pb-12 border-b border-white/5">
+        <div className="footer-reveal flex flex-col md:flex-row justify-between items-start md:items-end gap-8 pb-12">
           <div className="flex items-center gap-1">
             <Logo className="w-10 h-20 md:w-12 md:h-24" />
           </div>
@@ -58,7 +85,7 @@ export default function Footer() {
         </div>
 
         {/* Middle Footer: Sitemap, Addresses, Socials */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-[10px] uppercase tracking-[0.2em] text-[#908e8b]">
+        <div className="footer-reveal grid grid-cols-2 md:grid-cols-4 gap-12 text-[10px] uppercase tracking-[0.2em] text-[#908e8b]">
           {/* Sitemap */}
           <div className="flex flex-col gap-4">
             <span className="text-white/20 select-none">sitemap</span>
@@ -135,7 +162,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Footer: Copyright, Clocks, Back to Top */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pt-8 border-t border-white/5 text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">
+        <div className="footer-reveal flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pt-8 text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">
           <div>
             <span>©{new Date().getFullYear()}</span>
           </div>

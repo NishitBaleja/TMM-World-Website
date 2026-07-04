@@ -54,18 +54,16 @@ export default function CustomLoader() {
       }
     });
 
-    // Fade in text characters from left to right letter by letter, with a soft blur effect
-    gsap.fromTo(
-      ".loader-char",
-      { opacity: 0, filter: "blur(8px)" },
-      {
-        opacity: 1,
-        filter: "blur(0px)",
-        stagger: 0.1,
-        duration: 2.0,
-        ease: "power2.out"
-      }
-    );
+    // Fade in text characters from left to right letter by letter, with a soft blur effect, starting after a brief delay
+    gsap.to(".loader-char", {
+      opacity: 1,
+      filter: "blur(0px)",
+      stagger: 0.1,
+      duration: 2.0,
+      delay: 0.5,
+      ease: "power2.out"
+    });
+
   });
 
   if (isLoaded) return null;
@@ -81,7 +79,11 @@ export default function CustomLoader() {
             <span
               key={index}
               className="loader-char inline-block"
-              style={{ minWidth: char === " " ? "0.3em" : "auto" }}
+              style={{
+                minWidth: char === " " ? "0.3em" : "auto",
+                opacity: 0,
+                filter: "blur(8px)"
+              }}
             >
               {char}
             </span>
@@ -89,7 +91,7 @@ export default function CustomLoader() {
         </h1>
 
         {/* Reduced size Percentage Loader absolute-positioned to prevent layout shifts */}
-        <div className="absolute left-0 top-28 md:top-36 select-none flex items-baseline font-mono text-[10px] md:text-[11px] text-[#908e8b]/60 font-light tracking-widest pl-0.5">
+        <div className="loader-progress-container absolute left-0 top-28 md:top-36 select-none flex items-baseline font-mono text-[10px] md:text-[11px] text-[#908e8b]/60 font-light tracking-widest pl-0.5">
           <span>{String(progress).padStart(2, "0")}</span>
           <span className="text-[8px] text-[#908e8b]/40 ml-0.5">%</span>
         </div>

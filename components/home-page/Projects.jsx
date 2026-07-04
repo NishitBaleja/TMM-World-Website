@@ -200,6 +200,30 @@ export default function Projects() {
 
       // Desktop background is handled dynamically via events dispatched in scrollTrigger config
 
+      // Scroll-reveal for cover slide text (hierarchical via timeline)
+      const coverSlide = desktopPinRef.current?.querySelector(".project-slide");
+      if (coverSlide) {
+        const coverH2 = coverSlide.querySelector("h2");
+        const coverP = coverSlide.querySelector("p");
+        const coverTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: coverSlide,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
+        if (coverH2) {
+          coverTl.fromTo(coverH2, { opacity: 0, y: 40 }, {
+            opacity: 1, y: 0, duration: 1.2, ease: "power2.out",
+          }, 0);
+        }
+        if (coverP) {
+          coverTl.fromTo(coverP, { opacity: 0, y: 30 }, {
+            opacity: 1, y: 0, duration: 1, ease: "power2.out",
+          }, 0.3);
+        }
+      }
+
       // Subtle parallax for images inside slides
       slides.forEach((slide) => {
         const img = slide.querySelector(".project-img");
@@ -247,23 +271,35 @@ export default function Projects() {
         }
       });
 
-      // Mobile cards scroll entry animations
+      // Mobile cards scroll entry animations with hierarchical text reveal
       mobileSlides.forEach((card) => {
-        gsap.fromTo(
+        // Use a timeline per card for reliable sequential reveal
+        const cardTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: card,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
+
+        // Card fade in first
+        cardTl.fromTo(
           card,
           { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 80%",
-              toggleActions: "play none none none",
-            },
-          }
+          { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
+          0
         );
+
+        // Hierarchical text reveal within each mobile card
+        const textEls = card.querySelectorAll("h3, p, a");
+        textEls.forEach((el, i) => {
+          cardTl.fromTo(
+            el,
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+            0.2 + i * 0.12
+          );
+        });
       });
 
       // Mobile background transitions between cards
@@ -327,7 +363,7 @@ export default function Projects() {
         <div ref={trackRef} className="flex h-full w-[400vw] flex-row items-center">
           
           {/* Section Cover Slide */}
-          <div className="project-slide w-screen h-screen flex flex-col justify-center px-12 lg:px-24 border-r border-white/5 relative">
+          <div className="project-slide w-screen h-screen flex flex-col justify-center px-12 lg:px-24 relative">
             
             <div className="max-w-4xl select-none text-left flex flex-col gap-8">
               <h2 className="font-serif text-5xl lg:text-7xl text-[#e6e4e2] leading-[1.2] font-light tracking-wide lowercase">
@@ -345,7 +381,7 @@ export default function Projects() {
           {practices.map((practice) => (
             <div
               key={practice.num}
-              className="project-slide w-screen h-screen flex items-center justify-center px-12 lg:px-24 border-r border-white/5 relative"
+              className="project-slide w-screen h-screen flex items-center justify-center px-12 lg:px-24 relative"
             >
               <div className="grid grid-cols-12 gap-12 items-center w-full max-w-7xl">
                 
@@ -400,7 +436,7 @@ export default function Projects() {
       </div>
 
       {/* Mobile Stacked Layout */}
-      <div className="block md:hidden px-6 py-20 border-b border-white/5">
+      <div className="block md:hidden px-6 py-20">
         <div className="flex flex-col gap-12">
           
           {/* Mobile Cover Intro */}
@@ -421,7 +457,7 @@ export default function Projects() {
             {practices.map((practice) => (
               <div
                 key={practice.num}
-                className="mobile-project-card flex flex-col gap-6 text-left border-t border-white/5 pt-8"
+                className="mobile-project-card flex flex-col gap-6 text-left pt-8"
               >
                 <div className="w-full aspect-[4/5] bg-[#0c0c0c] border border-white/5 relative overflow-hidden flex items-center justify-center">
                   <div

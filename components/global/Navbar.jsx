@@ -246,7 +246,7 @@ export default function Navbar() {
         </div>
 
         {/* Footer info inside menu */}
-        <div className="flex justify-between items-center text-[10px] text-[#908e8b] tracking-[0.2em] w-full max-w-7xl mx-auto z-10 mt-8 border-t border-white/5 pt-6">
+        <div className="flex justify-between items-center text-[10px] text-[#908e8b] tracking-[0.2em] w-full max-w-7xl mx-auto z-10 mt-8 pt-6">
           <span>©{new Date().getFullYear()}</span>
           <div className="flex gap-6">
             <a href="https://wa.me/#" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">WHATSAPP</a>

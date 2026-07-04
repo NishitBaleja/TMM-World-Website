@@ -37,7 +37,7 @@ export default function Hero() {
   }, []);
 
   useGSAP(() => {
-    // Fade and slide tagline up on mount
+    // Intro entrance animation
     const tl = gsap.timeline();
 
     if (titleRef.current) {
@@ -48,8 +48,6 @@ export default function Hero() {
       );
     }
 
-
-
     if (infoRef.current) {
       tl.fromTo(
         infoRef.current,
@@ -58,6 +56,47 @@ export default function Hero() {
         "-=0.8"
       );
     }
+
+    // After intro completes, set up scroll-driven fade out/in
+    tl.then(() => {
+      // Smooth fade out hero title on scroll down, fade back in on scroll up
+      if (titleRef.current) {
+        gsap.fromTo(
+          titleRef.current,
+          { opacity: 1, y: 0 },
+          {
+            opacity: 0,
+            y: -30,
+            ease: "none",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "5% top",
+              end: "35% top",
+              scrub: 0.3,
+            },
+          }
+        );
+      }
+
+      // Smooth fade out bottom info bar on scroll down, fade back in on scroll up
+      if (infoRef.current) {
+        gsap.fromTo(
+          infoRef.current,
+          { opacity: 1, y: 0 },
+          {
+            opacity: 0,
+            y: -20,
+            ease: "none",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "3% top",
+              end: "30% top",
+              scrub: 0.3,
+            },
+          }
+        );
+      }
+    });
   }, { scope: containerRef });
 
   return (
@@ -81,7 +120,7 @@ export default function Hero() {
       {/* Bottom Info Bar */}
       <div
         ref={infoRef}
-        className="absolute bottom-6 md:bottom-8 left-8 right-8 md:left-16 md:right-16 z-20 flex flex-row justify-between items-start sm:items-center text-[#908e8b] text-[11px] sm:text-[12px] md:text-[13px] uppercase tracking-[0.25em] border-t border-white/5 pt-8 md:pt-10 font-sans"
+        className="absolute bottom-6 md:bottom-8 left-8 right-8 md:left-16 md:right-16 z-20 flex flex-row justify-between items-start sm:items-center text-[#908e8b] text-[11px] sm:text-[12px] md:text-[13px] uppercase tracking-[0.25em] pt-8 md:pt-10 font-sans"
       >
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-16 md:gap-20">
           <span>©{new Date().getFullYear()}</span>

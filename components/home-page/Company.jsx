@@ -38,24 +38,30 @@ export default function Company() {
   }, []);
 
   useGSAP(() => {
-    // Fade and slide content up on scroll
-    if (contentRef.current) {
-      gsap.fromTo(
-        contentRef.current.children,
-        { opacity: 0, y: 35 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          stagger: 0.15,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: contentRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
+    // Hierarchical text reveal using a timeline for reliable sequencing
+    const elements = contentRef.current?.children;
+    if (elements && elements.length > 0) {
+      const revealTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: contentRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+
+      Array.from(elements).forEach((el, i) => {
+        revealTl.fromTo(
+          el,
+          { opacity: 0, y: 35 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.0,
+            ease: "power2.out",
           },
-        }
-      );
+          i * 0.15 // stagger by position in timeline
+        );
+      });
     }
 
     // Parallax background image (subtle translate)
@@ -77,7 +83,7 @@ export default function Company() {
     <section
       ref={containerRef}
       id="company"
-      className="relative w-full min-h-screen bg-transparent text-[#e6e4e2] flex items-center justify-center py-24 md:py-36 px-6 md:px-12 overflow-hidden border-b border-white/5"
+      className="relative w-full min-h-screen bg-transparent text-[#e6e4e2] flex items-center justify-center py-24 md:py-36 px-6 md:px-12 overflow-hidden"
     >
 
       <div
@@ -114,7 +120,7 @@ export default function Company() {
         </div>
 
         {/* Clocks Detail Container */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-16 w-full max-w-lg border-y border-white/5 py-8 mt-4 select-none">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-16 w-full max-w-lg py-8 mt-4 select-none">
           
           {/* New Delhi Clock */}
           <div className="flex flex-col items-center gap-2">
