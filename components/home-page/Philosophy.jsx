@@ -5,9 +5,9 @@ import gsap from "@/lib/gsap";
 import { siteContent } from "@/lib/content";
 
 // Constants for assets
-const INCENSE_IMG = "/images/home/incense-philo.png";
-const GARDEN_IMG = "/images/home/garden-philo.png";
-const BAMBOO_IMG = "/images/home/bamboo-philo.png";
+const PHI_IMG_1 = "/images/home/phi-img-1.webp";
+const PHI_IMG_3 = "/images/home/phi-img-3.webp";
+const PHI_IMG_2 = "/images/home/phi-img-2.webp";
 
 export default function Philosophy() {
   const sectionRef = useRef(null);
@@ -114,7 +114,7 @@ export default function Philosophy() {
             <div className="philo-img-1 w-[180px] sm:w-[220px] aspect-[3/4] bg-[#0c0c0c] border border-white/5 shadow-xl overflow-hidden group">
               <div
                 className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105 webgl-distort-image"
-                style={{ backgroundImage: `url(${INCENSE_IMG})` }}
+                style={{ backgroundImage: `url(${PHI_IMG_1})` }}
               />
             </div>
           </div>
@@ -143,7 +143,7 @@ export default function Philosophy() {
             <div className="philo-img-3 w-full aspect-[3/4] bg-[#0c0c0c] border border-white/5 shadow-2xl overflow-hidden group">
               <div
                 className="w-full h-full bg-cover bg-center webgl-distort-image"
-                style={{ backgroundImage: `url(${GARDEN_IMG})` }}
+                style={{ backgroundImage: `url(${PHI_IMG_3})` }}
               />
               <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
             </div>
@@ -152,7 +152,7 @@ export default function Philosophy() {
             <div className="philo-img-2 absolute -top-12 -right-10 sm:-top-16 sm:-right-14 w-[140px] sm:w-[180px] aspect-[3/4] bg-[#0c0c0c] border border-white/5 shadow-2xl overflow-hidden group z-20">
               <div
                 className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105 webgl-distort-image"
-                style={{ backgroundImage: `url(${BAMBOO_IMG})` }}
+                style={{ backgroundImage: `url(${PHI_IMG_2})` }}
               />
             </div>
           </div>

@@ -202,7 +202,7 @@ export default function LiquidLensDistortion({
         return val * 2.0 - 1.0;
       }
 
-      vec2 getCoverUv(vec2 uv, float imgAspect, float screenAspect, float yOffset) {
+      vec2 getCoverUv(vec2 uv, float imgAspect, float screenAspect, float yOffset, float zoomScale) {
         vec2 shiftedUv = uv;
         shiftedUv.y += yOffset;
         
@@ -210,8 +210,29 @@ export default function LiquidLensDistortion({
           min(screenAspect / imgAspect, 1.0),
           min(imgAspect / screenAspect, 1.0)
         );
-        // Scale ratio by 0.85 to zoom in slightly and prevent edges/borders from showing during parallax scroll
-        return (shiftedUv - 0.5) * ratio * 0.85 + 0.5;
+        return (shiftedUv - 0.5) * ratio * zoomScale + 0.5;
+      }
+
+      vec2 getBottomUv(vec2 uv, float imgAspect, float screenAspect, float yOffset, float zoomScale) {
+        vec2 shiftedUv = uv;
+        shiftedUv.y += (yOffset + 0.05) * 0.25;
+        
+        vec2 ratio = vec2(
+          min(screenAspect / imgAspect, 1.0),
+          min(imgAspect / screenAspect, 1.0)
+        );
+        
+        vec2 res;
+        res.x = (shiftedUv.x - 0.5) * ratio.x * zoomScale + 0.5;
+        res.y = shiftedUv.y * ratio.y * zoomScale;
+        return res;
+      }
+
+      vec4 sampleTex(sampler2D tex, vec2 uv) {
+        if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
+          return vec4(0.0, 0.0, 0.0, 1.0);
+        }
+        return texture2D(tex, uv);
       }
 
       void main() {
@@ -239,10 +260,12 @@ export default function LiquidLensDistortion({
           finalUv += dispInPixels / uResolution;
         }
 
-        vec2 uvHero = getCoverUv(finalUv, uHeroAspect, uViewportAspect, uBgYOffset);
-        vec2 uvPhilo = getCoverUv(finalUv, uPhiloAspect, uViewportAspect, uBgYOffset);
-        vec2 uvProj = getCoverUv(finalUv, uProjAspect, uViewportAspect, uBgYOffset);
-        vec2 uvComp = getCoverUv(finalUv, uCompAspect, uViewportAspect, uBgYOffset);
+        vec2 uvHero = getCoverUv(finalUv, uHeroAspect, uViewportAspect, uBgYOffset, 0.85);
+        vec2 uvPhilo = (uCompanyMode > 0.5)
+          ? getBottomUv(finalUv, uPhiloAspect, uViewportAspect, uBgYOffset, 1.35)
+          : getCoverUv(finalUv, uPhiloAspect, uViewportAspect, uBgYOffset, 0.85);
+        vec2 uvProj = getCoverUv(finalUv, uProjAspect, uViewportAspect, uBgYOffset, 0.85);
+        vec2 uvComp = getCoverUv(finalUv, uCompAspect, uViewportAspect, uBgYOffset, 0.85);
 
         vec4 colHero, colPhilo, colProj, colComp;
 
@@ -250,26 +273,30 @@ export default function LiquidLensDistortion({
           float refractPower = pow(1.0 - (dist / uRadius), 2.5);
           vec2 caDisp = -normalize(pixelDiff) * uChromaticAberration * refractPower / uResolution;
 
-          vec2 uvHeroR = getCoverUv(finalUv + caDisp, uHeroAspect, uViewportAspect, uBgYOffset);
-          vec2 uvHeroB = getCoverUv(finalUv - caDisp, uHeroAspect, uViewportAspect, uBgYOffset);
-          colHero = vec4(texture2D(uHeroTex, uvHeroR).r, texture2D(uHeroTex, uvHero).g, texture2D(uHeroTex, uvHeroB).b, texture2D(uHeroTex, uvHero).a);
+          vec2 uvHeroR = getCoverUv(finalUv + caDisp, uHeroAspect, uViewportAspect, uBgYOffset, 0.85);
+          vec2 uvHeroB = getCoverUv(finalUv - caDisp, uHeroAspect, uViewportAspect, uBgYOffset, 0.85);
+          colHero = vec4(sampleTex(uHeroTex, uvHeroR).r, sampleTex(uHeroTex, uvHero).g, sampleTex(uHeroTex, uvHeroB).b, sampleTex(uHeroTex, uvHero).a);
 
-          vec2 uvPhiloR = getCoverUv(finalUv + caDisp, uPhiloAspect, uViewportAspect, uBgYOffset);
-          vec2 uvPhiloB = getCoverUv(finalUv - caDisp, uPhiloAspect, uViewportAspect, uBgYOffset);
-          colPhilo = vec4(texture2D(uPhiloTex, uvPhiloR).r, texture2D(uPhiloTex, uvPhilo).g, texture2D(uPhiloTex, uvPhiloB).b, texture2D(uPhiloTex, uvPhilo).a);
+          vec2 uvPhiloR = (uCompanyMode > 0.5)
+            ? getBottomUv(finalUv + caDisp, uPhiloAspect, uViewportAspect, uBgYOffset, 1.35)
+            : getCoverUv(finalUv + caDisp, uPhiloAspect, uViewportAspect, uBgYOffset, 0.85);
+          vec2 uvPhiloB = (uCompanyMode > 0.5)
+            ? getBottomUv(finalUv - caDisp, uPhiloAspect, uViewportAspect, uBgYOffset, 1.35)
+            : getCoverUv(finalUv - caDisp, uPhiloAspect, uViewportAspect, uBgYOffset, 0.85);
+          colPhilo = vec4(sampleTex(uPhiloTex, uvPhiloR).r, sampleTex(uPhiloTex, uvPhilo).g, sampleTex(uPhiloTex, uvPhiloB).b, sampleTex(uPhiloTex, uvPhilo).a);
 
-          vec2 uvProjR = getCoverUv(finalUv + caDisp, uProjAspect, uViewportAspect, uBgYOffset);
-          vec2 uvProjB = getCoverUv(finalUv - caDisp, uProjAspect, uViewportAspect, uBgYOffset);
-          colProj = vec4(texture2D(uProjTex, uvProjR).r, texture2D(uProjTex, uvProj).g, texture2D(uProjTex, uvProjB).b, texture2D(uProjTex, uvProj).a);
+          vec2 uvProjR = getCoverUv(finalUv + caDisp, uProjAspect, uViewportAspect, uBgYOffset, 0.85);
+          vec2 uvProjB = getCoverUv(finalUv - caDisp, uProjAspect, uViewportAspect, uBgYOffset, 0.85);
+          colProj = vec4(sampleTex(uProjTex, uvProjR).r, sampleTex(uProjTex, uvProj).g, sampleTex(uProjTex, uvProjB).b, sampleTex(uProjTex, uvProj).a);
 
-          vec2 uvCompR = getCoverUv(finalUv + caDisp, uCompAspect, uViewportAspect, uBgYOffset);
-          vec2 uvCompB = getCoverUv(finalUv - caDisp, uCompAspect, uViewportAspect, uBgYOffset);
-          colComp = vec4(texture2D(uCompTex, uvCompR).r, texture2D(uCompTex, uvComp).g, texture2D(uCompTex, uvCompB).b, texture2D(uCompTex, uvComp).a);
+          vec2 uvCompR = getCoverUv(finalUv + caDisp, uCompAspect, uViewportAspect, uBgYOffset, 0.85);
+          vec2 uvCompB = getCoverUv(finalUv - caDisp, uCompAspect, uViewportAspect, uBgYOffset, 0.85);
+          colComp = vec4(sampleTex(uCompTex, uvCompR).r, sampleTex(uCompTex, uvComp).g, sampleTex(uCompTex, uvCompB).b, sampleTex(uCompTex, uvComp).a);
         } else {
-          colHero = texture2D(uHeroTex, uvHero);
-          colPhilo = texture2D(uPhiloTex, uvPhilo);
-          colProj = texture2D(uProjTex, uvProj);
-          colComp = texture2D(uCompTex, uvComp);
+          colHero = sampleTex(uHeroTex, uvHero);
+          colPhilo = sampleTex(uPhiloTex, uvPhilo);
+          colProj = sampleTex(uProjTex, uvProj);
+          colComp = sampleTex(uCompTex, uvComp);
         }
 
         vec4 finalCol = vec4(0.0, 0.0, 0.0, 1.0);
@@ -345,7 +372,7 @@ export default function LiquidLensDistortion({
     } else if (companyMode) {
       // Company page: load company backgrounds into hero and philo texture slots
       loadBgTexture("/images/home/hero-bg-img.webp", bgUniforms.uHeroAspect, bgHeroTex);
-      loadBgTexture("/images/home/projects-bg-img.webp", bgUniforms.uPhiloAspect, bgPhiloTex);
+      loadBgTexture("/images/company/map-bg-img.webp", bgUniforms.uPhiloAspect, bgPhiloTex);
     } else {
       // Home page: load all 4 section backgrounds
       loadBgTexture("/images/home/hero-bg-img.webp", bgUniforms.uHeroAspect, bgHeroTex);

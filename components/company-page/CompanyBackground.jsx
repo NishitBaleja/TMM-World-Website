@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap, { ScrollTrigger } from "@/lib/gsap";
 
 const BG_1 = "/images/home/hero-bg-img.webp";
-const BG_2 = "/images/home/projects-bg-img.webp";
+const BG_2 = "/images/company/map-bg-img.webp";
 
 export default function CompanyBackground() {
   const containerRef = useRef(null);
@@ -65,7 +65,7 @@ export default function CompanyBackground() {
         });
 
         // Fade in from 0% to 25% of Map scroll
-        mapTl.to(".company-bg-page-2", { opacity: 0.99, duration: 0.25, ease: "none" }, 0);
+        mapTl.to(".company-bg-page-2", { opacity: 0.8, duration: 0.25, ease: "none" }, 0);
         // Fade out from 90% to 100% of Map scroll
         mapTl.to(".company-bg-page-2", { opacity: 0, duration: 0.1, ease: "none" }, 0.9);
 
@@ -101,11 +101,12 @@ export default function CompanyBackground() {
 
       {/* Background 2 (Map) */}
       <div
-        className="company-bg-layer company-bg-page-2 absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="company-bg-layer company-bg-page-2 absolute inset-0 bg-bottom bg-no-repeat"
         style={{
           top: "-10%",
           bottom: "-10%",
           backgroundImage: `url(${BG_2})`,
+          backgroundSize: "75%",
           opacity: 0,
           backgroundColor: "#000000",
         }}
