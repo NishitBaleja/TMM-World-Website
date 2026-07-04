@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useRef, useState, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
@@ -95,7 +96,7 @@ export default function Company() {
         </div>
 
         {/* Heading */}
-        <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#e6e4e2] font-light tracking-wide lowercase select-none">
+        <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#e6e4e2] font-light tracking-wide lowercase select-none webgl-distort-text">
           who we are
         </h2>
 

@@ -98,6 +98,7 @@ export default function MainBackground() {
   return (
     <div
       ref={containerRef}
+      id="main-background"
       className="fixed inset-0 z-0 w-full h-full bg-black overflow-hidden pointer-events-none"
       style={{
         "--fade-hero-to-philosophy": 0,
@@ -163,7 +164,7 @@ export default function MainBackground() {
       />
 
       {/* Global Dark Tint Overlay to ensure text readability */}
-      <div className="absolute inset-0 bg-black/85 z-10 opacity-40" />
+      <div className="bg-dark-overlay absolute inset-0 bg-black/85 z-10 opacity-40" />
     </div>
   );
 }

@@ -70,13 +70,13 @@ export default function CustomLoader() {
 
   if (isLoaded) return null;
 
-  const text = "remember who you are";
+  const text = "Remember who you are";
 
   return (
-    <div className="loader-container fixed inset-0 z-[9999] bg-[#080808] select-none pointer-events-auto w-full h-screen flex items-center justify-start px-10 md:px-36">
+    <div className="loader-container fixed inset-0 z-[9999] bg-[#080808] select-none pointer-events-auto w-full h-screen flex items-center justify-start px-16 sm:px-32 md:px-[20vw] lg:px-[25vw]">
       {/* Text Container aligned exactly like Hero section */}
       <div className="relative z-10 max-w-4xl mt-12 md:mt-24 select-none text-left">
-        <h1 className="font-serif text-lg sm:text-2xl md:text-3xl text-[#e6e4e2] leading-[1.4] font-light tracking-wide max-w-lg lowercase">
+        <h1 className="font-serif text-[13px] sm:text-sm md:text-[15px] text-[#e6e4e2] leading-[1.4] font-light tracking-wide max-w-md">
           {text.split("").map((char, index) => (
             <span
               key={index}
@@ -87,14 +87,12 @@ export default function CustomLoader() {
             </span>
           ))}
         </h1>
-      </div>
 
-      {/* Subtle Percentage Loader in the bottom-left corner */}
-      <div className="absolute bottom-10 left-10 md:left-36 select-none flex items-baseline">
-        <span className="font-mono text-2xl sm:text-3xl md:text-4xl text-[#908e8b] font-light tracking-tighter">
-          {String(progress).padStart(2, "0")}
-        </span>
-        <span className="font-mono text-sm sm:text-base text-[#908e8b]/40 font-light ml-1">%</span>
+        {/* Reduced size Percentage Loader absolute-positioned to prevent layout shifts */}
+        <div className="absolute left-0 top-28 md:top-36 select-none flex items-baseline font-mono text-[10px] md:text-[11px] text-[#908e8b]/60 font-light tracking-widest pl-0.5">
+          <span>{String(progress).padStart(2, "0")}</span>
+          <span className="text-[8px] text-[#908e8b]/40 ml-0.5">%</span>
+        </div>
       </div>
     </div>
   );

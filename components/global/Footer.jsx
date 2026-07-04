@@ -140,7 +140,7 @@ export default function Footer() {
             <span>©{new Date().getFullYear()}</span>
           </div>
 
-          <div className="flex flex-wrap gap-x-8 gap-y-2 font-mono text-[10px]">
+          <div className="flex flex-wrap gap-x-16 md:gap-x-24 gap-y-2 font-mono text-[10px]">
             <div className="flex items-center gap-2">
               <span className="text-white">{dubaiTime}</span>
               <span className="text-[#908e8b] font-sans text-[8px] tracking-widest">ist, new delhi ind</span>

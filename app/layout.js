@@ -1,6 +1,6 @@
 import "./globals.css";
 import SmoothScroll from "@/components/global/SmoothScroll";
-import CustomCursor from "@/components/global/CustomCursor";
+
 
 export const metadata = {
   title: "TMMWORLD",
@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
         className="min-h-full flex flex-col bg-[#080808] text-[#e6e4e2] selection:bg-[#d4c3b3] selection:text-black"
         suppressHydrationWarning
       >
-        <CustomCursor />
+
         <div className="grain-overlay" />
         <SmoothScroll>
           {children}

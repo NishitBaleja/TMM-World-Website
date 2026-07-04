@@ -6,53 +6,161 @@ import Logo from "./Logo";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
+  const [displayText, setDisplayText] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
+  const [activeLang, setActiveLang] = useState("en");
+  const displayTextRef = React.useRef("");
+  const isVisibleRef = React.useRef(false);
+
+  const updateDisplayText = (val) => {
+    displayTextRef.current = val;
+    setDisplayText(val);
+  };
+
+  const updateVisibility = (val) => {
+    isVisibleRef.current = val;
+    setIsVisible(val);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+
+      // Section indicator scroll detection
+      const sections = ["hero", "philosophy", "projects", "company"];
+      let currentSection = "hero";
+      const triggerPoint = window.innerHeight * 0.4; // 40% of viewport height
+
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= triggerPoint) {
+            currentSection = id;
+          }
+        }
+      }
+
+      setActiveSection(currentSection);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    const timer = setTimeout(handleScroll, 100);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(timer);
+    };
   }, []);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    if (isMenuOpen || activeSection === "hero") {
+      updateVisibility(false);
+      return;
+    }
 
+    const labels = {
+      philosophy: "philosophy",
+      projects: "projects",
+      company: "company",
+    };
+    const newLabel = labels[activeSection] || activeSection;
+
+    if (displayTextRef.current === "") {
+      updateDisplayText(newLabel);
+      updateVisibility(true);
+    } else if (displayTextRef.current !== newLabel) {
+      updateVisibility(false);
+      const timer = setTimeout(() => {
+        updateDisplayText(newLabel);
+        updateVisibility(true);
+      }, 300);
+      return () => clearTimeout(timer);
+    } else if (!isVisibleRef.current) {
+      updateVisibility(true);
+    }
+  }, [activeSection, isMenuOpen]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   return (
     <>
       <header
-        className="fixed top-0 left-0 w-full z-50 transition-all duration-700 py-6 md:py-8 px-6 md:px-12 flex justify-between items-start bg-transparent border-b border-white/0 mix-blend-difference"
+        className="fixed top-0 left-0 w-full z-50 transition-all duration-700 py-8 md:py-12 px-8 md:px-16 flex justify-between items-start bg-transparent border-b border-white/0 mix-blend-difference"
       >
-        <Link href="/" className="text-white hover:opacity-85 transition-opacity">
-          <Logo className="w-10 h-20 md:w-12 md:h-24" />
-        </Link>
+        <div className="flex flex-col items-center gap-4 md:gap-6">
+          <Link href="/" className="text-white hover:opacity-85 transition-opacity">
+            <Logo className="w-10 h-20 md:w-12 md:h-24" />
+          </Link>
+          
+          <div
+            className={`font-serif text-[10px] md:text-[11px] uppercase tracking-[0.35em] text-[#908e8b] select-none pointer-events-none transition-all duration-300 ease-in-out ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+            }`}
+            style={{ writingMode: "vertical-lr" }}
+          >
+            {displayText}
+          </div>
+        </div>
 
-        <div className="flex items-center gap-16 font-sans text-xs uppercase tracking-[0.2em]">
-          <div className="hidden sm:flex gap-4 text-muted select-none">
-            <span className="text-[#e6e4e2] font-semibold cursor-pointer">en</span>
-            <span className="text-white/10">|</span>
-            <span className="hover:text-white transition-colors cursor-pointer text-[#908e8b]">hi</span>
+        <div className="flex items-center gap-32 font-sans text-xs uppercase tracking-[0.2em]">
+          {/* Language Picker with Dots (Active Only) */}
+          <div className="flex items-start gap-3.5 text-muted select-none text-[10px] tracking-[0.25em]">
+            {/* EN */}
+            <button
+              onClick={() => setActiveLang("en")}
+              className="flex flex-col items-center gap-2 focus:outline-none cursor-pointer group/lang"
+            >
+              <span
+                className={`w-1 h-1 rounded-full bg-white transition-all duration-300 ${
+                  activeLang === "en" ? "opacity-40 scale-100" : "opacity-0 scale-0"
+                }`}
+              />
+              <span
+                className={`transition-colors duration-300 ${
+                  activeLang === "en" ? "text-[#e6e4e2] font-semibold" : "text-[#908e8b] hover:text-white"
+                }`}
+              >
+                en
+              </span>
+            </button>
+            
+            <span className="text-white/10 mt-[10px] text-[9px]">|</span>
+            
+            {/* HI */}
+            <button
+              onClick={() => setActiveLang("hi")}
+              className="flex flex-col items-center gap-2 focus:outline-none cursor-pointer group/lang"
+            >
+              <span
+                className={`w-1 h-1 rounded-full bg-white transition-all duration-300 ${
+                  activeLang === "hi" ? "opacity-40 scale-100" : "opacity-0 scale-0"
+                }`}
+              />
+              <span
+                className={`transition-colors duration-300 ${
+                  activeLang === "hi" ? "text-[#e6e4e2] font-semibold" : "text-[#908e8b] hover:text-white"
+                }`}
+              >
+                hi
+              </span>
+            </button>
           </div>
 
+          {/* Menu Button with Dot and Strikethrough Hover */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="flex items-center gap-3 text-white hover:opacity-80 transition-opacity z-50 relative focus:outline-none cursor-pointer"
+            className="flex flex-col items-center gap-2 text-white z-50 relative focus:outline-none cursor-pointer group"
             aria-label="Toggle Menu"
           >
-            <span className="font-semibold text-[10px] tracking-[0.25em]">
+            <span className="w-1 h-1 rounded-full bg-white/30 transition-transform duration-300" />
+            <span className="font-semibold text-[10px] tracking-[0.25em] relative block py-0.5">
               {isMenuOpen ? "CLOSE" : "MENU"}
+              <span className="absolute left-0 top-1/2 w-full h-[1px] bg-white scale-x-0 origin-left transition-transform duration-300 ease-out group-hover:scale-x-100" />
             </span>
-            <div className="flex flex-col gap-1.5 justify-center items-center w-5 h-5">
-              <span
-                className={`block w-5 h-[1.2px] bg-white transition-transform duration-300 ${
-                  isMenuOpen ? "rotate-45 translate-y-[5.2px]" : ""
-                }`}
-              />
-              <span
-                className={`block w-5 h-[1.2px] bg-white transition-transform duration-300 ${
-                  isMenuOpen ? "-rotate-45 -translate-y-[2px]" : ""
-                }`}
-              />
-            </div>
           </button>
         </div>
       </header>

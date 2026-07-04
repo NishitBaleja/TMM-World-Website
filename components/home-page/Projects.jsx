@@ -328,16 +328,11 @@ export default function Projects() {
           
           {/* Section Cover Slide */}
           <div className="project-slide w-screen h-screen flex flex-col justify-center px-12 lg:px-24 border-r border-white/5 relative">
-            <div className="absolute top-12 left-12 lg:left-24">
-              <span className="text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium block">
-                practices
-              </span>
-            </div>
             
             <div className="max-w-4xl select-none text-left flex flex-col gap-8">
               <h2 className="font-serif text-5xl lg:text-7xl text-[#e6e4e2] leading-[1.2] font-light tracking-wide lowercase">
-                designing the<br />
-                dimensions of life
+                <span className="block webgl-distort-text">designing the</span>
+                <span className="block webgl-distort-text">dimensions of life</span>
               </h2>
               <p className="text-sm lg:text-base leading-relaxed text-[#908e8b] font-light max-w-lg">
                 through three practices, izanami designs harmony across life.
@@ -358,7 +353,7 @@ export default function Projects() {
                 <div className="col-span-5 flex flex-col gap-6 text-left">
                   <div className="flex items-baseline gap-4 select-none">
                     <span className="font-mono text-xs text-[#908e8b]">{practice.num}</span>
-                    <h3 className="font-serif text-4xl lg:text-5xl text-[#e6e4e2] font-light lowercase">
+                    <h3 className="font-serif text-4xl lg:text-5xl text-[#e6e4e2] font-light lowercase webgl-distort-text">
                       {practice.name}
                     </h3>
                   </div>
@@ -386,7 +381,7 @@ export default function Projects() {
                 <div className="col-span-7 flex justify-center items-center">
                   <div className="w-full max-w-lg aspect-[3/4] bg-[#0c0c0c] border border-white/5 relative overflow-hidden flex items-center justify-center group">
                     <div
-                      className="project-img absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                      className="project-img absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105 webgl-distort-image"
                       style={{
                         backgroundImage: practice.img ? `url(${practice.img})` : "none",
                         backgroundColor: "#0d0d0d"

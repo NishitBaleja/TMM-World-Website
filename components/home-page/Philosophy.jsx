@@ -53,25 +53,7 @@ export default function Philosophy() {
       );
     }
 
-    // Scroll trigger for vertical label
-    const verticalLabel = sectionRef.current.querySelector(".vertical-label");
-    if (verticalLabel) {
-      gsap.fromTo(
-        verticalLabel,
-        { opacity: 0, x: -10 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 1.2,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }
+
 
     // Scroll trigger for the two smaller cards above the text
     const leftSmall = sectionRef.current.querySelector(".left-small-card");
@@ -124,12 +106,7 @@ export default function Philosophy() {
       id="philosophy"
       className="relative w-full bg-transparent text-[#e6e4e2] py-24 md:py-36 px-6 sm:px-12 md:px-20 lg:px-24 flex items-center justify-center font-sans border-b border-white/5 overflow-hidden"
     >
-      {/* Vertical Rotate-90 Label */}
-      <div className="vertical-label absolute left-4 sm:left-6 md:left-10 bottom-12 md:bottom-24 origin-left -rotate-90 pointer-events-none select-none hidden xs:block">
-        <span className="text-[10px] uppercase tracking-[0.4em] text-[#908e8b] font-medium block">
-          philosophy
-        </span>
-      </div>
+
 
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-center z-10 relative">
         {/* Left Column: Headline and Description */}
@@ -140,14 +117,14 @@ export default function Philosophy() {
             {/* Left Card: Incense Burner */}
             <div className="left-small-card w-[130px] sm:w-[160px] aspect-[4/5] bg-[#0c0c0c] border border-white/5 shadow-xl overflow-hidden group">
               <div
-                className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105 webgl-distort-image"
                 style={{ backgroundImage: `url(${INCENSE_IMG})` }}
               />
             </div>
             {/* Right Card: Bamboo */}
             <div className="right-small-card w-[130px] sm:w-[160px] aspect-[4/5] bg-[#0c0c0c] border border-white/5 shadow-xl overflow-hidden group">
               <div
-                className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105 webgl-distort-image"
                 style={{ backgroundImage: `url(${BAMBOO_IMG})` }}
               />
             </div>
@@ -157,9 +134,9 @@ export default function Philosophy() {
             ref={headlineRef}
             className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#e6e4e2] leading-[1.25] font-light tracking-wide select-none"
           >
-            <span className="char-line block">Sharing</span>
-            <span className="char-line block pl-4 sm:pl-12">the Japanese Spirit</span>
-            <span className="char-line block pl-8 sm:pl-48">of Harmony</span>
+            <span className="char-line block webgl-distort-text">Sharing</span>
+            <span className="char-line block pl-4 sm:pl-12 webgl-distort-text">the Japanese Spirit</span>
+            <span className="char-line block pl-8 sm:pl-48 webgl-distort-text">of Harmony</span>
           </h2>
 
           <div ref={textRef} className="mt-8 sm:mt-12 pl-4 sm:pl-12 max-w-md">
@@ -177,7 +154,7 @@ export default function Philosophy() {
           {/* Base Zen Garden Card */}
           <div className="main-garden-card relative w-full max-w-[340px] sm:max-w-[400px] aspect-[3/4] bg-[#0c0c0c] border border-white/5 shadow-2xl overflow-hidden group">
             <div
-              className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+              className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105 webgl-distort-image"
               style={{ backgroundImage: `url(${GARDEN_IMG})` }}
             />
             <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-colors duration-500" />
