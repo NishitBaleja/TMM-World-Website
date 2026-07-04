@@ -14,6 +14,9 @@ export default function LiquidLensDistortion({
   chromaticAberrationStrength = 1.0, // Chromatic aberration scale in pixels
   noiseStrength = 10.0,             // Faint noise pattern intensity in pixels
   companyMode = false,             // Use company page backgrounds with direct opacity
+  projectsMode = false,            // Use projects page background with direct opacity
+  dynamicBg = null,                // Dynamic background image url for project detail page
+  solidBlackBg = false,            // Render solid black background
 }) {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
@@ -131,9 +134,10 @@ export default function LiquidLensDistortion({
       uTime: { value: 0 },
       uChromaticAberration: { value: chromaticAberrationStrength },
       uNoiseStrength: { value: noiseStrength },
-      uCompanyMode: { value: companyMode ? 1.0 : 0.0 },
-      uBg1Opacity: { value: companyMode ? 0.99 : 0.0 },
-      uBg2Opacity: { value: 0.0 }
+      uCompanyMode: { value: (companyMode || projectsMode) ? 1.0 : 0.0 },
+      uBg1Opacity: { value: (companyMode || projectsMode) ? 0.99 : 0.0 },
+      uBg2Opacity: { value: 0.0 },
+      uSolidBlack: { value: solidBlackBg ? 1.0 : 0.0 }
     };
 
     const bgVertexShader = `
@@ -178,6 +182,7 @@ export default function LiquidLensDistortion({
       uniform float uCompanyMode;
       uniform float uBg1Opacity;
       uniform float uBg2Opacity;
+      uniform float uSolidBlack;
 
       varying vec2 vUv;
 
@@ -210,6 +215,11 @@ export default function LiquidLensDistortion({
       }
 
       void main() {
+        if (uSolidBlack > 0.5) {
+          gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+          return;
+        }
+
         vec2 fragCoord = vUv * uResolution;
         vec2 mouseCoord = uMouse * uResolution;
         
@@ -326,7 +336,13 @@ export default function LiquidLensDistortion({
       img.src = url;
     };
 
-    if (companyMode) {
+    if (solidBlackBg) {
+      // Do not load any background textures
+    } else if (projectsMode) {
+      // Projects or Project Detail page: load matching background image into hero texture slot
+      const bgUrl = dynamicBg || "/images/home/philosophy-bg-img.webp";
+      loadBgTexture(bgUrl, bgUniforms.uHeroAspect, bgHeroTex);
+    } else if (companyMode) {
       // Company page: load company backgrounds into hero and philo texture slots
       loadBgTexture("/images/home/hero-bg-img.webp", bgUniforms.uHeroAspect, bgHeroTex);
       loadBgTexture("/images/home/projects-bg-img.webp", bgUniforms.uPhiloAspect, bgPhiloTex);
@@ -466,7 +482,14 @@ export default function LiquidLensDistortion({
         currentVelocity += (velocity - currentVelocity) * 0.15;
       }
 
-      if (companyMode) {
+      if (projectsMode) {
+        // Projects or Project Detail page: read opacity from DOM background layer
+        const projBgEl = document.querySelector(".projects-bg-layer") || document.querySelector(".project-detail-bg-layer");
+        if (projBgEl) {
+          const inlineOp = parseFloat(projBgEl.style.opacity);
+          bgUniforms.uBg1Opacity.value = isNaN(inlineOp) ? 0.99 : inlineOp;
+        }
+      } else if (companyMode) {
         // Company page: read inline opacity from DOM background layers (which GSAP animates directly)
         const bg1El = document.querySelector(".company-bg-page-1");
         const bg2El = document.querySelector(".company-bg-page-2");

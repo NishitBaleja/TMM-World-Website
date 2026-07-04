@@ -21,6 +21,12 @@ export default function PageTransition({ children }) {
     const overlay = overlayRef.current;
     if (!overlay) return;
 
+    // Clear any pending safety timeout from exit animation
+    if (overlay.__safetyTimer) {
+      clearTimeout(overlay.__safetyTimer);
+      overlay.__safetyTimer = null;
+    }
+
     // Scroll to top
     if (window.lenis) {
       window.lenis.scrollTo(0, { immediate: true });
@@ -53,6 +59,9 @@ export default function PageTransition({ children }) {
       const href = anchor.getAttribute("href");
       if (!href) return;
 
+      // Extract just the pathname portion (strip query params and hash)
+      const hrefPathname = href.split("?")[0].split("#")[0];
+
       // Skip external, hash, mailto, tel, blank-target, and same-page links
       if (
         href.startsWith("http") ||
@@ -60,7 +69,7 @@ export default function PageTransition({ children }) {
         href.startsWith("tel") ||
         href.startsWith("#") ||
         anchor.target === "_blank" ||
-        href === pathname
+        hrefPathname === pathname
       ) {
         return;
       }
@@ -78,6 +87,20 @@ export default function PageTransition({ children }) {
         router.push(href);
         return;
       }
+
+      // Safety timeout: if enter animation never fires (e.g. page error),
+      // force-reset the overlay after 3 seconds so navigation isn't permanently stuck
+      const safetyTimer = setTimeout(() => {
+        gsap.to(overlay, {
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => {
+            gsap.set(overlay, { visibility: "hidden" });
+            isAnimating.current = false;
+          },
+        });
+      }, 3000);
+      overlay.__safetyTimer = safetyTimer;
 
       // Exit: fade overlay in, then navigate
       gsap.set(overlay, { visibility: "visible", opacity: 0 });
