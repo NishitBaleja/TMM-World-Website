@@ -2,6 +2,7 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap, { ScrollTrigger } from "@/lib/gsap";
+import { siteContent } from "@/lib/content";
 
 // Constants for assets to allow easy swapping later
 const PROJ_IMG_01 = "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80&w=1000"; // Parent and child / education
@@ -325,35 +326,7 @@ export default function Projects() {
     return () => mm.revert();
   }, { scope: containerRef });
 
-  const practices = [
-    {
-      num: "01",
-      name: "school",
-      lead: "nurturing the foundations of life.",
-      description: "through 'mama school' over 20,000 families across japan have been supported. a place where the wishes of both parent and child are gently met.",
-      href: "#school",
-      img: PROJ_IMG_01,
-      label: "quietude"
-    },
-    {
-      num: "02",
-      name: "craft",
-      lead: "awakening the senses through japanese aesthetics.",
-      description: "in japan, beauty has always been a form of awareness. we carry this into objects and spaces of quiet refinement - rooted in the spirit of harmony, centered in dubai.",
-      href: "#craft",
-      img: PROJ_IMG_02,
-      label: "aesthetics"
-    },
-    {
-      num: "03",
-      name: "retreat",
-      lead: "returning to your essence.",
-      description: "rooted in ancient mayan plant medicine, izanami offers private ceremonies for a return to one's original senses and way of being. guided by founder moca, unfolding across the world.",
-      href: "#retreat",
-      img: PROJ_IMG_03,
-      label: "healing"
-    }
-  ];
+  const practices = siteContent.home.services;
 
   return (
     <div ref={containerRef} id="projects" className="bg-transparent">
@@ -367,12 +340,11 @@ export default function Projects() {
             
             <div className="max-w-4xl select-none text-left flex flex-col gap-8">
               <h2 className="font-serif text-5xl lg:text-7xl text-[#e6e4e2] leading-[1.2] font-light tracking-wide lowercase">
-                <span className="block webgl-distort-text">designing the</span>
-                <span className="block webgl-distort-text">dimensions of life</span>
+                <span className="block webgl-distort-text">engineering the</span>
+                <span className="block webgl-distort-text">systems of scale</span>
               </h2>
               <p className="text-sm lg:text-base leading-relaxed text-[#908e8b] font-light max-w-lg">
-                through three practices, izanami designs harmony across life.
-                how life is nurtured, how living is enriched, and how one returns to oneself.
+                through three core disciplines, tmmworld designs resilient cloud backends, high-fidelity tactile frontends, and automated neural intelligence pipelines.
               </p>
             </div>
           </div>
@@ -403,12 +375,13 @@ export default function Projects() {
                     </p>
                   </div>
 
-                  <div className="pt-4">
+                  <div className="pt-4 relative group w-fit">
                     <a
                       href={practice.href}
-                      className="line-draw font-serif text-sm lg:text-base text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase"
+                      className="font-serif text-sm lg:text-base text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
                     >
                       view {practice.name}
+                      <span className="absolute left-0 top-1/2 w-full h-[1px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                     </a>
                   </div>
                 </div>
@@ -442,13 +415,13 @@ export default function Projects() {
           {/* Mobile Cover Intro */}
           <div className="flex flex-col gap-6 text-left">
             <span className="text-[9px] uppercase tracking-[0.3em] text-[#908e8b] font-medium block">
-              practices
+              services
             </span>
             <h2 className="font-serif text-3xl text-[#e6e4e2] leading-[1.3] font-light tracking-wide lowercase">
-              designing the dimensions of life
+              engineering the systems of scale
             </h2>
             <p className="text-xs leading-relaxed text-[#908e8b] font-light">
-              through three practices, izanami designs harmony across life. how life is nurtured, how living is enriched, and how one returns to oneself.
+              through three core disciplines, tmmworld designs resilient cloud backends, high-fidelity tactile frontends, and automated neural intelligence pipelines.
             </p>
           </div>
 
@@ -484,12 +457,13 @@ export default function Projects() {
                     {practice.description}
                   </p>
 
-                  <div className="pt-2">
+                  <div className="pt-2 relative group w-fit">
                     <a
                       href={practice.href}
-                      className="font-serif text-xs text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 border-b border-[#e6e4e2]/30 lowercase"
+                      className="font-serif text-xs text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
                     >
                       view {practice.name}
+                      <span className="absolute left-0 top-1/2 w-full h-[1px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                     </a>
                   </div>
                 </div>

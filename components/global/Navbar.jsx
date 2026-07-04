@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
+import { siteContent } from "@/lib/content";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,6 +13,29 @@ export default function Navbar() {
   const [activeLang, setActiveLang] = useState("en");
   const displayTextRef = React.useRef("");
   const isVisibleRef = React.useRef(false);
+
+  const [delhiTime, setDelhiTime] = useState("00 00 00");
+  const [newYorkTime, setNewYorkTime] = useState("00 00 00");
+
+  const getTzTime = (offsetHours) => {
+    const date = new Date();
+    const utc = date.getTime() + date.getTimezoneOffset() * 60000;
+    const tzDate = new Date(utc + 3600000 * offsetHours);
+    const h = String(tzDate.getHours()).padStart(2, "0");
+    const m = String(tzDate.getMinutes()).padStart(2, "0");
+    const s = String(tzDate.getSeconds()).padStart(2, "0");
+    return `${h} ${m} ${s}`;
+  };
+
+  useEffect(() => {
+    const updateTimes = () => {
+      setDelhiTime(getTzTime(siteContent.global.addresses.newDelhi.timezone));
+      setNewYorkTime(getTzTime(siteContent.global.addresses.newYork.timezone));
+    };
+    updateTimes();
+    const timer = setInterval(updateTimes, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const updateDisplayText = (val) => {
     displayTextRef.current = val;
@@ -182,7 +206,7 @@ export default function Navbar() {
         <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center mt-12 w-full max-w-7xl mx-auto h-full gap-12">
           <div className="flex flex-col gap-8 md:gap-12 text-left z-10">
 
-             {/* PROJECTS SECTION */}
+            {/* HOME SECTION */}
             <div className="flex flex-col gap-4 md:gap-6">
               <Link
                 href="/"
@@ -191,7 +215,7 @@ export default function Navbar() {
               >
                 <span className="inline-block relative">
                   Home
-                  <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#d4c3b3] group-hover:w-full transition-all duration-500 ease-out" />
+                  <span className="absolute left-0 top-1/2 w-full h-[2px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                 </span>
               </Link>
             </div>
@@ -205,7 +229,7 @@ export default function Navbar() {
               >
                 <span className="inline-block relative">
                   projects
-                  <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#d4c3b3] group-hover:w-full transition-all duration-500 ease-out" />
+                  <span className="absolute left-0 top-1/2 w-full h-[2px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                 </span>
               </Link>
             </div>
@@ -219,7 +243,7 @@ export default function Navbar() {
               >
                 <span className="inline-block relative">
                   company
-                  <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#d4c3b3] group-hover:w-full transition-all duration-500 ease-out" />
+                  <span className="absolute left-0 top-1/2 w-full h-[2px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                 </span>
               </Link>
             </div>
@@ -227,19 +251,23 @@ export default function Navbar() {
 
           <div className="flex flex-col sm:flex-row gap-12 text-left text-[10px] uppercase tracking-[0.2em] text-[#908e8b] max-w-md z-10">
             <div className="flex flex-col gap-4">
-              <span className="text-[#e6e4e2] font-semibold">new delhi</span>
+              <div className="flex items-baseline gap-3">
+                <span className="text-[#e6e4e2] font-semibold">{siteContent.global.addresses.newDelhi.title}</span>
+                <span className="font-mono text-[10px] text-[#e6e4e2]/60 font-light select-none tracking-widest">{delhiTime}</span>
+              </div>
               <p className="normal-case leading-relaxed font-sans font-light text-[11px] text-[#908e8b] max-w-[200px]">
-                5th floor, dlf centre,<br />
-                sansad marg,<br />
-                new delhi, ind
+                {siteContent.global.addresses.newDelhi.line1},<br />
+                {siteContent.global.addresses.newDelhi.line2}
               </p>
             </div>
             <div className="flex flex-col gap-4">
-              <span className="text-[#e6e4e2] font-semibold">new york</span>
+              <div className="flex items-baseline gap-3">
+                <span className="text-[#e6e4e2] font-semibold">{siteContent.global.addresses.newYork.title}</span>
+                <span className="font-mono text-[10px] text-[#e6e4e2]/60 font-light select-none tracking-widest">{newYorkTime}</span>
+              </div>
               <p className="normal-case leading-relaxed font-sans font-light text-[11px] text-[#908e8b] max-w-[200px]">
-                120 broadway,<br />
-                suite 3600,<br />
-                new york, ny, usa
+                {siteContent.global.addresses.newYork.line1},<br />
+                {siteContent.global.addresses.newYork.line2}
               </p>
             </div>
           </div>
@@ -249,8 +277,8 @@ export default function Navbar() {
         <div className="flex justify-between items-center text-[10px] text-[#908e8b] tracking-[0.2em] w-full max-w-7xl mx-auto z-10 mt-8 pt-6">
           <span>©{new Date().getFullYear()}</span>
           <div className="flex gap-6">
-            <a href="https://wa.me/#" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">WHATSAPP</a>
-            <a href="https://instagram.com/#" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">INSTAGRAM</a>
+            <a href={siteContent.global.socials.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">WHATSAPP</a>
+            <a href={siteContent.global.socials.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">INSTAGRAM</a>
           </div>
         </div>
       </div>

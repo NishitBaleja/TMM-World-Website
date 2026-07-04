@@ -3,7 +3,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "@/lib/gsap";
+import Link from "next/link";
 import Logo from "../global/Logo";
+import { siteContent } from "@/lib/content";
 
 // Constants for assets to allow easy swapping later
 const COMP_BG_IMG = "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600"; // Quiet minimal office/interior space
@@ -29,8 +31,8 @@ export default function Company() {
 
   useEffect(() => {
     const updateTimes = () => {
-      setDubaiTime(getTzTimeObj(5.5)); // IST (UTC+5.5)
-      setTokyoTime(getTzTimeObj(-4));  // EDT (UTC-4)
+      setDubaiTime(getTzTimeObj(siteContent.global.addresses.newDelhi.timezone));
+      setTokyoTime(getTzTimeObj(siteContent.global.addresses.newYork.timezone));
     };
     updateTimes();
     const timer = setInterval(updateTimes, 1000);
@@ -93,7 +95,7 @@ export default function Company() {
         
         {/* Track Label */}
         <span className="text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium">
-          company
+          {siteContent.home.company.tagline}
         </span>
 
         {/* Logo Icon */}
@@ -103,20 +105,14 @@ export default function Company() {
 
         {/* Heading */}
         <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#e6e4e2] font-light tracking-wide lowercase select-none webgl-distort-text">
-          who we are
+          {siteContent.home.company.heading}
         </h2>
 
         {/* Text descriptions */}
         <div className="flex flex-col gap-6 max-w-2xl text-sm sm:text-base leading-relaxed text-[#908e8b] font-light text-center px-4">
-          <p>
-            no matter how the world changes, what truly enriches human life remains the same.
-            across japan, dubai, and beyond, we nurture life through education, shape daily
-            beauty through craft, and guide a return to oneself through healing.
-          </p>
-          <p>
-            across cultures and borders, we carry a way of being — ancient and quietly alive —
-            where one&apos;s inner nature is free to unfold.
-          </p>
+          {siteContent.home.company.paragraphs.map((p, idx) => (
+            <p key={idx}>{p}</p>
+          ))}
         </div>
 
         {/* Clocks Detail Container */}
@@ -131,7 +127,7 @@ export default function Company() {
               <span className="text-white/30 font-light select-none"> </span>
               <span className="text-white/60 text-2xl md:text-3xl font-light">{dubaiTime.s}</span>
             </div>
-            <span className="text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">new delhi (ist, utc+5.5)</span>
+            <span className="text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">{siteContent.global.addresses.newDelhi.timezoneLabel}</span>
           </div>
 
           {/* New York Clock */}
@@ -143,19 +139,20 @@ export default function Company() {
               <span className="text-white/30 font-light select-none"> </span>
               <span className="text-white/60 text-2xl md:text-3xl font-light">{tokyoTime.s}</span>
             </div>
-            <span className="text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">new york (edt, utc-4)</span>
+            <span className="text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">{siteContent.global.addresses.newYork.timezoneLabel}</span>
           </div>
 
         </div>
 
         {/* Button */}
-        <div className="pt-4">
-          <a
-            href="#company-details"
-            className="line-draw font-serif text-lg md:text-xl text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase"
+        <div className="pt-4 relative group w-fit mx-auto">
+          <Link
+            href="/company"
+            className="font-serif text-lg md:text-xl text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
           >
             view company
-          </a>
+            <span className="absolute left-0 top-1/2 w-full h-[1.5px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
+          </Link>
         </div>
 
       </div>

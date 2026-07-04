@@ -13,6 +13,7 @@ export default function LiquidLensDistortion({
   velocityMultiplier = 0.15,       // Multiplier for mouse velocity scaling
   chromaticAberrationStrength = 1.0, // Chromatic aberration scale in pixels
   noiseStrength = 2.0,             // Faint noise pattern intensity in pixels
+  companyMode = false,             // Use company page backgrounds with direct opacity
 }) {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
@@ -114,7 +115,10 @@ export default function LiquidLensDistortion({
       uStrength: { value: strength },
       uTime: { value: 0 },
       uChromaticAberration: { value: chromaticAberrationStrength },
-      uNoiseStrength: { value: noiseStrength }
+      uNoiseStrength: { value: noiseStrength },
+      uCompanyMode: { value: companyMode ? 1.0 : 0.0 },
+      uBg1Opacity: { value: companyMode ? 0.99 : 0.0 },
+      uBg2Opacity: { value: 0.0 }
     };
 
     const bgVertexShader = `
@@ -156,6 +160,9 @@ export default function LiquidLensDistortion({
       uniform float uTime;
       uniform float uChromaticAberration;
       uniform float uNoiseStrength;
+      uniform float uCompanyMode;
+      uniform float uBg1Opacity;
+      uniform float uBg2Opacity;
 
       varying vec2 vUv;
 
@@ -240,16 +247,23 @@ export default function LiquidLensDistortion({
           colComp = texture2D(uCompTex, uvComp);
         }
 
-        float heroOpacity = 0.99 * clamp((0.4 - uFadeHeroToPhilo) / 0.4, 0.0, 1.0);
-        float philoOpacity = 0.99 * clamp((uFadeHeroToPhilo - 0.6) / 0.4, 0.0, 1.0) * clamp((0.4 - uFadePhiloToProj) / 0.4, 0.0, 1.0);
-        float projOpacity = 0.99 * clamp((uFadePhiloToProj - 0.6) / 0.4, 0.0, 1.0) * clamp((0.4 - uFadeProjToComp) / 0.4, 0.0, 1.0);
-        float compOpacity = 0.99 * clamp((uFadeProjToComp - 0.6) / 0.4, 0.0, 1.0) * clamp((0.4 - uFadeCompToFooter) / 0.4, 0.0, 1.0);
-
         vec4 finalCol = vec4(0.0, 0.0, 0.0, 1.0);
-        finalCol = mix(finalCol, colHero, heroOpacity);
-        finalCol = mix(finalCol, colPhilo, philoOpacity);
-        finalCol = mix(finalCol, colProj, projOpacity);
-        finalCol = mix(finalCol, colComp, compOpacity);
+
+        if (uCompanyMode > 0.5) {
+          // Company page: use direct opacity values for BG1 (hero slot) and BG2 (philo slot)
+          finalCol = mix(finalCol, colHero, uBg1Opacity);
+          finalCol = mix(finalCol, colPhilo, uBg2Opacity);
+        } else {
+          // Home page: compute opacity from scroll fade transitions
+          float heroOpacity = 0.99 * clamp((0.4 - uFadeHeroToPhilo) / 0.4, 0.0, 1.0);
+          float philoOpacity = 0.99 * clamp((uFadeHeroToPhilo - 0.6) / 0.4, 0.0, 1.0) * clamp((0.4 - uFadePhiloToProj) / 0.4, 0.0, 1.0);
+          float projOpacity = 0.99 * clamp((uFadePhiloToProj - 0.6) / 0.4, 0.0, 1.0) * clamp((0.4 - uFadeProjToComp) / 0.4, 0.0, 1.0);
+          float compOpacity = 0.99 * clamp((uFadeProjToComp - 0.6) / 0.4, 0.0, 1.0) * clamp((0.4 - uFadeCompToFooter) / 0.4, 0.0, 1.0);
+          finalCol = mix(finalCol, colHero, heroOpacity);
+          finalCol = mix(finalCol, colPhilo, philoOpacity);
+          finalCol = mix(finalCol, colProj, projOpacity);
+          finalCol = mix(finalCol, colComp, compOpacity);
+        }
 
         finalCol.rgb = mix(finalCol.rgb, vec3(0.0), 0.34);
 
@@ -297,10 +311,17 @@ export default function LiquidLensDistortion({
       img.src = url;
     };
 
-    loadBgTexture("/images/home/hero-bg-img.webp", bgUniforms.uHeroAspect, bgHeroTex);
-    loadBgTexture("/images/home/philosophy-bg-img.webp", bgUniforms.uPhiloAspect, bgPhiloTex);
-    loadBgTexture("/images/home/projects-bg-img.webp", bgUniforms.uProjAspect, bgProjTex);
-    loadBgTexture("/images/home/company-bg-img.webp", bgUniforms.uCompAspect, bgCompTex);
+    if (companyMode) {
+      // Company page: load company backgrounds into hero and philo texture slots
+      loadBgTexture("/images/home/hero-bg-img.webp", bgUniforms.uHeroAspect, bgHeroTex);
+      loadBgTexture("/images/home/projects-bg-img.webp", bgUniforms.uPhiloAspect, bgPhiloTex);
+    } else {
+      // Home page: load all 4 section backgrounds
+      loadBgTexture("/images/home/hero-bg-img.webp", bgUniforms.uHeroAspect, bgHeroTex);
+      loadBgTexture("/images/home/philosophy-bg-img.webp", bgUniforms.uPhiloAspect, bgPhiloTex);
+      loadBgTexture("/images/home/projects-bg-img.webp", bgUniforms.uProjAspect, bgProjTex);
+      loadBgTexture("/images/home/company-bg-img.webp", bgUniforms.uCompAspect, bgCompTex);
+    }
 
     // --- Event Listeners and Spring Lag Cursor Processing ---
     let targetMouseX = -9999;
@@ -367,14 +388,28 @@ export default function LiquidLensDistortion({
         currentVelocity += (velocity - currentVelocity) * 0.15;
       }
 
-      // Read Background scroll parameters and transitions from main background ID
-      const bgEl = document.getElementById("main-background");
-      if (bgEl) {
-        const bgStyle = window.getComputedStyle(bgEl);
-        bgUniforms.uFadeHeroToPhilo.value = parseFloat(bgStyle.getPropertyValue("--fade-hero-to-philosophy") || "0");
-        bgUniforms.uFadePhiloToProj.value = parseFloat(bgStyle.getPropertyValue("--fade-philosophy-to-projects") || "0");
-        bgUniforms.uFadeProjToComp.value = parseFloat(bgStyle.getPropertyValue("--fade-projects-to-company") || "0");
-        bgUniforms.uFadeCompToFooter.value = parseFloat(bgStyle.getPropertyValue("--fade-company-to-footer") || "0");
+      if (companyMode) {
+        // Company page: read inline opacity from DOM background layers (which GSAP animates directly)
+        const bg1El = document.querySelector(".company-bg-page-1");
+        const bg2El = document.querySelector(".company-bg-page-2");
+        if (bg1El) {
+          const inlineOp = parseFloat(bg1El.style.opacity);
+          bgUniforms.uBg1Opacity.value = isNaN(inlineOp) ? 0.99 : inlineOp;
+        }
+        if (bg2El) {
+          const inlineOp = parseFloat(bg2El.style.opacity);
+          bgUniforms.uBg2Opacity.value = isNaN(inlineOp) ? 0.0 : inlineOp;
+        }
+      } else {
+        // Home page: read fade transitions from main background CSS custom properties
+        const bgEl = document.getElementById("main-background");
+        if (bgEl) {
+          const bgStyle = window.getComputedStyle(bgEl);
+          bgUniforms.uFadeHeroToPhilo.value = parseFloat(bgStyle.getPropertyValue("--fade-hero-to-philosophy") || "0");
+          bgUniforms.uFadePhiloToProj.value = parseFloat(bgStyle.getPropertyValue("--fade-philosophy-to-projects") || "0");
+          bgUniforms.uFadeProjToComp.value = parseFloat(bgStyle.getPropertyValue("--fade-projects-to-company") || "0");
+          bgUniforms.uFadeCompToFooter.value = parseFloat(bgStyle.getPropertyValue("--fade-company-to-footer") || "0");
+        }
       }
 
       // Parse current scroll percentage and apply vertical parallax offset
@@ -497,6 +532,7 @@ export default function LiquidLensDistortion({
       <style>{`
         /* Hide standard DOM backgrounds when WebGL is active */
         html.webgl-active .bg-image-layer,
+        html.webgl-active .company-bg-layer,
         html.webgl-active .bg-dark-overlay {
           opacity: 0 !important;
           pointer-events: none !important;

@@ -2,6 +2,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "@/lib/gsap";
+import { siteContent } from "@/lib/content";
 
 // Constants for assets to allow easy swapping later
 
@@ -28,8 +29,8 @@ export default function Hero() {
 
   useEffect(() => {
     const updateTimes = () => {
-      setDubaiTime(getTzTime(5.5)); // IST (UTC+5.5)
-      setTokyoTime(getTzTime(-4));  // EDT (UTC-4)
+      setDubaiTime(getTzTime(siteContent.global.addresses.newDelhi.timezone));
+      setTokyoTime(getTzTime(siteContent.global.addresses.newYork.timezone));
     };
     updateTimes();
     const timer = setInterval(updateTimes, 1000);
@@ -111,7 +112,7 @@ export default function Hero() {
           ref={titleRef}
           className="font-serif text-[13px] sm:text-sm md:text-[15px] text-[#e6e4e2] leading-[1.4] font-light tracking-wide max-w-md webgl-distort-text"
         >
-          Remember who you are
+          {siteContent.home.hero.tagline}
         </h1>
       </div>
 
@@ -127,11 +128,11 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-12 md:gap-16 font-mono text-[11px] sm:text-[12px]">
             <div className="flex items-center gap-2">
               <span className="text-[#e6e4e2]">{dubaiTime}</span>
-              <span className="text-[#908e8b] font-sans text-[9px] sm:text-[10px] tracking-widest">ist, new delhi ind</span>
+              <span className="text-[#908e8b] font-sans text-[9px] sm:text-[10px] tracking-widest">{siteContent.global.addresses.newDelhi.timezoneLabel}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-[#e6e4e2]">{tokyoTime}</span>
-              <span className="text-[#908e8b] font-sans text-[9px] sm:text-[10px] tracking-widest">edt, new york usa</span>
+              <span className="text-[#908e8b] font-sans text-[9px] sm:text-[10px] tracking-widest">{siteContent.global.addresses.newYork.timezoneLabel}</span>
             </div>
           </div>
         </div>

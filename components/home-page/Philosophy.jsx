@@ -2,6 +2,7 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "@/lib/gsap";
+import { siteContent } from "@/lib/content";
 
 // Constants for assets
 const INCENSE_IMG = "/images/home/incense-philo.png";
@@ -122,17 +123,14 @@ export default function Philosophy() {
             ref={headlineRef}
             className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#e6e4e2] leading-[1.25] font-light tracking-wide select-none"
           >
-            <span className="char-line block webgl-distort-text">Sharing</span>
-            <span className="char-line block pl-4 sm:pl-12 webgl-distort-text">the Japanese Spirit</span>
-            <span className="char-line block pl-8 sm:pl-48 webgl-distort-text">of Harmony</span>
+            <span className="char-line block webgl-distort-text">{siteContent.home.philosophy.headlineLine1}</span>
+            <span className="char-line block pl-4 sm:pl-12 webgl-distort-text">{siteContent.home.philosophy.headlineLine2}</span>
+            <span className="char-line block pl-8 sm:pl-28 webgl-distort-text">{siteContent.home.philosophy.headlineLine3}</span>
           </h2>
 
           <div ref={textRef} className="mt-8 sm:mt-12 pl-4 sm:pl-12 max-w-md">
             <p className="text-sm sm:text-base leading-relaxed text-[#908e8b] font-light">
-              Harmony is not something to be created. It is something to be
-              remembered. Guided by the ancient spirit of <span className="text-white font-medium">&quot;和&quot; Wa</span>,
-              Izanami opens a quiet path back to oneself into harmony with who you
-              are, and harmony with the world around you.
+              {siteContent.home.philosophy.description}
             </p>
           </div>
         </div>
