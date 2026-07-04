@@ -46,7 +46,7 @@ export default function Founder() {
         
         {/* Founder Header */}
         <div className="flex flex-col gap-4 mt-8 lg:mt-16">
-          <h2 className="reveal-founder-el font-serif text-4xl sm:text-5xl md:text-6xl text-[#e6e4e2] font-light lowercase">
+          <h2 className="reveal-founder-el font-serif text-4xl sm:text-5xl md:text-6xl text-[#e6e4e2] font-light lowercase webgl-distort-text">
             {siteContent.company.founder.name}
           </h2>
           <span className="reveal-founder-el text-[10px] uppercase tracking-[0.25em] text-[#908e8b] font-mono font-medium block">
@@ -81,7 +81,7 @@ export default function Founder() {
               backgroundColor: "#0d0d0d"
             }}
           />
-          <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
+          <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none" />
           <span className="absolute bottom-4 right-4 font-serif text-[10px] text-white/10 select-none z-0">portrait placeholder</span>
         </div>
       </div>

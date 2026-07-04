@@ -84,7 +84,7 @@ export default function ProjectDetailPage({ params }) {
 
   return (
     <>
-      <LiquidLensDistortion lensRadius={160} maxDistort={22} speedFactor={18}>
+      <LiquidLensDistortion lensRadius={200} maxDistort={48} speedFactor={18}>
         <MainBackground forceLayer="projects" />
         <div ref={containerRef} className="relative z-10 w-full min-h-screen bg-transparent">
           <Navbar />
@@ -130,7 +130,7 @@ export default function ProjectDetailPage({ params }) {
                 className="absolute inset-0 bg-cover bg-center webgl-distort-image"
                 style={{ backgroundImage: `url(${project.img})`, backgroundColor: "#0d0d0d" }}
               />
-              <div className="absolute inset-0 bg-black/15 z-10" />
+              <div className="absolute inset-0 bg-black/15 z-10 pointer-events-none" />
             </div>
 
             {/* Case Study Detailed Copy Rows */}
@@ -141,7 +141,7 @@ export default function ProjectDetailPage({ params }) {
                   <span className="reveal-row-el text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium block">
                     01
                   </span>
-                  <h3 className="reveal-row-el font-serif text-2xl text-[#e6e4e2] font-light lowercase">
+                  <h3 className="reveal-row-el font-serif text-2xl text-[#e6e4e2] font-light lowercase webgl-distort-text">
                     the challenge
                   </h3>
                 </div>
@@ -158,7 +158,7 @@ export default function ProjectDetailPage({ params }) {
                   <span className="reveal-row-el text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium block">
                     02
                   </span>
-                  <h3 className="reveal-row-el font-serif text-2xl text-[#e6e4e2] font-light lowercase">
+                  <h3 className="reveal-row-el font-serif text-2xl text-[#e6e4e2] font-light lowercase webgl-distort-text">
                     the solution
                   </h3>
                 </div>
@@ -175,7 +175,7 @@ export default function ProjectDetailPage({ params }) {
                   <span className="reveal-row-el text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium block">
                     03
                   </span>
-                  <h3 className="reveal-row-el font-serif text-2xl text-[#e6e4e2] font-light lowercase">
+                  <h3 className="reveal-row-el font-serif text-2xl text-[#e6e4e2] font-light lowercase webgl-distort-text">
                     the outcome
                   </h3>
                 </div>
@@ -194,7 +194,7 @@ export default function ProjectDetailPage({ params }) {
               </span>
               <Link
                 href={nextProject.href}
-                className="reveal-next-el font-serif text-4xl sm:text-5xl md:text-6xl text-[#e6e4e2] hover:text-[#d4c3b3] font-light lowercase transition-colors duration-300 relative group pb-2 block"
+                className="reveal-next-el font-serif text-4xl sm:text-5xl md:text-6xl text-[#e6e4e2] hover:text-[#d4c3b3] font-light lowercase transition-colors duration-300 relative group pb-2 block webgl-distort-text"
               >
                 {nextProject.name}
                 <span className="absolute left-0 top-1/2 w-full h-[2px] md:h-[3px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />

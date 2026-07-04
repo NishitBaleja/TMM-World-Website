@@ -6,18 +6,33 @@ import gsap from "@/lib/gsap";
 export default function LiquidLensDistortion({
   children,
   lensRadius = 180,                // Lens radius in pixels
-  maxDistort = 25,                 // Maximum displacement in pixels
-  strength = 16,                   // Base distortion displacement in pixels
+  maxDistort = 40,                 // Maximum displacement in pixels
+  strength = 3,                   // Base distortion displacement in pixels
   falloff = 2.5,                   // Easing power for lens radial falloff
   lerpAmount = 0.08,               // Smoothing/lag factor (lower = smoother lag)
   velocityMultiplier = 0.15,       // Multiplier for mouse velocity scaling
   chromaticAberrationStrength = 1.0, // Chromatic aberration scale in pixels
-  noiseStrength = 2.0,             // Faint noise pattern intensity in pixels
+  noiseStrength = 10.0,             // Faint noise pattern intensity in pixels
   companyMode = false,             // Use company page backgrounds with direct opacity
 }) {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const [isEnabled, setIsEnabled] = useState(true);
+
+  // Refs for tracking hovered HTML elements and their scales smoothly
+  const hoveredTextRef = useRef(null);
+  const hoveredImageRef = useRef(null);
+  const lastHoveredTextRef = useRef(null);
+  const lastHoveredImageRef = useRef(null);
+
+  const currentTextScaleRef = useRef(0);
+  const targetTextScaleRef = useRef(0);
+  const currentImageScaleRef = useRef(0);
+  const targetImageScaleRef = useRef(0);
+
+  // Refs for tracking active GSAP turbulence tweens to play/pause dynamically
+  const turbTextTweenRef = useRef(null);
+  const turbImageTweenRef = useRef(null);
 
   useEffect(() => {
     // Check capability and preference
@@ -323,6 +338,12 @@ export default function LiquidLensDistortion({
       loadBgTexture("/images/home/company-bg-img.webp", bgUniforms.uCompAspect, bgCompTex);
     }
 
+    // SVG filter elements references
+    const maskText = document.getElementById("svg-mask-text");
+    const dispText = document.getElementById("svg-disp-text");
+    const maskImage = document.getElementById("svg-mask-image");
+    const dispImage = document.getElementById("svg-disp-image");
+
     // --- Event Listeners and Spring Lag Cursor Processing ---
     let targetMouseX = -9999;
     let targetMouseY = -9999;
@@ -333,6 +354,11 @@ export default function LiquidLensDistortion({
     let lastTime = performance.now();
 
     const handleMouseMove = (e) => {
+      if (e.target.closest("header") || e.target.closest(".navbar-menu-overlay")) {
+        targetMouseX = -9999;
+        targetMouseY = -9999;
+        return;
+      }
       targetMouseX = e.clientX / window.innerWidth;
       targetMouseY = 1.0 - (e.clientY / window.innerHeight);
 
@@ -342,7 +368,59 @@ export default function LiquidLensDistortion({
       }
     };
 
+    const handleMouseOver = (e) => {
+      if (e.target.closest("header") || e.target.closest(".navbar-menu-overlay")) {
+        hoveredTextRef.current = null;
+        targetTextScaleRef.current = 0;
+        hoveredImageRef.current = null;
+        targetImageScaleRef.current = 0;
+        return;
+      }
+      const target = e.target.closest(".webgl-distort-text, .webgl-distort-image");
+      if (target) {
+        if (target.classList.contains("webgl-distort-text")) {
+          document.querySelectorAll(".webgl-distort-text").forEach((el) => {
+            if (el !== target) el.classList.remove("is-distorted");
+          });
+          hoveredTextRef.current = target;
+          lastHoveredTextRef.current = target;
+          targetTextScaleRef.current = 75;
+          target.classList.add("is-distorted");
+        } else if (target.classList.contains("webgl-distort-image")) {
+          document.querySelectorAll(".webgl-distort-image").forEach((el) => {
+            if (el !== target) el.classList.remove("is-distorted");
+          });
+          hoveredImageRef.current = target;
+          lastHoveredImageRef.current = target;
+          targetImageScaleRef.current = 100;
+          target.classList.add("is-distorted");
+        }
+      }
+    };
+
+    const handleMouseOut = (e) => {
+      const target = e.target.closest(".webgl-distort-text, .webgl-distort-image");
+      if (target) {
+        if (e.relatedTarget && target.contains(e.relatedTarget)) {
+          return;
+        }
+        if (target.classList.contains("webgl-distort-text")) {
+          if (hoveredTextRef.current === target) {
+            hoveredTextRef.current = null;
+          }
+          targetTextScaleRef.current = 0;
+        } else if (target.classList.contains("webgl-distort-image")) {
+          if (hoveredImageRef.current === target) {
+            hoveredImageRef.current = null;
+          }
+          targetImageScaleRef.current = 0;
+        }
+      }
+    };
+
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("mouseover", handleMouseOver, { passive: true });
+    window.addEventListener("mouseout", handleMouseOut, { passive: true });
 
     // Handle Window Resize events
     const handleResize = () => {
@@ -427,6 +505,91 @@ export default function LiquidLensDistortion({
       bgUniforms.uRadius.value = Math.min(dynamicRadius, lensRadius * 2.2);
       bgUniforms.uStrength.value = Math.min(dynamicStrength, maxDistort);
 
+      // --- Smooth Foreground SVG Distortion Update ---
+      const scaleLerp = 0.08;
+
+      // 1. Text filter update
+      currentTextScaleRef.current += (targetTextScaleRef.current - currentTextScaleRef.current) * scaleLerp;
+      const activeText = hoveredTextRef.current || lastHoveredTextRef.current;
+      if (activeText && currentTextScaleRef.current > 0.01) {
+        if (turbTextTweenRef.current && turbTextTweenRef.current.paused()) {
+          turbTextTweenRef.current.play();
+        }
+        const rect = activeText.getBoundingClientRect();
+        const screenX = currentMouseX * width;
+        const screenY = (1.0 - currentMouseY) * height;
+        const localX = screenX - rect.left;
+        const localY = screenY - rect.top;
+
+        const radiusText = Math.round(lensRadius * 3.5) / 2;
+        if (maskText) {
+          maskText.setAttribute("x", (localX - radiusText).toFixed(1));
+          maskText.setAttribute("y", (localY - radiusText).toFixed(1));
+        }
+        if (dispText) {
+          const textBaseScale = targetTextScaleRef.current;
+          if (textBaseScale > 0) {
+            const dynamicTextScale = textBaseScale + currentVelocity * width * 0.15;
+            const textScaleVal = Math.min(dynamicTextScale, textBaseScale * 1.5) * (currentTextScaleRef.current / textBaseScale);
+            dispText.setAttribute("scale", textScaleVal.toFixed(1));
+          } else {
+            dispText.setAttribute("scale", currentTextScaleRef.current.toFixed(1));
+          }
+        }
+      } else {
+        if (turbTextTweenRef.current && !turbTextTweenRef.current.paused()) {
+          turbTextTweenRef.current.pause();
+        }
+        if (dispText) {
+          dispText.setAttribute("scale", "0");
+        }
+        document.querySelectorAll(".webgl-distort-text").forEach((el) => {
+          el.classList.remove("is-distorted");
+        });
+        lastHoveredTextRef.current = null;
+      }
+
+      // 2. Image filter update
+      currentImageScaleRef.current += (targetImageScaleRef.current - currentImageScaleRef.current) * scaleLerp;
+      const activeImage = hoveredImageRef.current || lastHoveredImageRef.current;
+      if (activeImage && currentImageScaleRef.current > 0.01) {
+        if (turbImageTweenRef.current && turbImageTweenRef.current.paused()) {
+          turbImageTweenRef.current.play();
+        }
+        const rect = activeImage.getBoundingClientRect();
+        const screenX = currentMouseX * width;
+        const screenY = (1.0 - currentMouseY) * height;
+        const localX = screenX - rect.left;
+        const localY = screenY - rect.top;
+
+        const radiusImage = Math.round(lensRadius * 4.5) / 2;
+        if (maskImage) {
+          maskImage.setAttribute("x", (localX - radiusImage).toFixed(1));
+          maskImage.setAttribute("y", (localY - radiusImage).toFixed(1));
+        }
+        if (dispImage) {
+          const imgBaseScale = targetImageScaleRef.current;
+          if (imgBaseScale > 0) {
+            const dynamicImgScale = imgBaseScale + currentVelocity * width * 0.2;
+            const imgScaleVal = Math.min(dynamicImgScale, imgBaseScale * 1.5) * (currentImageScaleRef.current / imgBaseScale);
+            dispImage.setAttribute("scale", imgScaleVal.toFixed(1));
+          } else {
+            dispImage.setAttribute("scale", currentImageScaleRef.current.toFixed(1));
+          }
+        }
+      } else {
+        if (turbImageTweenRef.current && !turbImageTweenRef.current.paused()) {
+          turbImageTweenRef.current.pause();
+        }
+        if (dispImage) {
+          dispImage.setAttribute("scale", "0");
+        }
+        document.querySelectorAll(".webgl-distort-image").forEach((el) => {
+          el.classList.remove("is-distorted");
+        });
+        lastHoveredImageRef.current = null;
+      }
+
       // Render scene
       renderer.render({ scene, camera });
     };
@@ -439,16 +602,18 @@ export default function LiquidLensDistortion({
       document.documentElement.classList.remove("webgl-active");
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseover", handleMouseOver);
+      window.removeEventListener("mouseout", handleMouseOut);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       cancelAnimationFrame(animationFrameId);
 
       try {
-        bgHeroTex.delete();
-        bgPhiloTex.delete();
-        bgProjTex.delete();
-        bgCompTex.delete();
-        bgGeometry.dispose();
-        bgProgram.dispose();
+        if (bgHeroTex && bgHeroTex.texture) gl.deleteTexture(bgHeroTex.texture);
+        if (bgPhiloTex && bgPhiloTex.texture) gl.deleteTexture(bgPhiloTex.texture);
+        if (bgProjTex && bgProjTex.texture) gl.deleteTexture(bgProjTex.texture);
+        if (bgCompTex && bgCompTex.texture) gl.deleteTexture(bgCompTex.texture);
+        if (bgGeometry) bgGeometry.remove();
+        if (bgProgram) bgProgram.remove();
         scene.children.forEach((child) => child.setParent(null));
       } catch (err) {
         console.error("OGL cleanups release error:", err);
@@ -465,54 +630,42 @@ export default function LiquidLensDistortion({
     noiseStrength
   ]);
 
-  // SVG filter mouse hover interactive wobble handler (Event Delegation)
+  // SVG filter continuous flowing liquid background animation
   useEffect(() => {
     if (!isEnabled) return;
 
-    const handleMouseOver = (e) => {
-      const target = e.target.closest(".webgl-distort-text, .webgl-distort-image");
-      if (target) {
-        const mapEl = document.getElementById("svg-displacement-map");
-        if (mapEl) {
-          gsap.killTweensOf(mapEl);
-          // Quick wobble pulse effect
-          const tl = gsap.timeline();
-          tl.to(mapEl, {
-            attr: { scale: 15 },
-            duration: 0.25,
-            ease: "power2.out"
-          }).to(mapEl, {
-            attr: { scale: 0 },
-            duration: 0.6,
-            ease: "elastic.out(1.2, 0.4)"
-          });
-        }
-      }
-    };
+    const turbText = document.getElementById("svg-turb-text");
+    const turbImage = document.getElementById("svg-turb-image");
 
-    const handleMouseOut = (e) => {
-      const target = e.target.closest(".webgl-distort-text, .webgl-distort-image");
-      if (target) {
-        const mapEl = document.getElementById("svg-displacement-map");
-        if (mapEl) {
-          gsap.killTweensOf(mapEl);
-          gsap.to(mapEl, {
-            attr: { scale: 0 },
-            duration: 0.4,
-            ease: "power2.out"
-          });
-        }
-      }
-    };
+    if (turbText) {
+      turbTextTweenRef.current = gsap.to(turbText, {
+        attr: { baseFrequency: "0.015 0.08" },
+        duration: 8,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        paused: true
+      });
+    }
 
-    window.addEventListener("mouseover", handleMouseOver);
-    window.addEventListener("mouseout", handleMouseOut);
+    if (turbImage) {
+      turbImageTweenRef.current = gsap.to(turbImage, {
+        attr: { baseFrequency: "0.01 0.07" },
+        duration: 10,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        paused: true
+      });
+    }
 
     return () => {
-      window.removeEventListener("mouseover", handleMouseOver);
-      window.removeEventListener("mouseout", handleMouseOut);
+      turbTextTweenRef.current?.kill();
+      turbImageTweenRef.current?.kill();
     };
   }, [isEnabled]);
+
+
 
   return (
     <>
@@ -520,9 +673,22 @@ export default function LiquidLensDistortion({
       {isEnabled && (
         <svg style={{ position: "absolute", width: 0, height: 0, pointerEvents: "none" }} aria-hidden="true">
           <defs>
-            <filter id="liquid-glass-filter">
-              <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" result="noise" />
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" id="svg-displacement-map" />
+            <filter id="liquid-text-filter" filterUnits="userSpaceOnUse" x="-20%" y="-20%" width="140%" height="140%">
+              <feTurbulence id="svg-turb-text" type="fractalNoise" baseFrequency="0.015 0.05" numOctaves="1" result="noise" />
+              <feImage id="svg-mask-text" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><radialGradient id='gt' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='white'/><stop offset='30%' stop-color='white'/><stop offset='100%' stop-color='black'/></radialGradient></defs><circle cx='50' cy='50' r='50' fill='url(%23gt)'/></svg>" x="-9999" y="-9999" width={Math.round(lensRadius * 3.5)} height={Math.round(lensRadius * 3.5)} result="mask" />
+              <feColorMatrix in="noise" type="matrix" values="1 0 0 0 -0.5 0 1 0 0 -0.5 0 0 1 0 -0.5 0 0 0 1 0" result="biased_noise" />
+              <feComposite in="biased_noise" in2="mask" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" result="masked_noise" />
+              <feColorMatrix in="masked_noise" type="matrix" values="1 0 0 0 0.5 0 1 0 0 0.5 0 0 1 0 0.5 0 0 0 0 1" result="final_map" />
+              <feDisplacementMap id="svg-disp-text" in="SourceGraphic" in2="final_map" scale="0" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+
+            <filter id="liquid-image-filter" filterUnits="userSpaceOnUse" x="-20%" y="-20%" width="140%" height="140%">
+              <feTurbulence id="svg-turb-image" type="fractalNoise" baseFrequency="0.01 0.04" numOctaves="1" result="noise" />
+              <feImage id="svg-mask-image" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><radialGradient id='gi' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='white'/><stop offset='30%' stop-color='white'/><stop offset='100%' stop-color='black'/></radialGradient></defs><circle cx='50' cy='50' r='50' fill='url(%23gi)'/></svg>" x="-9999" y="-9999" width={Math.round(lensRadius * 4.5)} height={Math.round(lensRadius * 4.5)} result="mask" />
+              <feColorMatrix in="noise" type="matrix" values="1 0 0 0 -0.5 0 1 0 0 -0.5 0 0 1 0 -0.5 0 0 0 1 0" result="biased_noise" />
+              <feComposite in="biased_noise" in2="mask" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" result="masked_noise" />
+              <feColorMatrix in="masked_noise" type="matrix" values="1 0 0 0 0.5 0 1 0 0 0.5 0 0 1 0 0.5 0 0 0 0 1" result="final_map" />
+              <feDisplacementMap id="svg-disp-image" in="SourceGraphic" in2="final_map" scale="0" xChannelSelector="R" yChannelSelector="G" />
             </filter>
           </defs>
         </svg>
@@ -544,10 +710,19 @@ export default function LiquidLensDistortion({
           background-color: transparent !important;
         }
 
-        /* Apply the high-performance SVG displacement filter on hoverable text and images */
-        .webgl-distort-text,
-        .webgl-distort-image {
-          filter: url(#liquid-glass-filter);
+        /* Apply the high-performance SVG displacement filter on active text and images */
+        .webgl-distort-text.is-distorted {
+          filter: url(#liquid-text-filter);
+          will-change: filter, transform;
+          transform: translate3d(0, 0, 0);
+          backface-visibility: hidden;
+        }
+
+        .webgl-distort-image.is-distorted {
+          filter: url(#liquid-image-filter);
+          will-change: filter, transform;
+          transform: translate3d(0, 0, 0);
+          backface-visibility: hidden;
         }
 
         /* Standard absolute background canvas container */

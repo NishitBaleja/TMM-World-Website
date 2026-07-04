@@ -396,7 +396,7 @@ export default function Projects() {
                         backgroundColor: "#0d0d0d"
                       }}
                     />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none" />
                     <span className="font-serif text-xs text-white/10 select-none z-0">{practice.label} placeholder</span>
                   </div>
                 </div>
@@ -417,7 +417,7 @@ export default function Projects() {
             <span className="text-[9px] uppercase tracking-[0.3em] text-[#908e8b] font-medium block">
               services
             </span>
-            <h2 className="font-serif text-3xl text-[#e6e4e2] leading-[1.3] font-light tracking-wide lowercase">
+            <h2 className="font-serif text-3xl text-[#e6e4e2] leading-[1.3] font-light tracking-wide lowercase webgl-distort-text">
               engineering the systems of scale
             </h2>
             <p className="text-xs leading-relaxed text-[#908e8b] font-light">
@@ -434,7 +434,7 @@ export default function Projects() {
               >
                 <div className="w-full aspect-[4/5] bg-[#0c0c0c] border border-white/5 relative overflow-hidden flex items-center justify-center">
                   <div
-                    className="absolute inset-0 bg-cover bg-center"
+                    className="absolute inset-0 bg-cover bg-center webgl-distort-image"
                     style={{
                       backgroundImage: practice.img ? `url(${practice.img})` : "none",
                     }}
@@ -445,7 +445,7 @@ export default function Projects() {
                 <div className="flex flex-col gap-4">
                   <div className="flex items-baseline gap-3">
                     <span className="font-mono text-[10px] text-[#908e8b]">{practice.num}</span>
-                    <h3 className="font-serif text-2xl text-[#e6e4e2] font-light lowercase">
+                    <h3 className="font-serif text-2xl text-[#e6e4e2] font-light lowercase webgl-distort-text">
                       {practice.name}
                     </h3>
                   </div>

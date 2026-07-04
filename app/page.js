@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <CustomLoader />
-      <LiquidLensDistortion lensRadius={160} maxDistort={22} speedFactor={18}>
+      <LiquidLensDistortion lensRadius={200} maxDistort={48} speedFactor={18}>
         <MainBackground />
         <div className="relative z-10">
           <Navbar />

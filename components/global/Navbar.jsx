@@ -191,7 +191,7 @@ export default function Navbar() {
 
       {/* Fullscreen Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 bg-[#080808] z-40 flex flex-col justify-between transition-all duration-700 ease-[cubic-bezier(0.85,0,0.15,1)] px-8 md:px-24 py-24 md:py-32 ${
+        className={`navbar-menu-overlay fixed inset-0 bg-[#080808] z-40 flex flex-col justify-between transition-all duration-700 ease-[cubic-bezier(0.85,0,0.15,1)] px-8 md:px-24 py-24 md:py-32 ${
           isMenuOpen ? "opacity-100 pointer-events-auto translate-y-0" : "opacity-0 pointer-events-none -translate-y-4"
         }`}
       >

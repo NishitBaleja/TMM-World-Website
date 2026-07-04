@@ -121,7 +121,7 @@ export default function Philosophy() {
 
           <h2
             ref={headlineRef}
-            className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#e6e4e2] leading-[1.25] font-light tracking-wide select-none"
+            className="font-serif text-2xl sm:text-4xl md:text-5xl text-[#e6e4e2] leading-[1.25] font-light tracking-wide select-none"
           >
             <span className="char-line block webgl-distort-text">{siteContent.home.philosophy.headlineLine1}</span>
             <span className="char-line block pl-4 sm:pl-12 webgl-distort-text">{siteContent.home.philosophy.headlineLine2}</span>
@@ -142,10 +142,10 @@ export default function Philosophy() {
             {/* Image 3: Base Zen Garden Card */}
             <div className="philo-img-3 w-full aspect-[3/4] bg-[#0c0c0c] border border-white/5 shadow-2xl overflow-hidden group">
               <div
-                className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105 webgl-distort-image"
+                className="w-full h-full bg-cover bg-center webgl-distort-image"
                 style={{ backgroundImage: `url(${GARDEN_IMG})` }}
               />
-              <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-colors duration-500" />
+              <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
             </div>
 
             {/* Image 2: Bamboo - overlapping top-right corner of Image 3 */}

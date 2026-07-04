@@ -48,7 +48,7 @@ export default function ProjectsPage() {
 
   return (
     <>
-      <LiquidLensDistortion lensRadius={160} maxDistort={22} speedFactor={18}>
+      <LiquidLensDistortion lensRadius={200} maxDistort={48} speedFactor={18}>
         <MainBackground forceLayer="projects" />
         <div ref={containerRef} className="relative z-10 w-full min-h-screen bg-transparent">
           <Navbar />
@@ -117,7 +117,7 @@ export default function ProjectsPage() {
                           className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.03] webgl-distort-image"
                           style={{ backgroundImage: `url(${project.img})`, backgroundColor: "#0d0d0d" }}
                         />
-                        <div className="absolute inset-0 bg-black/25 group-hover:bg-transparent transition-colors duration-500 z-10" />
+                        <div className="absolute inset-0 bg-black/25 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none" />
                         <span className="font-serif text-[10px] text-white/5 select-none z-0">{project.label} details</span>
                       </div>
                     </Link>
@@ -134,7 +134,7 @@ export default function ProjectsPage() {
                       <div className="flex justify-between items-start">
                         <Link 
                           href={project.href}
-                          className="font-serif text-2xl md:text-3xl text-[#e6e4e2] hover:text-[#d4c3b3] font-light lowercase transition-colors duration-300 relative group"
+                          className="font-serif text-2xl md:text-3xl text-[#e6e4e2] hover:text-[#d4c3b3] font-light lowercase transition-colors duration-300 relative group webgl-distort-text"
                         >
                           {project.name}
                           <span className="absolute left-0 top-1/2 w-full h-[1px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />

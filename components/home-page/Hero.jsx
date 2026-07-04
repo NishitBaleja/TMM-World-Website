@@ -13,6 +13,14 @@ export default function Hero() {
   const titleRef = useRef(null);
 
   const infoRef = useRef(null);
+  const smokeRef = useRef(null);
+
+  // Slow down smoke video playback
+  useEffect(() => {
+    if (smokeRef.current) {
+      smokeRef.current.playbackRate = 1;
+    }
+  }, []);
 
   const [dubaiTime, setDubaiTime] = useState("00:00:00");
   const [tokyoTime, setTokyoTime] = useState("00:00:00");
@@ -60,6 +68,27 @@ export default function Hero() {
 
     // After intro completes, set up scroll-driven fade out/in
     tl.then(() => {
+      // Smooth fade out smoke overlay on scroll down, fade back in on scroll up
+      const smokeEl = containerRef.current.querySelector(".smoke-overlay");
+      if (smokeEl) {
+        gsap.fromTo(
+          smokeEl,
+          { opacity: 0.35 },
+          {
+            opacity: 0,
+            ease: "none",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "40% top",
+              end: "bottom top",
+              scrub: true,
+              onLeave: () => gsap.set(smokeEl, { visibility: "hidden" }),
+              onEnterBack: () => gsap.set(smokeEl, { visibility: "visible" }),
+            },
+          }
+        );
+      }
+
       // Smooth fade out hero title on scroll down, fade back in on scroll up
       if (titleRef.current) {
         gsap.fromTo(
@@ -106,6 +135,17 @@ export default function Hero() {
       id="hero"
       className="relative w-full h-screen overflow-hidden flex items-center justify-start px-16 sm:px-32 md:px-[20vw] lg:px-[25vw] bg-transparent"
     >
+      {/* Smoke Video Overlay */}
+      <video
+        ref={smokeRef}
+        className="fixed inset-0 w-full h-full object-cover mix-blend-screen opacity-[0.2] pointer-events-none z-[1] smoke-overlay"
+        src="/video/smoke-overlay.webm"
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
+
       {/* Hero Content */}
       <div className="relative z-10 max-w-4xl mt-12 md:mt-24 select-none">
         <h1
