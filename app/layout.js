@@ -1,5 +1,6 @@
 import "./globals.css";
 import SmoothScroll from "@/components/global/SmoothScroll";
+import PageTransition from "@/components/global/PageTransition";
 
 
 export const metadata = {
@@ -21,7 +22,9 @@ export default function RootLayout({ children }) {
 
         <div className="grain-overlay" />
         <SmoothScroll>
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
         </SmoothScroll>
       </body>
     </html>

@@ -1,11 +1,19 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "@/lib/gsap";
 import { siteContent } from "@/lib/content";
 
 export default function BasicInfo() {
   const containerRef = useRef(null);
+  const smokeRef = useRef(null);
+
+  // Slow down smoke video playback
+  useEffect(() => {
+    if (smokeRef.current) {
+      smokeRef.current.playbackRate = 1;
+    }
+  }, []);
 
   useGSAP(() => {
     const revealEls = containerRef.current.querySelectorAll(".reveal-el");
@@ -14,6 +22,27 @@ export default function BasicInfo() {
       { opacity: 0, y: 30 },
       { opacity: 1, y: 0, duration: 1.4, stagger: 0.15, ease: "power2.out" }
     );
+
+    // Fade out smoke overlay on scroll
+    const smokeEl = containerRef.current.querySelector(".company-smoke-overlay");
+    if (smokeEl) {
+      gsap.fromTo(
+        smokeEl,
+        { opacity: 0.4 },
+        {
+          opacity: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "40% top",
+            end: "bottom top",
+            scrub: true,
+            onLeave: () => gsap.set(smokeEl, { visibility: "hidden" }),
+            onEnterBack: () => gsap.set(smokeEl, { visibility: "visible" }),
+          },
+        }
+      );
+    }
   }, { scope: containerRef });
 
   return (
@@ -22,6 +51,16 @@ export default function BasicInfo() {
       id="basic-info"
       className="relative w-full h-screen flex flex-col justify-end pb-12 pl-16 pr-12 sm:pl-32 sm:pr-24 lg:pl-[16vw] lg:pr-36 mb-[55vh]"
     >
+      {/* Smoke Video Overlay */}
+      <video
+        ref={smokeRef}
+        className="fixed inset-0 w-full h-full object-cover mix-blend-screen opacity-[0.2] pointer-events-none z-[1] company-smoke-overlay"
+        src="/video/smoke-overlay.webm"
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
       {/* Left Vertical Track */}
       <div
         className="reveal-el absolute left-6 sm:left-10 lg:left-14 top-48 text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium select-none pointer-events-none"
