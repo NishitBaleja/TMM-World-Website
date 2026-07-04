@@ -28,98 +28,64 @@ export default function MainBackground() {
       }
     );
 
-    const fadeBg = (activeLayerClass) => {
-      const layers = [".bg-hero-layer", ".bg-philosophy-layer", ".bg-projects-layer", ".bg-company-layer"];
-      layers.forEach(layer => {
-        if (layer !== activeLayerClass) {
-          gsap.to(layer, { opacity: 0, duration: 0.6, overwrite: "auto", ease: "power1.inOut" });
-        }
-      });
-      gsap.to(activeLayerClass, { opacity: 0.99, duration: 0.6, delay: 0.2, overwrite: "auto", ease: "power1.inOut" });
-    };
-
-    const fadeAllOut = () => {
-      gsap.to(".bg-image-layer", { opacity: 0, duration: 0.6, overwrite: "auto", ease: "power1.inOut" });
-    };
-
-    const updateBackgrounds = () => {
-      const footerTrigger = ScrollTrigger.getById("footer");
-      if (footerTrigger && footerTrigger.isActive) {
-        fadeAllOut();
-        return;
-      }
-
-      const activeSection = [
-        { id: "hero", layer: ".bg-hero-layer" },
-        { id: "philosophy", layer: ".bg-philosophy-layer" },
-        { id: "projects", layer: ".bg-projects-layer" },
-        { id: "company", layer: ".bg-company-layer" }
-      ].find(sec => {
-        const trigger = ScrollTrigger.getById(sec.id);
-        return trigger && trigger.isActive;
-      });
-
-      if (activeSection) {
-        fadeBg(activeSection.layer);
-      } else {
-        fadeAllOut();
-      }
-    };
-
-    // Create ScrollTriggers and refresh after a short delay to ensure correct positioning of all pushed sections
     const triggers = [];
     const timer = setTimeout(() => {
+      // Transition from Hero to Philosophy
       triggers.push(
-        ScrollTrigger.create({
-          id: "hero",
-          trigger: "#hero",
-          start: "top 50%",
-          end: "bottom 50%",
-          onToggle: updateBackgrounds
+        gsap.to(containerRef.current, {
+          "--fade-hero-to-philosophy": 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#philosophy",
+            start: "top bottom",
+            end: "top top",
+            scrub: true,
+          }
         })
       );
 
+      // Transition from Philosophy to Projects
       triggers.push(
-        ScrollTrigger.create({
-          id: "philosophy",
-          trigger: "#philosophy",
-          start: "top 50%",
-          end: "bottom 50%",
-          onToggle: updateBackgrounds
+        gsap.to(containerRef.current, {
+          "--fade-philosophy-to-projects": 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#projects",
+            start: "top bottom",
+            end: "top top",
+            scrub: true,
+          }
         })
       );
 
+      // Transition from Projects to Company
       triggers.push(
-        ScrollTrigger.create({
-          id: "projects",
-          trigger: "#projects",
-          start: "top 50%",
-          end: "bottom 50%",
-          onToggle: updateBackgrounds
+        gsap.to(containerRef.current, {
+          "--fade-projects-to-company": 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#company",
+            start: "top bottom",
+            end: "top top",
+            scrub: true,
+          }
         })
       );
 
+      // Transition from Company to Footer (Fading out)
       triggers.push(
-        ScrollTrigger.create({
-          id: "company",
-          trigger: "#company",
-          start: "top 70%",
-          end: "bottom bottom",
-          onToggle: updateBackgrounds
+        gsap.to(containerRef.current, {
+          "--fade-company-to-footer": 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#footer",
+            start: "top bottom",
+            end: "top 50%",
+            scrub: true,
+          }
         })
       );
 
-      triggers.push(
-        ScrollTrigger.create({
-          id: "footer",
-          trigger: "#footer",
-          start: "top bottom",
-          end: "bottom bottom",
-          onToggle: updateBackgrounds
-        })
-      );
-
-      updateBackgrounds();
       ScrollTrigger.refresh();
     }, 1000);
 
@@ -133,6 +99,12 @@ export default function MainBackground() {
     <div
       ref={containerRef}
       className="fixed inset-0 z-0 w-full h-full bg-black overflow-hidden pointer-events-none"
+      style={{
+        "--fade-hero-to-philosophy": 0,
+        "--fade-philosophy-to-projects": 0,
+        "--fade-projects-to-company": 0,
+        "--fade-company-to-footer": 0,
+      }}
     >
       {/* Hero Background Layer */}
       <div
@@ -143,7 +115,7 @@ export default function MainBackground() {
           left: 0,
           right: 0,
           backgroundImage: `url(${HERO_IMAGE_URL})`,
-          opacity: 0.99,
+          opacity: "calc(0.99 * clamp(0, (0.4 - var(--fade-hero-to-philosophy)) / 0.4, 1))",
           backgroundColor: "#000000",
         }}
       />
@@ -157,7 +129,7 @@ export default function MainBackground() {
           left: 0,
           right: 0,
           backgroundImage: `url(${PHILO_IMAGE_URL})`,
-          opacity: 0,
+          opacity: "calc(0.99 * clamp(0, (var(--fade-hero-to-philosophy) - 0.6) / 0.4, 1) * clamp(0, (0.4 - var(--fade-philosophy-to-projects)) / 0.4, 1))",
           backgroundColor: "#000000",
         }}
       />
@@ -171,7 +143,7 @@ export default function MainBackground() {
           left: 0,
           right: 0,
           backgroundImage: `url(${PROJECTS_IMAGE_URL})`,
-          opacity: 0,
+          opacity: "calc(0.99 * clamp(0, (var(--fade-philosophy-to-projects) - 0.6) / 0.4, 1) * clamp(0, (0.4 - var(--fade-projects-to-company)) / 0.4, 1))",
           backgroundColor: "#000000",
         }}
       />
@@ -185,13 +157,13 @@ export default function MainBackground() {
           left: 0,
           right: 0,
           backgroundImage: `url(${COMPANY_IMAGE_URL})`,
-          opacity: 0,
+          opacity: "calc(0.99 * clamp(0, (var(--fade-projects-to-company) - 0.6) / 0.4, 1) * clamp(0, (0.4 - var(--fade-company-to-footer)) / 0.4, 1))",
           backgroundColor: "#000000",
         }}
       />
 
       {/* Global Dark Tint Overlay to ensure text readability */}
-      <div className="absolute inset-0 bg-black/85 z-10 opacity-60" />
+      <div className="absolute inset-0 bg-black/85 z-10 opacity-40" />
     </div>
   );
 }
