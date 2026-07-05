@@ -50,6 +50,7 @@ export default function BasicInfo() {
       ref={containerRef}
       id="basic-info"
       className="relative w-full h-screen flex flex-col justify-end pb-12 px-12 sm:pl-32 sm:pr-24 lg:pl-[16vw] lg:pr-36 mb-[55vh]"
+      aria-label="Company Overview"
     >
       {/* Smoke Video Overlay */}
       <video

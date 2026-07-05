@@ -32,6 +32,7 @@ export default function WorldMap() {
       ref={containerRef}
       id="map"
       className="relative w-full h-[85vh] sm:h-screen flex flex-col justify-center items-center py-20 px-12 sm:px-16 lg:px-24 bg-transparent mb-[55vh]"
+      aria-label="Global Presence Map"
     >
       {/* Left Vertical Track */}
       <div

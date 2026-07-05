@@ -82,6 +82,7 @@ export default function ProjectsHero() {
       ref={heroRef}
       id="projects-hero"
       className="relative w-full h-screen flex flex-col justify-end pb-12 px-12 sm:pl-32 sm:pr-24 lg:pl-[16vw] lg:pr-36 mb-[65vh]"
+      aria-label="Projects Page Hero Header"
     >
       {/* Smoke Video Overlay */}
       <video
@@ -106,13 +107,13 @@ export default function ProjectsHero() {
       <div className="hero-content-wrapper pl-4 sm:pl-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start mb-0 lg:translate-y-[8vh]">
         <div className="lg:col-span-7 flex flex-col gap-4">
           <h1 className="reveal-hero font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#e6e4e2] leading-[1.1] font-light lowercase select-none webgl-distort-text">
-            Designing the Dimensions of Life
+            digital systems & case studies
           </h1>
         </div>
 
         <div className="lg:col-span-5 flex flex-col gap-6 text-left max-w-sm lg:pt-36 lg:translate-y-[15vh]">
           <p className="reveal-hero text-xs sm:text-sm leading-relaxed text-[#908e8b] font-light">
-            Through three practices, Izanami designs harmony across life. How life is nurtured, how living is enriched, and how one returns to oneself.
+            through three core disciplines, tmmworld designs and deploys resilient cloud infrastructures, high-fidelity tactile interfaces, and automated intelligence pipelines optimized for global scale.
           </p>
         </div>
       </div>

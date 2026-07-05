@@ -138,7 +138,7 @@ export default function ProjectDetailContent({ project, nextProject }) {
         </div>
 
         {/* Large Case Study Image */}
-        <div className="case-study-image w-full aspect-[16/9] bg-[#0c0c0c] border border-white/5 relative overflow-hidden flex items-center justify-center">
+        <div className="case-study-image w-full aspect-[16/9] bg-[#0c0c0c] border border-white/5 relative overflow-hidden flex items-center justify-center" role="img" aria-label={`Bespoke system dashboard preview for ${project.name}`}>
           <div
             className="absolute inset-0 bg-cover bg-center webgl-distort-image"
             style={{
@@ -152,7 +152,7 @@ export default function ProjectDetailContent({ project, nextProject }) {
         {/* Case Study Detailed Rows */}
         <div ref={rowsRef} className="flex flex-col gap-16 md:gap-24 w-full">
           {caseStudyRows.map((row) => (
-            <div
+            <article
               key={row.num}
               className="case-row grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16 pt-8 border-t border-white/5"
             >
@@ -169,7 +169,7 @@ export default function ProjectDetailContent({ project, nextProject }) {
                   {row.content}
                 </p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 

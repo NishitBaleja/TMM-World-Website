@@ -329,7 +329,7 @@ export default function Projects() {
   const practices = siteContent.home.services;
 
   return (
-    <div ref={containerRef} id="projects" className="bg-transparent">
+    <section ref={containerRef} id="projects" className="bg-transparent" aria-label="Key Services and Practices">
       
       {/* Desktop Horizontal Scroll Layout */}
       <div ref={desktopPinRef} className="hidden md:block w-full h-screen overflow-hidden relative">
@@ -388,7 +388,7 @@ export default function Projects() {
 
                 {/* Media Image Column */}
                 <div className="col-span-7 flex justify-center items-center">
-                  <div className="w-full max-w-lg aspect-[3/4] bg-[#0c0c0c] border border-white/5 relative overflow-hidden flex items-center justify-center group">
+                  <div className="w-full max-w-lg aspect-[3/4] bg-[#0c0c0c] border border-white/5 relative overflow-hidden flex items-center justify-center group" role="img" aria-label={`Bespoke design representation of ${practice.name}`}>
                     <div
                       className="project-img absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105 webgl-distort-image"
                       style={{
@@ -432,7 +432,7 @@ export default function Projects() {
                 key={practice.num}
                 className="mobile-project-card flex flex-col gap-6 text-left pt-8"
               >
-                <div className="w-full aspect-[4/5] bg-[#0c0c0c] border border-white/5 relative overflow-hidden flex items-center justify-center">
+                <div className="w-full aspect-[4/5] bg-[#0c0c0c] border border-white/5 relative overflow-hidden flex items-center justify-center" role="img" aria-label={`Bespoke design representation of ${practice.name}`}>
                   <div
                     className="absolute inset-0 bg-cover bg-center webgl-distort-image"
                     style={{
@@ -474,6 +474,6 @@ export default function Projects() {
         </div>
       </div>
 
-    </div>
+    </section>
   );
 }

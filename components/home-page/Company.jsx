@@ -86,6 +86,7 @@ export default function Company() {
       ref={containerRef}
       id="company"
       className="relative w-full min-h-screen bg-transparent text-[#e6e4e2] flex items-center justify-center py-24 md:py-36 px-12 md:px-12 overflow-hidden"
+      aria-label="About the Collective"
     >
 
       <div

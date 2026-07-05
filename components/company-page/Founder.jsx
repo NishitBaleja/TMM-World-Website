@@ -32,6 +32,7 @@ export default function Founder() {
       ref={containerRef}
       id="founder"
       className="relative w-full min-h-[160vh] grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-64 pb-48 px-12 sm:px-16 lg:px-24 border-t border-white/5 mb-[35vh]"
+      aria-label="Founder Biography"
     >
       {/* Left Vertical Track */}
       <div
@@ -72,7 +73,7 @@ export default function Founder() {
 
       {/* Right Column: Founder Image Container */}
       <div className="lg:col-span-6 flex items-center justify-center lg:justify-end px-4 lg:px-0">
-        <div className="reveal-founder-el w-full max-w-[400px] lg:max-w-lg h-[85vh] bg-[#0c0c0c] border border-white/5 relative overflow-hidden group">
+        <div className="reveal-founder-el w-full max-w-[400px] lg:max-w-lg h-[85vh] bg-[#0c0c0c] border border-white/5 relative overflow-hidden group" role="img" aria-label={`Portrait of ${siteContent.company.founder.name}, ${siteContent.company.founder.role}`}>
           {/* Founder visual background placeholder, user will swap in actual image */}
           <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-103 webgl-distort-image"

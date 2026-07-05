@@ -32,6 +32,7 @@ export default function Outline() {
       ref={containerRef}
       id="outline"
       className="relative w-full min-h-screen flex flex-col justify-center pt-48 pb-48 px-12 sm:px-16 lg:px-24 border-t border-white/5 mb-[15vh]"
+      aria-label="Company Details"
     >
       {/* Left Vertical Track */}
       <div
@@ -42,7 +43,7 @@ export default function Outline() {
       </div>
 
       {/* Outline list container structured exactly like mockups */}
-      <div className="pl-12 sm:pl-16 w-full max-w-5xl flex flex-col divide-y divide-white/10">
+      <dl className="pl-12 sm:pl-16 w-full max-w-5xl flex flex-col divide-y divide-white/10">
         
         {siteContent.company.outline.map((item, idx) => (
           <div
@@ -50,12 +51,12 @@ export default function Outline() {
             className="reveal-outline-row py-8 md:py-10 grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-start text-left"
           >
             {/* Left row title */}
-            <div className="md:col-span-4 text-[10px] uppercase tracking-[0.25em] text-[#908e8b] font-medium pt-1">
+            <dt className="md:col-span-4 text-[10px] uppercase tracking-[0.25em] text-[#908e8b] font-medium pt-1">
               {item.label}
-            </div>
+            </dt>
 
             {/* Right row content block */}
-            <div className="md:col-span-8 text-sm md:text-base leading-relaxed text-[#e6e4e2] font-light">
+            <dd className="md:col-span-8 text-sm md:text-base leading-relaxed text-[#e6e4e2] font-light ml-0">
               {/* Render plain string value with linebreaks */}
               {item.value && (
                 <span className="whitespace-pre-line font-serif text-base md:text-lg">
@@ -92,10 +93,10 @@ export default function Outline() {
                   ))}
                 </ul>
               )}
-            </div>
+            </dd>
           </div>
         ))}
-      </div>
+      </dl>
     </section>
   );
 }

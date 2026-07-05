@@ -1,41 +1,48 @@
-"use client";
-import React, { use } from "react";
-import { notFound } from "next/navigation";
-import Navbar from "@/components/global/Navbar";
-import Footer from "@/components/global/Footer";
-import ProjectDetailBackground from "@/components/projects-page/ProjectDetailBackground";
-import ProjectDetailHero from "@/components/projects-page/ProjectDetailHero";
-import ProjectDetailContent from "@/components/projects-page/ProjectDetailContent";
-import LiquidLensDistortion from "@/components/global/LiquidLensDistortion";
+import ProjectDetailPageClient from "@/components/projects-page/ProjectDetailPageClient";
 import { siteContent } from "@/lib/content";
+import { notFound } from "next/navigation";
 
-export default function ProjectDetailPage({ params }) {
-  const { id } = use(params);
+export async function generateStaticParams() {
+  return siteContent.projects.map((p) => ({
+    id: p.id,
+  }));
+}
 
-  const projectIndex = siteContent.projects.findIndex((p) => p.id === id);
-  const project = siteContent.projects[projectIndex];
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const project = siteContent.projects.find((p) => p.id === id);
+  if (!project) return {};
 
-  if (!project) {
+  const pageTitle = `${project.name} - Systems Case Study`;
+  const pageDesc = `${project.lead} Learn how TMMWORLD engineered this solution to resolve complex technical challenges and optimize scalability.`;
+
+  return {
+    title: pageTitle,
+    description: pageDesc,
+    alternates: {
+      canonical: `https://tmmworld.com/projects/${id}`,
+    },
+    openGraph: {
+      title: `${pageTitle} | TMMWORLD`,
+      description: pageDesc,
+      url: `https://tmmworld.com/projects/${id}`,
+      type: "article",
+      publishedTime: project.year,
+      authors: ["TMMWORLD"],
+    },
+    twitter: {
+      title: `${pageTitle} | TMMWORLD`,
+      description: pageDesc,
+    }
+  };
+}
+
+export default async function Page({ params }) {
+  const { id } = await params;
+  const projectExists = siteContent.projects.some((p) => p.id === id);
+  if (!projectExists) {
     notFound();
   }
 
-  const nextProject =
-    siteContent.projects[(projectIndex + 1) % siteContent.projects.length];
-
-  return (
-    <>
-      <ProjectDetailBackground />
-      <LiquidLensDistortion lensRadius={200} maxDistort={48} solidBlackBg={true}>
-        <div className="relative z-10 w-full min-h-screen bg-transparent">
-          <Navbar />
-
-          <ProjectDetailHero project={project} />
-
-          <ProjectDetailContent project={project} nextProject={nextProject} />
-
-          <Footer />
-        </div>
-      </LiquidLensDistortion>
-    </>
-  );
+  return <ProjectDetailPageClient params={params} />;
 }

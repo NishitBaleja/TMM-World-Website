@@ -132,11 +132,13 @@ export default function Navbar() {
 
         <div className="flex items-center gap-32 font-sans text-xs uppercase tracking-[0.2em]">
           {/* Language Picker with Dots (Active Only) */}
-          <div className="flex items-start gap-3.5 text-muted select-none text-[10px] tracking-[0.25em]">
+          <div className="flex items-start gap-3.5 text-muted select-none text-[10px] tracking-[0.25em]" role="group" aria-label="Language selection">
             {/* EN */}
             <button
               onClick={() => setActiveLang("en")}
               className="flex flex-col items-center gap-2 focus:outline-none cursor-pointer group/lang"
+              aria-label="Switch language to English"
+              aria-pressed={activeLang === "en"}
             >
               <span
                 className={`w-1 h-1 rounded-full bg-white transition-all duration-300 ${
@@ -158,6 +160,8 @@ export default function Navbar() {
             <button
               onClick={() => setActiveLang("hi")}
               className="flex flex-col items-center gap-2 focus:outline-none cursor-pointer group/lang"
+              aria-label="Switch language to Hindi"
+              aria-pressed={activeLang === "hi"}
             >
               <span
                 className={`w-1 h-1 rounded-full bg-white transition-all duration-300 ${
@@ -178,7 +182,8 @@ export default function Navbar() {
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="flex flex-col items-center gap-2 text-white z-50 relative focus:outline-none cursor-pointer group"
-            aria-label="Toggle Menu"
+            aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={isMenuOpen}
           >
             <span className="w-1 h-1 rounded-full bg-white/30 transition-transform duration-300" />
             <span className="font-semibold text-[10px] tracking-[0.25em] relative block py-0.5">
@@ -204,7 +209,7 @@ export default function Navbar() {
         </div>
 
         <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center mt-12 w-full max-w-7xl mx-auto h-full gap-12">
-          <div className="flex flex-col gap-8 md:gap-12 text-left z-10">
+          <nav className="flex flex-col gap-8 md:gap-12 text-left z-10" aria-label="Main Navigation">
 
             {/* HOME SECTION */}
             <div className="flex flex-col gap-4 md:gap-6">
@@ -247,7 +252,7 @@ export default function Navbar() {
                 </span>
               </Link>
             </div>
-          </div>
+          </nav>
 
           <div className="flex flex-col sm:flex-row gap-12 text-left text-[10px] uppercase tracking-[0.2em] text-[#908e8b] max-w-md z-10">
             <div className="flex flex-col gap-4">

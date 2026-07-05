@@ -1,32 +1,23 @@
-"use client";
-import React from "react";
-import Navbar from "@/components/global/Navbar";
-import Footer from "@/components/global/Footer";
-import CompanyBackground from "@/components/company-page/CompanyBackground";
-import LiquidLensDistortion from "@/components/global/LiquidLensDistortion";
+import CompanyPageClient from "@/components/company-page/CompanyPageClient";
 
-// Modular Section Components
-import BasicInfo from "@/components/company-page/BasicInfo";
-import WorldMap from "@/components/company-page/WorldMap";
-import Founder from "@/components/company-page/Founder";
-import Outline from "@/components/company-page/Outline";
+export const metadata = {
+  title: "Company & Founder - Nitish Baleja",
+  description: "TMMWORLD is a premium software engineering consultancy operating from New Delhi and New York. Learn about our philosophy, outline, and leadership.",
+  alternates: {
+    canonical: "https://tmmworld.com/company",
+  },
+  openGraph: {
+    title: "Company & Founder - Nitish Baleja | TMMWORLD",
+    description: "TMMWORLD is a premium software engineering consultancy operating from New Delhi and New York. Learn about our philosophy, outline, and leadership.",
+    url: "https://tmmworld.com/company",
+    type: "website",
+  },
+  twitter: {
+    title: "Company & Founder - Nitish Baleja | TMMWORLD",
+    description: "TMMWORLD is a premium software engineering consultancy operating from New Delhi and New York. Learn about our philosophy, outline, and leadership.",
+  }
+};
 
 export default function CompanyPage() {
-  return (
-    <>
-      <CompanyBackground />
-      <LiquidLensDistortion lensRadius={200} maxDistort={48} speedFactor={18} companyMode>
-        <div className="relative z-10 w-full min-h-screen bg-transparent text-[#e6e4e2] font-sans overflow-x-hidden">
-          <Navbar />
-          
-          <BasicInfo />
-          <WorldMap />
-          <Founder />
-          <Outline />
-
-          <Footer />
-        </div>
-      </LiquidLensDistortion>
-    </>
-  );
+  return <CompanyPageClient />;
 }

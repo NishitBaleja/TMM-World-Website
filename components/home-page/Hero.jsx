@@ -154,6 +154,9 @@ export default function Hero() {
         >
           {siteContent.home.hero.tagline}
         </h1>
+        <p className="sr-only">
+          {siteContent.home.hero.subTitle}
+        </p>
       </div>
 
 
