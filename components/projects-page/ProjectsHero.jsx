@@ -81,7 +81,7 @@ export default function ProjectsHero() {
     <section
       ref={heroRef}
       id="projects-hero"
-      className="relative w-full h-screen flex flex-col justify-end pb-12 pl-16 pr-12 sm:pl-32 sm:pr-24 lg:pl-[16vw] lg:pr-36 mb-[65vh]"
+      className="relative w-full h-screen flex flex-col justify-end pb-12 pl-20 pr-12 sm:pl-32 sm:pr-24 lg:pl-[16vw] lg:pr-36 mb-[65vh]"
     >
       {/* Smoke Video Overlay */}
       <video
@@ -96,7 +96,7 @@ export default function ProjectsHero() {
 
       {/* Left Vertical Track Label */}
       <div
-        className="reveal-hero absolute left-6 sm:left-10 lg:left-14 top-48 text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium select-none pointer-events-none"
+        className="reveal-hero absolute left-4 sm:left-10 lg:left-14 top-48 text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium select-none pointer-events-none"
         style={{ writingMode: "vertical-lr" }}
       >
         projects

@@ -113,7 +113,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className="fixed top-0 left-0 w-full z-50 transition-all duration-700 py-8 md:py-12 px-8 md:px-16 flex justify-between items-start bg-transparent border-b border-white/0 mix-blend-difference"
+        className="fixed top-0 left-0 w-full z-50 transition-all duration-700 py-8 md:py-12 px-4 sm:px-8 md:px-16 flex justify-between items-start bg-transparent border-b border-white/0 mix-blend-difference"
       >
         <div className="flex flex-col items-center gap-4 md:gap-6">
           <Link href="/" className="text-white hover:opacity-85 transition-opacity">

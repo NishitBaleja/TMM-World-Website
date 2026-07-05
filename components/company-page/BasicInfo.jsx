@@ -49,7 +49,7 @@ export default function BasicInfo() {
     <section
       ref={containerRef}
       id="basic-info"
-      className="relative w-full h-screen flex flex-col justify-end pb-12 pl-16 pr-12 sm:pl-32 sm:pr-24 lg:pl-[16vw] lg:pr-36 mb-[55vh]"
+      className="relative w-full h-screen flex flex-col justify-end pb-12 pl-20 pr-12 sm:pl-32 sm:pr-24 lg:pl-[16vw] lg:pr-36 mb-[55vh]"
     >
       {/* Smoke Video Overlay */}
       <video
@@ -63,7 +63,7 @@ export default function BasicInfo() {
       />
       {/* Left Vertical Track */}
       <div
-        className="reveal-el absolute left-6 sm:left-10 lg:left-14 top-48 text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium select-none pointer-events-none"
+        className="reveal-el absolute left-4 sm:left-10 lg:left-14 top-48 text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium select-none pointer-events-none"
         style={{ writingMode: "vertical-lr" }}
       >
         company

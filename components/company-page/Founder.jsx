@@ -31,11 +31,11 @@ export default function Founder() {
     <section
       ref={containerRef}
       id="founder"
-      className="relative w-full min-h-[160vh] grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-64 pb-48 px-8 sm:px-16 lg:px-24 border-t border-white/5 mb-[35vh]"
+      className="relative w-full min-h-[160vh] grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-64 pb-48 pl-20 pr-8 sm:px-16 lg:px-24 border-t border-white/5 mb-[35vh]"
     >
       {/* Left Vertical Track */}
       <div
-        className="absolute left-8 sm:left-12 lg:left-16 top-48 text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium select-none pointer-events-none"
+        className="absolute left-4 sm:left-12 lg:left-16 top-48 text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium select-none pointer-events-none"
         style={{ writingMode: "vertical-lr" }}
       >
         founder

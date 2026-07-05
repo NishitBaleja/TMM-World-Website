@@ -31,11 +31,11 @@ export default function WorldMap() {
     <section
       ref={containerRef}
       id="map"
-      className="relative w-full h-[85vh] sm:h-screen flex flex-col justify-center items-center py-20 px-8 sm:px-16 lg:px-24 bg-transparent mb-[55vh]"
+      className="relative w-full h-[85vh] sm:h-screen flex flex-col justify-center items-center py-20 pl-20 pr-8 sm:px-16 lg:px-24 bg-transparent mb-[55vh]"
     >
       {/* Left Vertical Track */}
       <div
-        className="absolute left-8 sm:left-12 lg:left-16 top-16 text-[10px] uppercase tracking-[0.3em] text-[#908e8b]/40 font-medium select-none pointer-events-none"
+        className="absolute left-4 sm:left-12 lg:left-16 top-16 text-[10px] uppercase tracking-[0.3em] text-[#908e8b]/40 font-medium select-none pointer-events-none"
         style={{ writingMode: "vertical-lr" }}
       >
         company
