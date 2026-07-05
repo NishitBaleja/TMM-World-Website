@@ -101,7 +101,7 @@ export default function Philosophy() {
     <section
       ref={sectionRef}
       id="philosophy"
-      className="relative w-full bg-transparent text-[#e6e4e2] py-24 md:py-36 pl-20 pr-6 sm:px-12 md:px-20 lg:px-24 flex items-center justify-center font-sans overflow-visible"
+      className="relative w-full bg-transparent text-[#e6e4e2] py-24 md:py-36 px-12 sm:px-12 md:px-20 lg:px-24 flex items-center justify-center font-sans overflow-visible"
     >
 
 

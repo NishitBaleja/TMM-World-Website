@@ -31,7 +31,7 @@ export default function Founder() {
     <section
       ref={containerRef}
       id="founder"
-      className="relative w-full min-h-[160vh] grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-64 pb-48 pl-20 pr-8 sm:px-16 lg:px-24 border-t border-white/5 mb-[35vh]"
+      className="relative w-full min-h-[160vh] grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-64 pb-48 px-12 sm:px-16 lg:px-24 border-t border-white/5 mb-[35vh]"
     >
       {/* Left Vertical Track */}
       <div

@@ -409,7 +409,7 @@ export default function Projects() {
       </div>
 
       {/* Mobile Stacked Layout */}
-      <div className="block md:hidden pl-20 pr-6 py-20">
+      <div className="block md:hidden px-12 py-20">
         <div className="flex flex-col gap-12">
           
           {/* Mobile Cover Intro */}

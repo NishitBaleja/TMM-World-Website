@@ -31,7 +31,7 @@ export default function WorldMap() {
     <section
       ref={containerRef}
       id="map"
-      className="relative w-full h-[85vh] sm:h-screen flex flex-col justify-center items-center py-20 pl-20 pr-8 sm:px-16 lg:px-24 bg-transparent mb-[55vh]"
+      className="relative w-full h-[85vh] sm:h-screen flex flex-col justify-center items-center py-20 px-12 sm:px-16 lg:px-24 bg-transparent mb-[55vh]"
     >
       {/* Left Vertical Track */}
       <div
