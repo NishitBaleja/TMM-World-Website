@@ -66,8 +66,8 @@ export default function CompanyBackground() {
 
         // Fade in from 0% to 25% of Map scroll
         mapTl.to(".company-bg-page-2", { opacity: 0.8, duration: 0.25, ease: "none" }, 0);
-        // Fade out from 90% to 100% of Map scroll
-        mapTl.to(".company-bg-page-2", { opacity: 0, duration: 0.1, ease: "none" }, 0.9);
+        // Fade out from 30% to 60% of Map scroll (fades out very early)
+        mapTl.to(".company-bg-page-2", { opacity: 0, duration: 0.3, ease: "none" }, 0.3);
 
         companyTriggers.push(mapTl);
       }

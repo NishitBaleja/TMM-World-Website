@@ -3,13 +3,15 @@ import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap, { ScrollTrigger } from "@/lib/gsap";
 
-export default function ProjectDetailBackground({ bgImg }) {
+const PHILO_IMAGE_URL = "/images/home/philosophy-bg-img.webp";
+
+export default function ExpertiseBackground() {
   const containerRef = useRef(null);
 
   useGSAP(() => {
     // Subtle parallax effect on scroll for the background layer
     gsap.fromTo(
-      ".project-detail-bg-layer",
+      ".expertise-bg-layer",
       { yPercent: -5 },
       {
         yPercent: 5,
@@ -29,22 +31,24 @@ export default function ProjectDetailBackground({ bgImg }) {
   return (
     <div
       ref={containerRef}
-      id="project-detail-background"
+      id="expertise-background"
       className="fixed inset-0 z-0 w-full h-full bg-black overflow-hidden pointer-events-none"
     >
       {/* Background Image Layer */}
       <div
-        className="project-detail-bg-layer absolute inset-0"
+        className="expertise-bg-layer absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           top: "-10%",
           bottom: "-10%",
           left: 0,
           right: 0,
+          backgroundImage: `url(${PHILO_IMAGE_URL})`,
+          opacity: 0.99,
           backgroundColor: "#000000",
         }}
       />
       {/* Global Dark Tint Overlay to ensure text readability */}
-      <div className="absolute inset-0 bg-black/85 z-10 opacity-45" />
+      <div className="absolute inset-0 bg-black/85 z-10 opacity-40" />
     </div>
   );
 }

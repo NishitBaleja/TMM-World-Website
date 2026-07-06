@@ -37,6 +37,10 @@ export default function LiquidLensDistortion({
   const turbTextTweenRef = useRef(null);
   const turbImageTweenRef = useRef(null);
 
+  // Refs for tracking cached document-relative positions to avoid getBoundingClientRect layout thrashing in RAF loop
+  const hoveredTextPosRef = useRef({ docLeft: 0, docTop: 0 });
+  const hoveredImagePosRef = useRef({ docLeft: 0, docTop: 0 });
+
   useEffect(() => {
     // Check capability and preference
     const isHoverable = window.matchMedia("(pointer: fine)").matches;
@@ -429,6 +433,13 @@ export default function LiquidLensDistortion({
           lastHoveredTextRef.current = target;
           targetTextScaleRef.current = 75;
           target.classList.add("is-distorted");
+
+          // Cache position relative to document to avoid getBoundingClientRect in loop
+          const rect = target.getBoundingClientRect();
+          hoveredTextPosRef.current = {
+            docLeft: rect.left + window.scrollX,
+            docTop: rect.top + window.scrollY
+          };
         } else if (target.classList.contains("webgl-distort-image")) {
           document.querySelectorAll(".webgl-distort-image").forEach((el) => {
             if (el !== target) el.classList.remove("is-distorted");
@@ -437,6 +448,13 @@ export default function LiquidLensDistortion({
           lastHoveredImageRef.current = target;
           targetImageScaleRef.current = 100;
           target.classList.add("is-distorted");
+
+          // Cache position relative to document to avoid getBoundingClientRect in loop
+          const rect = target.getBoundingClientRect();
+          hoveredImagePosRef.current = {
+            docLeft: rect.left + window.scrollX,
+            docTop: rect.top + window.scrollY
+          };
         }
       }
     };
@@ -511,7 +529,7 @@ export default function LiquidLensDistortion({
 
       if (projectsMode) {
         // Projects or Project Detail page: read opacity from DOM background layer
-        const projBgEl = document.querySelector(".projects-bg-layer") || document.querySelector(".project-detail-bg-layer");
+        const projBgEl = document.querySelector(".expertise-bg-layer") || document.querySelector(".projects-bg-layer") || document.querySelector(".project-detail-bg-layer");
         if (projBgEl) {
           const inlineOp = parseFloat(projBgEl.style.opacity);
           bgUniforms.uBg1Opacity.value = isNaN(inlineOp) ? 0.99 : inlineOp;
@@ -562,14 +580,10 @@ export default function LiquidLensDistortion({
       currentTextScaleRef.current += (targetTextScaleRef.current - currentTextScaleRef.current) * scaleLerp;
       const activeText = hoveredTextRef.current || lastHoveredTextRef.current;
       if (activeText && currentTextScaleRef.current > 0.01) {
-        if (turbTextTweenRef.current && turbTextTweenRef.current.paused()) {
-          turbTextTweenRef.current.play();
-        }
-        const rect = activeText.getBoundingClientRect();
         const screenX = currentMouseX * width;
         const screenY = (1.0 - currentMouseY) * height;
-        const localX = screenX - rect.left;
-        const localY = screenY - rect.top;
+        const localX = (screenX + window.scrollX) - hoveredTextPosRef.current.docLeft;
+        const localY = (screenY + window.scrollY) - hoveredTextPosRef.current.docTop;
 
         const radiusText = Math.round(lensRadius * 3.5) / 2;
         if (maskText) {
@@ -587,9 +601,6 @@ export default function LiquidLensDistortion({
           }
         }
       } else {
-        if (turbTextTweenRef.current && !turbTextTweenRef.current.paused()) {
-          turbTextTweenRef.current.pause();
-        }
         if (dispText) {
           dispText.setAttribute("scale", "0");
         }
@@ -603,14 +614,10 @@ export default function LiquidLensDistortion({
       currentImageScaleRef.current += (targetImageScaleRef.current - currentImageScaleRef.current) * scaleLerp;
       const activeImage = hoveredImageRef.current || lastHoveredImageRef.current;
       if (activeImage && currentImageScaleRef.current > 0.01) {
-        if (turbImageTweenRef.current && turbImageTweenRef.current.paused()) {
-          turbImageTweenRef.current.play();
-        }
-        const rect = activeImage.getBoundingClientRect();
         const screenX = currentMouseX * width;
         const screenY = (1.0 - currentMouseY) * height;
-        const localX = screenX - rect.left;
-        const localY = screenY - rect.top;
+        const localX = (screenX + window.scrollX) - hoveredImagePosRef.current.docLeft;
+        const localY = (screenY + window.scrollY) - hoveredImagePosRef.current.docTop;
 
         const radiusImage = Math.round(lensRadius * 4.5) / 2;
         if (maskImage) {
@@ -628,9 +635,6 @@ export default function LiquidLensDistortion({
           }
         }
       } else {
-        if (turbImageTweenRef.current && !turbImageTweenRef.current.paused()) {
-          turbImageTweenRef.current.pause();
-        }
         if (dispImage) {
           dispImage.setAttribute("scale", "0");
         }
@@ -680,39 +684,9 @@ export default function LiquidLensDistortion({
     noiseStrength
   ]);
 
-  // SVG filter continuous flowing liquid background animation
+  // SVG filter continuous flowing liquid background animation disabled to resolve 60fps noise generation CPU lag
   useEffect(() => {
-    if (!isEnabled) return;
-
-    const turbText = document.getElementById("svg-turb-text");
-    const turbImage = document.getElementById("svg-turb-image");
-
-    if (turbText) {
-      turbTextTweenRef.current = gsap.to(turbText, {
-        attr: { baseFrequency: "0.015 0.08" },
-        duration: 8,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        paused: true
-      });
-    }
-
-    if (turbImage) {
-      turbImageTweenRef.current = gsap.to(turbImage, {
-        attr: { baseFrequency: "0.01 0.07" },
-        duration: 10,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        paused: true
-      });
-    }
-
-    return () => {
-      turbTextTweenRef.current?.kill();
-      turbImageTweenRef.current?.kill();
-    };
+    // Left empty intentionally to keep turbulence baseFrequency static and performant
   }, [isEnabled]);
 
 

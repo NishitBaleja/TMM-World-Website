@@ -100,7 +100,7 @@ export default function Footer() {
                 <a href="#philosophy" className="hover:text-white transition-colors">philosophy</a>
               </li>
               <li>
-                <a href="#projects" className="hover:text-white transition-colors">projects</a>
+                <Link href="/expertise" className="hover:text-white transition-colors">expertise</Link>
               </li>
               <li>
                 <a href="#company" className="hover:text-white transition-colors">company</a>

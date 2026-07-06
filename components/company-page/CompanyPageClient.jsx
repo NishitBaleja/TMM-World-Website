@@ -16,7 +16,7 @@ export default function CompanyPageClient() {
     <>
       <CompanyBackground />
       <LiquidLensDistortion lensRadius={200} maxDistort={48} speedFactor={18} companyMode>
-        <div className="relative z-10 w-full min-h-screen bg-transparent text-[#e6e4e2] font-sans overflow-x-hidden">
+        <div className="relative z-10 w-full min-h-screen bg-transparent text-[#e6e4e2] font-sans overflow-x-clip">
           <Navbar />
           
           <BasicInfo />

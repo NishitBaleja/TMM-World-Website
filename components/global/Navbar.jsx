@@ -52,7 +52,7 @@ export default function Navbar() {
       setIsScrolled(window.scrollY > 50);
 
       // Section indicator scroll detection
-      const sections = ["hero", "philosophy", "projects", "company"];
+      const sections = ["hero", "philosophy", "expertise", "company"];
       let currentSection = "hero";
       const triggerPoint = window.innerHeight * 0.4; // 40% of viewport height
 
@@ -89,7 +89,7 @@ export default function Navbar() {
 
     const labels = {
       philosophy: "philosophy",
-      projects: "projects",
+      expertise: "expertise",
       company: "company",
     };
     const newLabel = labels[activeSection] || activeSection;
@@ -119,15 +119,6 @@ export default function Navbar() {
           <Link href="/" className="text-white hover:opacity-85 transition-opacity">
             <Logo className="w-10 h-20 md:w-12 md:h-24" />
           </Link>
-          
-          <div
-            className={`font-serif text-[10px] md:text-[11px] uppercase tracking-[0.35em] text-[#908e8b] select-none pointer-events-none transition-all duration-300 ease-in-out ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
-            }`}
-            style={{ writingMode: "vertical-lr" }}
-          >
-            {displayText}
-          </div>
         </div>
 
         <div className="flex items-center gap-32 font-sans text-xs uppercase tracking-[0.2em]">
@@ -225,15 +216,15 @@ export default function Navbar() {
               </Link>
             </div>
             
-            {/* PROJECTS SECTION */}
+            {/* EXPERTISE SECTION */}
             <div className="flex flex-col gap-4 md:gap-6">
               <Link
-                href="/projects"
+                href="/expertise"
                 onClick={() => setIsMenuOpen(false)}
                 className="font-serif text-4xl md:text-6xl text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors uppercase block relative group w-fit"
               >
                 <span className="inline-block relative">
-                  projects
+                  expertise
                   <span className="absolute left-0 top-1/2 w-full h-[2px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                 </span>
               </Link>

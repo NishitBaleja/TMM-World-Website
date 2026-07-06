@@ -104,6 +104,15 @@ export default function Philosophy() {
       className="relative w-full bg-transparent text-[#e6e4e2] py-24 md:py-36 px-12 sm:px-12 md:px-20 lg:px-24 flex items-center justify-center font-sans overflow-visible"
       aria-label="Philosophy Overview"
     >
+      {/* Sticky Left Vertical Track */}
+      <div className="absolute top-0 bottom-0 left-4 sm:left-12 lg:left-16 w-8 pointer-events-none z-20">
+        <div
+          className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
+          style={{ writingMode: "vertical-lr" }}
+        >
+          philosophy
+        </div>
+      </div>
 
 
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-center z-10 relative">
@@ -114,7 +123,7 @@ export default function Philosophy() {
           <div className="flex flex-row gap-6 mb-8 sm:mb-12 max-w-md pl-4 sm:pl-12">
             <div className="philo-img-1 w-[180px] sm:w-[220px] aspect-[3/4] bg-[#0c0c0c] border border-white/5 shadow-xl overflow-hidden group" role="img" aria-label="Zen incense burner representing engineering precision and system logic">
               <div
-                className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105 webgl-distort-image"
+                className="w-full h-full bg-cover bg-center webgl-distort-image"
                 style={{ backgroundImage: `url(${PHI_IMG_1})` }}
               />
             </div>
@@ -152,7 +161,7 @@ export default function Philosophy() {
             {/* Image 2: Bamboo - overlapping top-right corner of Image 3 */}
             <div className="philo-img-2 absolute -top-12 -right-10 sm:-top-16 sm:-right-14 w-[140px] sm:w-[180px] aspect-[3/4] bg-[#0c0c0c] border border-white/5 shadow-2xl overflow-hidden group z-20" role="img" aria-label="Minimal green bamboo representing clean, flexible frontend interface designs">
               <div
-                className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105 webgl-distort-image"
+                className="w-full h-full bg-cover bg-center webgl-distort-image"
                 style={{ backgroundImage: `url(${PHI_IMG_2})` }}
               />
             </div>

@@ -5,10 +5,10 @@ import PageTransition from "@/components/global/PageTransition";
 
 export const metadata = {
   title: {
-    default: "TMMWORLD | Premium Software Engineering & Digital Architecture",
-    template: "%s | TMMWORLD"
+    default: "TMMWORLD | IT Company & Premium Web Development in Jamnagar",
+    template: "%s | TMMWORLD Jamnagar"
   },
-  description: "TMMWORLD is an elite software engineering collective crafting resilient cloud architectures, high-fidelity WebGL frontends, and custom machine learning pipelines.",
+  description: "TMMWORLD is a premier IT company and web development agency in Jamnagar. We help businesses and people build brands, custom software architectures, and scalable digital systems.",
   metadataBase: new URL("https://tmmworld.com"),
   alternates: {
     canonical: "/"
@@ -25,8 +25,8 @@ export const metadata = {
     },
   },
   openGraph: {
-    title: "TMMWORLD | Premium Software Engineering & Digital Architecture",
-    description: "TMMWORLD is an elite software engineering collective crafting resilient cloud architectures, high-fidelity WebGL frontends, and custom machine learning pipelines.",
+    title: "TMMWORLD | IT Company & Premium Web Development in Jamnagar",
+    description: "TMMWORLD is a premier IT company and web development agency in Jamnagar. We help businesses and people build brands, custom software architectures, and scalable digital systems.",
     url: "https://tmmworld.com",
     siteName: "TMMWORLD",
     locale: "en_US",
@@ -34,8 +34,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "TMMWORLD | Premium Software Engineering & Digital Architecture",
-    description: "TMMWORLD is an elite software engineering collective crafting resilient cloud architectures, high-fidelity WebGL frontends, and custom machine learning pipelines.",
+    title: "TMMWORLD | IT Company & Premium Web Development in Jamnagar",
+    description: "TMMWORLD is a premier IT company and web development agency in Jamnagar. We help businesses and people build brands, custom software architectures, and scalable digital systems.",
   }
 };
 
@@ -97,7 +97,7 @@ export default function RootLayout({ children }) {
               "url": "https://tmmworld.com",
               "potentialAction": {
                 "@type": "SearchAction",
-                "target": "https://tmmworld.com/projects?search={search_term_string}",
+                "target": "https://tmmworld.com/expertise?search={search_term_string}",
                 "query-input": "required name=search_term_string"
               }
             })

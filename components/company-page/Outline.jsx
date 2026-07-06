@@ -34,12 +34,14 @@ export default function Outline() {
       className="relative w-full min-h-screen flex flex-col justify-center pt-48 pb-48 px-12 sm:px-16 lg:px-24 border-t border-white/5 mb-[15vh]"
       aria-label="Company Details"
     >
-      {/* Left Vertical Track */}
-      <div
-        className="absolute left-4 sm:left-12 lg:left-16 top-48 text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium select-none pointer-events-none"
-        style={{ writingMode: "vertical-lr" }}
-      >
-        outline
+      {/* Sticky Left Vertical Track */}
+      <div className="absolute top-0 bottom-0 left-4 sm:left-12 lg:left-16 w-8 pointer-events-none">
+        <div
+          className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
+          style={{ writingMode: "vertical-lr" }}
+        >
+          outline
+        </div>
       </div>
 
       {/* Outline list container structured exactly like mockups */}

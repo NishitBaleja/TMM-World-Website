@@ -7,7 +7,7 @@ export default function sitemap() {
   const routes = [
     "",
     "/company",
-    "/projects",
+    "/expertise",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString().split("T")[0],
@@ -15,13 +15,5 @@ export default function sitemap() {
     priority: route === "" ? 1.0 : 0.8,
   }));
 
-  // Dynamic project routes
-  const projectRoutes = siteContent.projects.map((project) => ({
-    url: `${baseUrl}/projects/${project.id}`,
-    lastModified: new Date().toISOString().split("T")[0],
-    changeFrequency: "monthly",
-    priority: 0.6,
-  }));
-
-  return [...routes, ...projectRoutes];
+  return routes;
 }

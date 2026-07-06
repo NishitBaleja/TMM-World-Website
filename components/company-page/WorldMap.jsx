@@ -31,15 +31,17 @@ export default function WorldMap() {
     <section
       ref={containerRef}
       id="map"
-      className="relative w-full h-[85vh] sm:h-screen flex flex-col justify-center items-center py-20 px-12 sm:px-16 lg:px-24 bg-transparent mb-[55vh]"
+      className="relative w-full h-[70vh] sm:h-[80vh] flex flex-col justify-center items-center py-12 px-12 sm:px-16 lg:px-24 bg-transparent mb-[35vh]"
       aria-label="Global Presence Map"
     >
-      {/* Left Vertical Track */}
-      <div
-        className="absolute left-4 sm:left-12 lg:left-16 top-16 text-[10px] uppercase tracking-[0.3em] text-[#908e8b]/40 font-medium select-none pointer-events-none"
-        style={{ writingMode: "vertical-lr" }}
-      >
-        company
+      {/* Sticky Left Vertical Track */}
+      <div className="absolute top-0 bottom-0 left-4 sm:left-12 lg:left-16 w-8 pointer-events-none">
+        <div
+          className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
+          style={{ writingMode: "vertical-lr" }}
+        >
+          presence
+        </div>
       </div>
     </section>
   );

@@ -62,12 +62,14 @@ export default function BasicInfo() {
         muted
         playsInline
       />
-      {/* Left Vertical Track */}
-      <div
-        className="reveal-el absolute left-4 sm:left-10 lg:left-14 top-48 text-[10px] uppercase tracking-[0.3em] text-[#908e8b] font-medium select-none pointer-events-none"
-        style={{ writingMode: "vertical-lr" }}
-      >
-        company
+      {/* Sticky Left Vertical Track */}
+      <div className="reveal-el absolute top-0 bottom-0 left-4 sm:left-10 lg:left-14 w-8 pointer-events-none z-20">
+        <div
+          className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
+          style={{ writingMode: "vertical-lr" }}
+        >
+          company
+        </div>
       </div>
 
       {/* Two Column Layout: Title on Left, Description on Right */}
@@ -94,7 +96,7 @@ export default function BasicInfo() {
       </div>
 
       {/* Year indicator (absolute positioned bottom left) */}
-      <div className="reveal-el absolute bottom-12 left-8 sm:left-12 lg:left-16 text-[9px] uppercase tracking-[0.25em] text-[#908e8b] font-medium select-none">
+      <div className="reveal-el absolute bottom-12 left-8 sm:left-12 lg:left-16 text-[9px] uppercase tracking-[0.25em] text-[#908e8b] font-medium select-none hidden sm:block">
         ©{new Date().getFullYear()}
       </div>
 

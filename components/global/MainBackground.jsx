@@ -123,7 +123,7 @@ export default function MainBackground({ forceLayer = null }) {
             "--fade-philosophy-to-projects": 1,
             ease: "none",
             scrollTrigger: {
-              trigger: "#projects",
+              trigger: "#expertise",
               start: "top bottom",
               end: "top top",
               scrub: true,

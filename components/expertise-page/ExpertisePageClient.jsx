@@ -2,23 +2,23 @@
 import React from "react";
 import Navbar from "@/components/global/Navbar";
 import Footer from "@/components/global/Footer";
-import ProjectsBackground from "@/components/projects-page/ProjectsBackground";
-import ProjectsHero from "@/components/projects-page/ProjectsHero";
-import ProjectsShowcase from "@/components/projects-page/ProjectsShowcase";
+import ExpertiseBackground from "@/components/expertise-page/ExpertiseBackground";
+import ExpertiseHero from "@/components/expertise-page/ExpertiseHero";
+import ExpertiseShowcase from "@/components/expertise-page/ExpertiseShowcase";
 import LiquidLensDistortion from "@/components/global/LiquidLensDistortion";
 
-export default function ProjectsPageClient() {
+export default function ExpertisePageClient() {
   return (
     <>
-      <ProjectsBackground />
+      <ExpertiseBackground />
       <LiquidLensDistortion lensRadius={200} maxDistort={48} speedFactor={18} projectsMode={true}>
         <div className="relative z-10 w-full min-h-screen bg-transparent">
           <Navbar />
           
-          <ProjectsHero />
+          <ExpertiseHero />
           
           <div className="relative z-10 bg-transparent">
-            <ProjectsShowcase />
+            <ExpertiseShowcase />
             <Footer />
           </div>
         </div>
