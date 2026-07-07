@@ -2,9 +2,11 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "@/lib/gsap";
-import { siteContent } from "@/lib/content";
+import { useLanguage } from "@/lib/LanguageContext";
+import LanguageFadeWrapper from "@/components/global/LanguageFadeWrapper";
 
 export default function Outline() {
+  const { content } = useLanguage();
   const containerRef = useRef(null);
 
   useGSAP(() => {
@@ -28,26 +30,27 @@ export default function Outline() {
   }, { scope: containerRef });
 
   return (
-    <section
-      ref={containerRef}
-      id="outline"
-      className="relative w-full min-h-screen flex flex-col justify-center pt-48 pb-48 px-12 sm:px-16 lg:px-24 border-t border-white/5 mb-[15vh]"
-      aria-label="Company Details"
-    >
-      {/* Sticky Left Vertical Track */}
-      <div className="absolute top-0 bottom-0 left-4 sm:left-12 lg:left-16 w-8 pointer-events-none">
-        <div
-          className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
-          style={{ writingMode: "vertical-lr" }}
-        >
-          outline
+    <LanguageFadeWrapper>
+      <section
+        ref={containerRef}
+        id="outline"
+        className="relative w-full min-h-screen flex flex-col justify-center pt-48 pb-48 px-12 sm:px-16 lg:px-24 border-t border-white/5 mb-[15vh]"
+        aria-label="Company Details"
+      >
+        {/* Sticky Left Vertical Track */}
+        <div className="absolute top-0 bottom-0 left-4 sm:left-12 lg:left-16 w-8 pointer-events-none">
+          <div
+            className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
+            style={{ writingMode: "vertical-lr" }}
+          >
+            {content.ui.outline}
+          </div>
         </div>
-      </div>
 
-      {/* Outline list container structured exactly like mockups */}
-      <dl className="pl-12 sm:pl-16 w-full max-w-5xl flex flex-col divide-y divide-white/10">
-        
-        {siteContent.company.outline.map((item, idx) => (
+        {/* Outline list container structured exactly like mockups */}
+        <dl className="pl-12 sm:pl-16 w-full max-w-5xl flex flex-col divide-y divide-white/10">
+          
+          {content.company.outline.map((item, idx) => (
           <div
             key={idx}
             className="reveal-outline-row py-8 md:py-10 grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-start text-left"
@@ -100,5 +103,6 @@ export default function Outline() {
         ))}
       </dl>
     </section>
+  </LanguageFadeWrapper>
   );
 }

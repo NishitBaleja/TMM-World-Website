@@ -2,7 +2,8 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap, { ScrollTrigger } from "@/lib/gsap";
-import { siteContent } from "@/lib/content";
+import { useLanguage } from "@/lib/LanguageContext";
+import LanguageFadeWrapper from "@/components/global/LanguageFadeWrapper";
 import Link from "next/link";
 
 // Constants for assets to allow easy swapping later
@@ -11,6 +12,7 @@ const PROJ_IMG_02 = "https://images.unsplash.com/photo-1576016770956-debb63d900b
 const PROJ_IMG_03 = "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&q=80&w=1000"; // Quiet flame / candle light / retreat and healing
 
 export default function Projects() {
+  const { content } = useLanguage();
   const containerRef = useRef(null);
   const desktopPinRef = useRef(null);
   const trackRef = useRef(null);
@@ -327,69 +329,168 @@ export default function Projects() {
     return () => mm.revert();
   }, { scope: containerRef });
 
-  const practices = siteContent.home.services;
+  const practices = content.home.services;
 
   return (
-    <section ref={containerRef} id="expertise" className="bg-transparent" aria-label="Key Expertise and Disciplines">
-      
-      {/* Desktop Horizontal Scroll Layout */}
-      <div ref={desktopPinRef} className="hidden md:block w-full h-screen overflow-hidden relative">
-        {/* Sticky Left Vertical Track for Desktop */}
-        <div className="absolute top-0 bottom-0 left-4 sm:left-12 lg:left-16 w-8 pointer-events-none z-20">
-          <div
-            className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
-            style={{ writingMode: "vertical-lr" }}
-          >
-            expertise
+    <LanguageFadeWrapper>
+      <section ref={containerRef} id="expertise" className="bg-transparent" aria-label="Key Expertise and Disciplines">
+        
+        {/* Desktop Horizontal Scroll Layout */}
+        <div ref={desktopPinRef} className="hidden md:block w-full h-screen overflow-hidden relative">
+          {/* Sticky Left Vertical Track for Desktop */}
+          <div className="absolute top-0 bottom-0 left-4 sm:left-12 lg:left-16 w-8 pointer-events-none z-20">
+            <div
+              className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
+              style={{ writingMode: "vertical-lr" }}
+            >
+              {content.ui.expertise}
+            </div>
+          </div>
+          <div ref={trackRef} className="flex h-full w-[400vw] flex-row items-center">
+            
+            {/* Section Cover Slide */}
+            <div className="project-slide w-screen h-screen flex flex-col justify-center px-12 lg:px-24 relative">
+              
+              <div className="max-w-4xl select-none text-left flex flex-col gap-8 pl-12 lg:pl-16">
+                <h2 className="font-serif text-5xl lg:text-7xl text-[#e6e4e2] leading-[1.2] font-light tracking-wide lowercase">
+                  <span className="block webgl-distort-text">{content.ui.shapingDigitalLine1}</span>
+                  <span className="block webgl-distort-text">{content.ui.shapingDigitalLine2}</span>
+                </h2>
+                <p className="text-sm lg:text-base leading-relaxed text-[#908e8b] font-light max-w-lg">
+                  {content.ui.expertiseDescription}
+                </p>
+                <div className="pt-4 relative group w-fit">
+                  <a
+                    href="/expertise"
+                    className="font-serif text-sm lg:text-base text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
+                  >
+                    {content.ui.viewAllExpertise}
+                    <span className="absolute left-0 top-1/2 w-full h-[1px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Cards Slides */}
+            {practices.map((practice) => (
+              <div
+                key={practice.num}
+                className="project-slide w-screen h-screen flex items-center justify-center px-12 lg:px-24 relative"
+              >
+                <div className="grid grid-cols-12 gap-12 items-center w-full max-w-7xl">
+                  
+                  {/* Text Column */}
+                  <div className="col-span-5 flex flex-col gap-6 text-left">
+                    <div className="flex items-baseline gap-4 select-none">
+                      <span className="font-mono text-xs text-[#908e8b]">{practice.num}</span>
+                      <h3 className="font-serif text-4xl lg:text-5xl text-[#e6e4e2] font-light lowercase webgl-distort-text">
+                        {practice.name}
+                      </h3>
+                    </div>
+                    
+                    <div className="flex flex-col gap-4 max-w-md">
+                      <p className="font-serif text-lg text-[#e6e4e2] leading-snug font-light italic">
+                        {practice.lead}
+                      </p>
+                      <p className="text-xs lg:text-sm leading-relaxed text-[#908e8b] font-light">
+                        {practice.description}
+                      </p>
+                      <div className="pt-2 relative group w-fit">
+                        <Link
+                          href={`/services/${practice.id}`}
+                          className="font-serif text-xs text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
+                        >
+                          {content.ui.viewDetails}
+                          <span className="absolute left-0 top-1/2 w-full h-[1px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Media Image Column */}
+                  <div className="col-span-7 flex justify-center items-center">
+                    <div className="w-full max-w-lg aspect-[3/4] bg-[#0c0c0c] border border-white/5 relative overflow-hidden flex items-center justify-center group" role="img" aria-label={`Bespoke design representation of ${practice.name}`}>
+                      <div
+                        className="project-img absolute inset-0 bg-cover bg-center"
+                        style={{
+                          backgroundImage: practice.img ? `url(${practice.img})` : "none",
+                          backgroundColor: "#0d0d0d"
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none" />
+                      <span className="font-serif text-xs text-white/10 select-none z-0">{practice.label} placeholder</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            ))}
+
           </div>
         </div>
-        <div ref={trackRef} className="flex h-full w-[400vw] flex-row items-center">
-          
-          {/* Section Cover Slide */}
-          <div className="project-slide w-screen h-screen flex flex-col justify-center px-12 lg:px-24 relative">
+
+        {/* Mobile Stacked Layout */}
+        <div className="block md:hidden px-12 py-20 relative">
+          {/* Sticky Left Vertical Track for Mobile */}
+          <div className="absolute top-0 bottom-0 left-4 sm:left-12 w-8 pointer-events-none z-20">
+            <div
+              className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
+              style={{ writingMode: "vertical-lr" }}
+            >
+              {content.ui.expertise}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-12 pl-12">
             
-            <div className="max-w-4xl select-none text-left flex flex-col gap-8 pl-12 lg:pl-16">
-              <h2 className="font-serif text-5xl lg:text-7xl text-[#e6e4e2] leading-[1.2] font-light tracking-wide lowercase">
-                <span className="block webgl-distort-text">shaping digital</span>
-                <span className="block webgl-distort-text">prominence</span>
+            {/* Mobile Cover Intro */}
+            <div className="flex flex-col gap-6 text-left">
+              <h2 className="font-serif text-3xl text-[#e6e4e2] leading-[1.3] font-light tracking-wide lowercase webgl-distort-text">
+                {content.ui.shapingDigitalLine1} {content.ui.shapingDigitalLine2}
               </h2>
-              <p className="text-sm lg:text-base leading-relaxed text-[#908e8b] font-light max-w-lg">
-                through three core expertise areas, tmmworld builds distinct brand identities, engineers custom web platforms, and manages organic social presence.
+              <p className="text-xs leading-relaxed text-[#908e8b] font-light">
+                {content.ui.expertiseDescription}
               </p>
-              <div className="pt-4 relative group w-fit">
+              <div className="pt-2 relative group w-fit">
                 <a
                   href="/expertise"
-                  className="font-serif text-sm lg:text-base text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
+                  className="font-serif text-xs text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
                 >
-                  —— view all expertise
+                  {content.ui.viewAllExpertise}
                   <span className="absolute left-0 top-1/2 w-full h-[1px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                 </a>
               </div>
             </div>
-          </div>
 
-          {/* Cards Slides */}
-          {practices.map((practice) => (
-            <div
-              key={practice.num}
-              className="project-slide w-screen h-screen flex items-center justify-center px-12 lg:px-24 relative"
-            >
-              <div className="grid grid-cols-12 gap-12 items-center w-full max-w-7xl">
-                
-                {/* Text Column */}
-                <div className="col-span-5 flex flex-col gap-6 text-left">
-                  <div className="flex items-baseline gap-4 select-none">
-                    <span className="font-mono text-xs text-[#908e8b]">{practice.num}</span>
-                    <h3 className="font-serif text-4xl lg:text-5xl text-[#e6e4e2] font-light lowercase webgl-distort-text">
-                      {practice.name}
-                    </h3>
+            {/* Mobile List Cards */}
+            <div className="flex flex-col gap-16 mt-6">
+              {practices.map((practice) => (
+                <div
+                  key={practice.num}
+                  className="mobile-project-card flex flex-col gap-6 text-left pt-8"
+                >
+                  <div className="w-full aspect-[4/5] bg-[#0c0c0c] border border-white/5 relative overflow-hidden flex items-center justify-center" role="img" aria-label={`Bespoke design representation of ${practice.name}`}>
+                    <div
+                      className="absolute inset-0 bg-cover bg-center"
+                      style={{
+                        backgroundImage: practice.img ? `url(${practice.img})` : "none",
+                      }}
+                    />
+                    <span className="font-serif text-xs text-white/10 select-none">{practice.label} placeholder</span>
                   </div>
-                  
-                  <div className="flex flex-col gap-4 max-w-md">
-                    <p className="font-serif text-lg text-[#e6e4e2] leading-snug font-light italic">
+
+                  <div className="flex flex-col gap-4">
+                    <div className="flex items-baseline gap-3">
+                      <span className="font-mono text-[10px] text-[#908e8b]">{practice.num}</span>
+                      <h3 className="font-serif text-2xl text-[#e6e4e2] font-light lowercase webgl-distort-text">
+                        {practice.name}
+                      </h3>
+                    </div>
+                    
+                    <p className="font-serif text-sm text-[#e6e4e2] font-light italic">
                       {practice.lead}
                     </p>
-                    <p className="text-xs lg:text-sm leading-relaxed text-[#908e8b] font-light">
+                    <p className="text-xs leading-relaxed text-[#908e8b] font-light">
                       {practice.description}
                     </p>
                     <div className="pt-2 relative group w-fit">
@@ -397,116 +498,19 @@ export default function Projects() {
                         href={`/services/${practice.id}`}
                         className="font-serif text-xs text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
                       >
-                        —— view details
+                        {content.ui.viewDetails}
                         <span className="absolute left-0 top-1/2 w-full h-[1px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                       </Link>
                     </div>
                   </div>
                 </div>
-
-                {/* Media Image Column */}
-                <div className="col-span-7 flex justify-center items-center">
-                  <div className="w-full max-w-lg aspect-[3/4] bg-[#0c0c0c] border border-white/5 relative overflow-hidden flex items-center justify-center group" role="img" aria-label={`Bespoke design representation of ${practice.name}`}>
-                    <div
-                      className="project-img absolute inset-0 bg-cover bg-center"
-                      style={{
-                        backgroundImage: practice.img ? `url(${practice.img})` : "none",
-                        backgroundColor: "#0d0d0d"
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none" />
-                    <span className="font-serif text-xs text-white/10 select-none z-0">{practice.label} placeholder</span>
-                  </div>
-                </div>
-
-              </div>
+              ))}
             </div>
-          ))}
 
-        </div>
-      </div>
-
-      {/* Mobile Stacked Layout */}
-      <div className="block md:hidden px-12 py-20 relative">
-        {/* Sticky Left Vertical Track for Mobile */}
-        <div className="absolute top-0 bottom-0 left-4 sm:left-12 w-8 pointer-events-none z-20">
-          <div
-            className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
-            style={{ writingMode: "vertical-lr" }}
-          >
-            expertise
           </div>
         </div>
 
-        <div className="flex flex-col gap-12 pl-12">
-          
-          {/* Mobile Cover Intro */}
-          <div className="flex flex-col gap-6 text-left">
-            <h2 className="font-serif text-3xl text-[#e6e4e2] leading-[1.3] font-light tracking-wide lowercase webgl-distort-text">
-              shaping digital prominence
-            </h2>
-            <p className="text-xs leading-relaxed text-[#908e8b] font-light">
-              through three core expertise areas, tmmworld builds distinct brand identities, engineers custom web platforms, and manages organic social presence.
-            </p>
-            <div className="pt-2 relative group w-fit">
-              <a
-                href="/expertise"
-                className="font-serif text-xs text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
-              >
-                —— view all expertise
-                <span className="absolute left-0 top-1/2 w-full h-[1px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
-              </a>
-            </div>
-          </div>
-
-          {/* Mobile List Cards */}
-          <div className="flex flex-col gap-16 mt-6">
-            {practices.map((practice) => (
-              <div
-                key={practice.num}
-                className="mobile-project-card flex flex-col gap-6 text-left pt-8"
-              >
-                <div className="w-full aspect-[4/5] bg-[#0c0c0c] border border-white/5 relative overflow-hidden flex items-center justify-center" role="img" aria-label={`Bespoke design representation of ${practice.name}`}>
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{
-                      backgroundImage: practice.img ? `url(${practice.img})` : "none",
-                    }}
-                  />
-                  <span className="font-serif text-xs text-white/10 select-none">{practice.label} placeholder</span>
-                </div>
-
-                <div className="flex flex-col gap-4">
-                  <div className="flex items-baseline gap-3">
-                    <span className="font-mono text-[10px] text-[#908e8b]">{practice.num}</span>
-                    <h3 className="font-serif text-2xl text-[#e6e4e2] font-light lowercase webgl-distort-text">
-                      {practice.name}
-                    </h3>
-                  </div>
-                  
-                  <p className="font-serif text-sm text-[#e6e4e2] font-light italic">
-                    {practice.lead}
-                  </p>
-                  <p className="text-xs leading-relaxed text-[#908e8b] font-light">
-                    {practice.description}
-                  </p>
-                  <div className="pt-2 relative group w-fit">
-                    <Link
-                      href={`/services/${practice.id}`}
-                      className="font-serif text-xs text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
-                    >
-                      —— view details
-                      <span className="absolute left-0 top-1/2 w-full h-[1px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </div>
-
-    </section>
+      </section>
+    </LanguageFadeWrapper>
   );
 }

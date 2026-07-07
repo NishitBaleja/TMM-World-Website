@@ -1,5 +1,3 @@
-import { siteContent } from "@/lib/content";
-
 export default function sitemap() {
   const baseUrl = "https://tmmworld.com";
 

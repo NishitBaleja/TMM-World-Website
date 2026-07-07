@@ -2,11 +2,13 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap, { ScrollTrigger } from "@/lib/gsap";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const BG_1 = "/images/home/hero-bg-img.webp";
 const BG_2 = "/images/company/map-bg-img.webp";
 
 export default function CompanyBackground() {
+  const { content } = useLanguage();
   const containerRef = useRef(null);
 
   useGSAP(() => {

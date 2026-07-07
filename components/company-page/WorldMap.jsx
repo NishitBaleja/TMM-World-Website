@@ -2,9 +2,11 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "@/lib/gsap";
-import { siteContent } from "@/lib/content";
+import { useLanguage } from "@/lib/LanguageContext";
+import LanguageFadeWrapper from "@/components/global/LanguageFadeWrapper";
 
 export default function WorldMap() {
+  const { content } = useLanguage();
   const containerRef = useRef(null);
 
   useGSAP(() => {
@@ -28,21 +30,23 @@ export default function WorldMap() {
   }, { scope: containerRef });
 
   return (
-    <section
-      ref={containerRef}
-      id="map"
-      className="relative w-full h-[70vh] sm:h-[80vh] flex flex-col justify-center items-center py-12 px-12 sm:px-16 lg:px-24 bg-transparent mb-[35vh]"
-      aria-label="Global Presence Map"
-    >
-      {/* Sticky Left Vertical Track */}
-      <div className="absolute top-0 bottom-0 left-4 sm:left-12 lg:left-16 w-8 pointer-events-none">
-        <div
-          className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
-          style={{ writingMode: "vertical-lr" }}
-        >
-          presence
+    <LanguageFadeWrapper>
+      <section
+        ref={containerRef}
+        id="map"
+        className="relative w-full h-[70vh] sm:h-[80vh] flex flex-col justify-center items-center py-12 px-12 sm:px-16 lg:px-24 bg-transparent mb-[35vh]"
+        aria-label="Global Presence Map"
+      >
+        {/* Sticky Left Vertical Track */}
+        <div className="absolute top-0 bottom-0 left-4 sm:left-12 lg:left-16 w-8 pointer-events-none">
+          <div
+            className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
+            style={{ writingMode: "vertical-lr" }}
+          >
+            {content.ui.presence}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </LanguageFadeWrapper>
   );
 }

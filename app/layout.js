@@ -1,11 +1,12 @@
 import "./globals.css";
 import SmoothScroll from "@/components/global/SmoothScroll";
 import PageTransition from "@/components/global/PageTransition";
+import { LanguageProvider } from "@/lib/LanguageContext";
 
 
 export const metadata = {
   title: {
-    default: "TMMWORLD | IT Company & Premium Web Development in Jamnagar",
+    default: "TMMWORLD",
     template: "%s | TMMWORLD Jamnagar"
   },
   description: "TMMWORLD is a premier IT company and web development agency in Jamnagar. We help businesses and people build brands, custom software architectures, and scalable digital systems.",
@@ -25,7 +26,7 @@ export const metadata = {
     },
   },
   openGraph: {
-    title: "TMMWORLD | IT Company & Premium Web Development in Jamnagar",
+    title: "TMMWORLD",
     description: "TMMWORLD is a premier IT company and web development agency in Jamnagar. We help businesses and people build brands, custom software architectures, and scalable digital systems.",
     url: "https://tmmworld.com",
     siteName: "TMMWORLD",
@@ -106,11 +107,13 @@ export default function RootLayout({ children }) {
       >
 
         <div className="grain-overlay" />
-        <SmoothScroll>
-          <PageTransition>
-            {children}
-          </PageTransition>
-        </SmoothScroll>
+        <LanguageProvider>
+          <SmoothScroll>
+            <PageTransition>
+              {children}
+            </PageTransition>
+          </SmoothScroll>
+        </LanguageProvider>
       </body>
     </html>
   );

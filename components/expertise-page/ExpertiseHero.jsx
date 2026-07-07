@@ -2,8 +2,11 @@
 import React, { useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "@/lib/gsap";
+import { useLanguage } from "@/lib/LanguageContext";
+import LanguageFadeWrapper from "@/components/global/LanguageFadeWrapper";
 
 export default function ExpertiseHero() {
+  const { content } = useLanguage();
   const heroRef = useRef(null);
   const smokeRef = useRef(null);
 
@@ -77,60 +80,62 @@ export default function ExpertiseHero() {
   });
 
   return (
-    <section
-      ref={heroRef}
-      id="expertise-hero"
-      className="relative w-full h-screen flex flex-col justify-end pb-12 px-12 sm:pl-32 sm:pr-24 lg:pl-[16vw] lg:pr-36 mb-[65vh]"
-      aria-label="Expertise Page Hero Header"
-    >
-      {/* Smoke Video Overlay */}
-      <video
-        ref={smokeRef}
-        className="fixed inset-0 w-full h-full object-cover mix-blend-screen opacity-[0.2] pointer-events-none z-[1] expertise-smoke-overlay"
-        src="/video/smoke-overlay.webm"
-        autoPlay
-        loop
-        muted
-        playsInline
-      />
-
-      {/* Left Vertical Track Label */}
-      <div
-        className="reveal-hero absolute left-4 sm:left-10 lg:left-14 top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none pointer-events-none"
-        style={{ writingMode: "vertical-lr" }}
+    <LanguageFadeWrapper>
+      <section
+        ref={heroRef}
+        id="expertise-hero"
+        className="relative w-full h-screen flex flex-col justify-end pb-12 px-12 sm:pl-32 sm:pr-24 lg:pl-[16vw] lg:pr-36 mb-[65vh]"
+        aria-label="Expertise Page Hero Header"
       >
-        expertise
-      </div>
+        {/* Smoke Video Overlay */}
+        <video
+          ref={smokeRef}
+          className="fixed inset-0 w-full h-full object-cover mix-blend-screen opacity-[0.2] pointer-events-none z-[1] expertise-smoke-overlay"
+          src="/video/smoke-overlay.webm"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
 
-      {/* Hero Main Content */}
-      <div className="hero-content-wrapper pl-4 sm:pl-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start mb-0 lg:translate-y-[8vh]">
-        <div className="lg:col-span-7 flex flex-col gap-4">
-          <h1 className="reveal-hero font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#e6e4e2] leading-[1.1] font-light lowercase select-none webgl-distort-text">
-            our expertise & capabilities
-          </h1>
-        </div>
-
-        <div className="lg:col-span-5 flex flex-col gap-6 text-left max-w-md lg:pt-36 lg:translate-y-[15vh]">
-          <p className="reveal-hero text-xs sm:text-sm leading-relaxed text-[#908e8b] font-light">
-            Our methodology is rooted in rigorous market research, deep competitive analysis, and strategic consumer insights before we write a single line of code or design a single asset. At TMM-WORLD, we deep dive into your business ecosystem to identify growth bottlenecks and untapped digital opportunities. Through this analytical foundation, we execute our three core disciplines: shaping prominent market-leading brands, engineering high-performance custom web solutions, and orchestrating elite social media architectures with absolute corporate precision. We don't just deliver services; we deploy data-backed digital frameworks that drive measurable enterprise scaling and long-term market dominance.
-          </p>
-        </div>
-      </div>
-
-      {/* Year Indicator (Bottom Left) */}
-      <div className="reveal-hero absolute bottom-12 left-8 sm:left-12 lg:left-16 text-[9px] uppercase tracking-[0.25em] text-[#908e8b] font-medium select-none hidden sm:block">
-        ©2026
-      </div>
-
-      {/* Scroll Indicator (Bottom Right) */}
-      <div className="reveal-hero absolute bottom-12 right-8 sm:right-12 lg:right-16 select-none md:block hidden">
-        <a
-          href="#brand-building"
-          className="hover:text-[#d4c3b3] transition-colors duration-300 text-[10px] uppercase tracking-[0.2em] font-medium"
+        {/* Left Vertical Track Label */}
+        <div
+          className="reveal-hero absolute left-4 sm:left-10 lg:left-14 top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none pointer-events-none"
+          style={{ writingMode: "vertical-lr" }}
         >
-          scroll
-        </a>
-      </div>
-    </section>
+          {content.ui.expertise}
+        </div>
+
+        {/* Hero Main Content */}
+        <div className="hero-content-wrapper pl-4 sm:pl-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start mb-0 lg:translate-y-[8vh]">
+          <div className="lg:col-span-7 flex flex-col gap-4">
+            <h1 className="reveal-hero font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#e6e4e2] leading-[1.1] font-light lowercase select-none webgl-distort-text">
+              {content.ui.ourExpertiseCapabilities}
+            </h1>
+          </div>
+
+          <div className="lg:col-span-5 flex flex-col gap-6 text-left max-w-md lg:pt-36 lg:translate-y-[15vh]">
+            <p className="reveal-hero text-xs sm:text-sm leading-relaxed text-[#908e8b] font-light">
+              {content.ui.methodologyDescription}
+            </p>
+          </div>
+        </div>
+
+        {/* Year Indicator (Bottom Left) */}
+        <div className="reveal-hero absolute bottom-12 left-8 sm:left-12 lg:left-16 text-[9px] uppercase tracking-[0.25em] text-[#908e8b] font-medium select-none hidden sm:block">
+          ©{new Date().getFullYear()}
+        </div>
+
+        {/* Scroll Indicator (Bottom Right) */}
+        <div className="reveal-hero absolute bottom-12 right-8 sm:right-12 lg:right-16 select-none md:block hidden">
+          <a
+            href="#brand-building"
+            className="hover:text-[#d4c3b3] transition-colors duration-300 text-[10px] uppercase tracking-[0.2em] font-medium"
+          >
+            {content.ui.scroll}
+          </a>
+        </div>
+      </section>
+    </LanguageFadeWrapper>
   );
 }

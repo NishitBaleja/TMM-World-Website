@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
-import { siteContent } from "@/lib/content";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,7 +10,7 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState("hero");
   const [displayText, setDisplayText] = useState("");
   const [isVisible, setIsVisible] = useState(false);
-  const [activeLang, setActiveLang] = useState("en");
+  const { language: activeLang, changeLanguage: setActiveLang, content } = useLanguage();
   const displayTextRef = React.useRef("");
   const isVisibleRef = React.useRef(false);
 
@@ -29,13 +29,13 @@ export default function Navbar() {
 
   useEffect(() => {
     const updateTimes = () => {
-      setDelhiTime(getTzTime(siteContent.global.addresses.newDelhi.timezone));
-      setNewYorkTime(getTzTime(siteContent.global.addresses.newYork.timezone));
+      setDelhiTime(getTzTime(content.global.addresses.newDelhi.timezone));
+      setNewYorkTime(getTzTime(content.global.addresses.newYork.timezone));
     };
     updateTimes();
     const timer = setInterval(updateTimes, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [content]);
 
   const updateDisplayText = (val) => {
     displayTextRef.current = val;
@@ -88,9 +88,9 @@ export default function Navbar() {
     }
 
     const labels = {
-      philosophy: "philosophy",
-      expertise: "expertise",
-      company: "company",
+      philosophy: content.ui.philosophy,
+      expertise: content.ui.expertise,
+      company: content.ui.company,
     };
     const newLabel = labels[activeSection] || activeSection;
 
@@ -107,7 +107,7 @@ export default function Navbar() {
     } else if (!isVisibleRef.current) {
       updateVisibility(true);
     }
-  }, [activeSection, isMenuOpen]);
+  }, [activeSection, isMenuOpen, content]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
   return (
@@ -178,7 +178,7 @@ export default function Navbar() {
           >
             <span className="w-1 h-1 rounded-full bg-white/30 transition-transform duration-300" />
             <span className="font-semibold text-[10px] tracking-[0.25em] relative block py-0.5">
-              {isMenuOpen ? "CLOSE" : "MENU"}
+              {isMenuOpen ? content.ui.close : content.ui.menu}
               <span className="absolute left-0 top-1/2 w-full h-[1px] bg-white scale-x-0 origin-left transition-transform duration-300 ease-out group-hover:scale-x-100" />
             </span>
           </button>
@@ -210,7 +210,7 @@ export default function Navbar() {
                 className="font-serif text-4xl md:text-6xl text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors uppercase block relative group w-fit"
               >
                 <span className="inline-block relative">
-                  home
+                  {content.ui.home}
                   <span className="absolute left-0 top-1/2 w-full h-[2px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                 </span>
               </Link>
@@ -224,7 +224,7 @@ export default function Navbar() {
                 className="font-serif text-4xl md:text-6xl text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors uppercase block relative group w-fit"
               >
                 <span className="inline-block relative">
-                  expertise
+                  {content.ui.expertise}
                   <span className="absolute left-0 top-1/2 w-full h-[2px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                 </span>
               </Link>
@@ -238,7 +238,7 @@ export default function Navbar() {
                 className="font-serif text-4xl md:text-6xl text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors uppercase block relative group w-fit"
               >
                 <span className="inline-block relative">
-                  company
+                  {content.ui.company}
                   <span className="absolute left-0 top-1/2 w-full h-[2px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                 </span>
               </Link>
@@ -250,21 +250,21 @@ export default function Navbar() {
             {/* Clocks Row */}
             <div className="flex flex-col sm:flex-row gap-12 sm:gap-16">
               <div className="flex flex-col gap-3">
-                <span className="text-[#908e8b] text-[10px] tracking-[0.25em] uppercase font-semibold">{siteContent.global.addresses.newDelhi.title}</span>
+                <span className="text-[#908e8b] text-[10px] tracking-[0.25em] uppercase font-semibold">{content.global.addresses.newDelhi.title}</span>
                 <span className="font-mono text-2xl sm:text-3xl md:text-4xl text-[#e6e4e2] font-extralight select-none tracking-widest leading-none">{delhiTime}</span>
               </div>
               <div className="flex flex-col gap-3">
-                <span className="text-[#908e8b] text-[10px] tracking-[0.25em] uppercase font-semibold">{siteContent.global.addresses.newYork.title}</span>
+                <span className="text-[#908e8b] text-[10px] tracking-[0.25em] uppercase font-semibold">{content.global.addresses.newYork.title}</span>
                 <span className="font-mono text-2xl sm:text-3xl md:text-4xl text-[#e6e4e2] font-extralight select-none tracking-widest leading-none">{newYorkTime}</span>
               </div>
             </div>
 
             {/* Address Row (below timezones) */}
             <div className="flex flex-col gap-3 border-t border-white/10 pt-8 max-w-md">
-              <span className="text-white/20 select-none text-[10px] tracking-[0.25em] uppercase font-semibold">{siteContent.global.addresses.gujarat.title}</span>
+              <span className="text-white/20 select-none text-[10px] tracking-[0.25em] uppercase font-semibold">{content.global.addresses.gujarat.title}</span>
               <p className="normal-case leading-relaxed font-sans font-light text-sm sm:text-base md:text-lg text-[#e6e4e2] max-w-[320px]">
-                {siteContent.global.addresses.gujarat.line1},<br />
-                {siteContent.global.addresses.gujarat.line2}
+                {content.global.addresses.gujarat.line1},<br />
+                {content.global.addresses.gujarat.line2}
               </p>
             </div>
           </div>
@@ -274,8 +274,8 @@ export default function Navbar() {
         <div className="flex justify-between items-center text-[10px] text-[#908e8b] tracking-[0.2em] w-full max-w-7xl mx-auto z-10 mt-8 pt-6">
           <span>©{new Date().getFullYear()}</span>
           <div className="flex gap-6">
-            <a href={siteContent.global.socials.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">WHATSAPP</a>
-            <a href={siteContent.global.socials.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">INSTAGRAM</a>
+            <a href={content.global.socials.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">WHATSAPP</a>
+            <a href={content.global.socials.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">INSTAGRAM</a>
           </div>
         </div>
       </div>

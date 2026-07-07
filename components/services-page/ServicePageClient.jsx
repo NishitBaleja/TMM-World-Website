@@ -4,14 +4,16 @@ import { useGSAP } from "@gsap/react";
 import gsap from "@/lib/gsap";
 import Navbar from "@/components/global/Navbar";
 import Footer from "@/components/global/Footer";
-import { siteContent } from "@/lib/content";
+import { useLanguage } from "@/lib/LanguageContext";
+import LanguageFadeWrapper from "@/components/global/LanguageFadeWrapper";
 import Link from "next/link";
 
 export default function ServicePageClient({ serviceId }) {
+  const { content } = useLanguage();
   const containerRef = useRef(null);
   const smokeRef = useRef(null);
 
-  const details = siteContent.serviceDetails[serviceId];
+  const details = content.serviceDetails[serviceId];
 
   // Playback rate adjustment for smoke video
   useEffect(() => {
@@ -73,47 +75,50 @@ export default function ServicePageClient({ serviceId }) {
 
   if (!details) {
     return (
-      <div className="min-h-screen bg-[#080808] flex items-center justify-center text-white">
-        <div className="text-center flex flex-col gap-4">
-          <h1 className="font-serif text-3xl">Service not found</h1>
-          <Link href="/" className="text-sm underline text-[#d4c3b3]">Go back home</Link>
+      <LanguageFadeWrapper>
+        <div className="min-h-screen bg-[#080808] flex items-center justify-center text-white">
+          <div className="text-center flex flex-col gap-4">
+            <h1 className="font-serif text-3xl">{content.ui.serviceNotFound}</h1>
+            <Link href="/" className="text-sm underline text-[#d4c3b3]">{content.ui.goBackHome}</Link>
+          </div>
         </div>
-      </div>
+      </LanguageFadeWrapper>
     );
   }
 
   return (
-    <div ref={containerRef} className="relative z-10 w-full min-h-screen bg-[#080808] text-[#e6e4e2] font-sans overflow-x-clip">
-      <Navbar />
+    <LanguageFadeWrapper>
+      <div ref={containerRef} className="relative z-10 w-full min-h-screen bg-[#080808] text-[#e6e4e2] font-sans overflow-x-clip">
+        <Navbar />
 
-      {/* Smoke Video Overlay */}
-      <video
-        ref={smokeRef}
-        className="fixed inset-0 w-full h-full object-cover mix-blend-screen opacity-[0.25] pointer-events-none z-[1]"
-        src="/video/smoke-overlay.webm"
-        autoPlay
-        loop
-        muted
-        playsInline
-      />
+        {/* Smoke Video Overlay */}
+        <video
+          ref={smokeRef}
+          className="fixed inset-0 w-full h-full object-cover mix-blend-screen opacity-[0.25] pointer-events-none z-[1]"
+          src="/video/smoke-overlay.webm"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
 
-      {/* Hero Section */}
-      <section className="relative w-full pt-48 pb-20 px-6 sm:px-16 lg:px-24 max-w-7xl mx-auto flex flex-col gap-8 z-10">
-        <div className="flex flex-col gap-4 max-w-3xl">
-          <span className="reveal-el text-[#908e8b] font-sans text-xs tracking-[0.25em] font-light block uppercase">
-            service detail
-          </span>
-          <h1 className="reveal-el font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#e6e4e2] leading-[1.1] font-light lowercase select-none">
-            {details.title}
-          </h1>
-          <p className="reveal-el text-lg sm:text-xl text-[#d4c3b3] font-serif font-light italic mt-2">
-            {details.subtitle}
-          </p>
-        </div>
-        <div className="reveal-el max-w-2xl text-sm sm:text-base leading-relaxed text-[#908e8b] font-light mt-4">
-          {details.extendedDesc}
-        </div>
-      </section>
+        {/* Hero Section */}
+        <section className="relative w-full pt-48 pb-20 px-6 sm:px-16 lg:px-24 max-w-7xl mx-auto flex flex-col gap-8 z-10">
+          <div className="flex flex-col gap-4 max-w-3xl">
+            <span className="reveal-el text-[#908e8b] font-sans text-xs tracking-[0.25em] font-light block uppercase">
+              {content.ui.serviceDetail}
+            </span>
+            <h1 className="reveal-el font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#e6e4e2] leading-[1.1] font-light lowercase select-none">
+              {details.title}
+            </h1>
+            <p className="reveal-el text-lg sm:text-xl text-[#d4c3b3] font-serif font-light italic mt-2">
+              {details.subtitle}
+            </p>
+          </div>
+          <div className="reveal-el max-w-2xl text-sm sm:text-base leading-relaxed text-[#908e8b] font-light mt-4">
+            {details.extendedDesc}
+          </div>
+        </section>
 
       {/* Unique Staggered 3-Image Layout (9:16 Aspect Ratio) */}
       <section className="w-full py-16 px-6 sm:px-16 lg:px-24 max-w-7xl mx-auto z-10 relative">
@@ -127,7 +132,7 @@ export default function ServicePageClient({ serviceId }) {
             />
             <div className="absolute inset-0 bg-black/25 pointer-events-none z-10" />
             <div className="absolute bottom-6 left-6 z-20 font-mono text-[10px] text-[#908e8b] tracking-wider uppercase select-none">
-              discipline — 01
+              {content.ui.discipline} — 01
             </div>
           </div>
 
@@ -139,7 +144,7 @@ export default function ServicePageClient({ serviceId }) {
             />
             <div className="absolute inset-0 bg-black/25 pointer-events-none z-10" />
             <div className="absolute bottom-6 left-6 z-20 font-mono text-[10px] text-[#908e8b] tracking-wider uppercase select-none">
-              execution — 02
+              {content.ui.execution} — 02
               </div>
           </div>
 
@@ -151,7 +156,7 @@ export default function ServicePageClient({ serviceId }) {
             />
             <div className="absolute inset-0 bg-black/25 pointer-events-none z-10" />
             <div className="absolute bottom-6 left-6 z-20 font-mono text-[10px] text-[#908e8b] tracking-wider uppercase select-none">
-              outcome — 03
+              {content.ui.outcome} — 03
             </div>
           </div>
 
@@ -164,9 +169,9 @@ export default function ServicePageClient({ serviceId }) {
           
           {/* Left Header */}
           <div className="lg:col-span-4 flex flex-col gap-4">
-            <span className="text-[#908e8b] text-[10px] tracking-[0.25em] uppercase font-semibold">methodology</span>
+            <span className="text-[#908e8b] text-[10px] tracking-[0.25em] uppercase font-semibold">{content.ui.methodology}</span>
             <h2 className="font-serif text-3xl md:text-4xl text-[#e6e4e2] font-light lowercase">
-              how we execute
+              {content.ui.howWeExecute}
             </h2>
           </div>
 
@@ -188,5 +193,6 @@ export default function ServicePageClient({ serviceId }) {
 
       <Footer />
     </div>
+  </LanguageFadeWrapper>
   );
 }

@@ -5,12 +5,14 @@ import { useGSAP } from "@gsap/react";
 import gsap from "@/lib/gsap";
 import Link from "next/link";
 import Logo from "../global/Logo";
-import { siteContent } from "@/lib/content";
+import { useLanguage } from "@/lib/LanguageContext";
+import LanguageFadeWrapper from "@/components/global/LanguageFadeWrapper";
 
 // Constants for assets to allow easy swapping later
 const COMP_BG_IMG = "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600"; // Quiet minimal office/interior space
 
 export default function Company() {
+  const { content } = useLanguage();
   const containerRef = useRef(null);
   const contentRef = useRef(null);
   const bgRef = useRef(null);
@@ -31,8 +33,8 @@ export default function Company() {
 
   useEffect(() => {
     const updateTimes = () => {
-      setDelhiTime(getTzTimeObj(siteContent.global.addresses.newDelhi.timezone));
-      setNewYorkTime(getTzTime(siteContent.global.addresses.newYork.timezone));
+      setDelhiTime(getTzTimeObj(content.global.addresses.newDelhi.timezone));
+      setNewYorkTime(getTzTime(content.global.addresses.newYork.timezone));
     };
     // Helper to get time string for NY timezone from getTzTimeObj compatibility
     const getTzTime = (offsetHours) => getTzTimeObj(offsetHours);
@@ -40,7 +42,7 @@ export default function Company() {
     updateTimes();
     const timer = setInterval(updateTimes, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [content]);
 
   useGSAP(() => {
     // Hierarchical text reveal using a timeline for reliable sequencing
@@ -85,85 +87,87 @@ export default function Company() {
   }, { scope: containerRef });
 
   return (
-    <section
-      ref={containerRef}
-      id="company"
-      className="relative w-full min-h-screen bg-transparent text-[#e6e4e2] flex items-center justify-center py-24 md:py-36 px-12 md:px-12 overflow-clip"
-      aria-label="About the Collective"
-    >
-      {/* Sticky Left Vertical Track */}
-      <div className="absolute top-0 bottom-0 left-4 sm:left-12 lg:left-16 w-8 pointer-events-none z-20">
-        <div
-          className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
-          style={{ writingMode: "vertical-lr" }}
-        >
-          company
-        </div>
-      </div>
-
-      <div
-        ref={contentRef}
-        className="relative z-10 w-full max-w-4xl flex flex-col items-center justify-center text-center gap-10 md:gap-14 font-sans"
+    <LanguageFadeWrapper>
+      <section
+        ref={containerRef}
+        id="company"
+        className="relative w-full min-h-screen bg-transparent text-[#e6e4e2] flex items-center justify-center py-24 md:py-36 px-12 md:px-12 overflow-clip"
+        aria-label="About the Collective"
       >
-
-        {/* Logo Icon */}
-        <div className="flex flex-col items-center justify-center text-[#e6e4e2] select-none scale-110">
-          <Logo className="w-14 h-28 md:w-16 md:h-32" />
-        </div>
-
-        {/* Heading */}
-        <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#e6e4e2] font-light tracking-wide lowercase select-none webgl-distort-text">
-          {siteContent.home.company.heading}
-        </h2>
-
-        {/* Text descriptions */}
-        <div className="flex flex-col gap-6 max-w-2xl text-sm sm:text-base leading-relaxed text-[#908e8b] font-light text-center px-4">
-          {siteContent.home.company.paragraphs.map((p, idx) => (
-            <p key={idx}>{p}</p>
-          ))}
-        </div>
-
-        {/* Clocks Detail Container */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-16 w-full max-w-lg py-8 mt-4 select-none">
-          
-          {/* New Delhi Clock */}
-          <div className="flex flex-col items-center gap-2">
-            <div className="flex items-center gap-3 font-mono text-3xl md:text-4xl text-white font-extralight tracking-wider">
-              <span>{delhiTime.h}</span>
-              <span className="text-white/30 font-light select-none"> </span>
-              <span>{delhiTime.m}</span>
-              <span className="text-white/30 font-light select-none"> </span>
-              <span className="text-white/60 text-2xl md:text-3xl font-light">{delhiTime.s}</span>
-            </div>
-            <span className="text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">{siteContent.global.addresses.newDelhi.timezoneLabel}</span>
-          </div>
-
-          {/* New York Clock */}
-          <div className="flex flex-col items-center gap-2">
-            <div className="flex items-center gap-3 font-mono text-3xl md:text-4xl text-white font-extralight tracking-wider">
-              <span>{newYorkTime.h}</span>
-              <span className="text-white/30 font-light select-none"> </span>
-              <span>{newYorkTime.m}</span>
-              <span className="text-white/30 font-light select-none"> </span>
-              <span className="text-white/60 text-2xl md:text-3xl font-light">{newYorkTime.s}</span>
-            </div>
-            <span className="text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">{siteContent.global.addresses.newYork.timezoneLabel}</span>
-          </div>
-
-        </div>
-
-        {/* Button */}
-        <div className="pt-4 relative group w-fit mx-auto">
-          <Link
-            href="/company"
-            className="font-serif text-lg md:text-xl text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
+        {/* Sticky Left Vertical Track */}
+        <div className="absolute top-0 bottom-0 left-4 sm:left-12 lg:left-16 w-8 pointer-events-none z-20">
+          <div
+            className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
+            style={{ writingMode: "vertical-lr" }}
           >
-            view company
-            <span className="absolute left-0 top-1/2 w-full h-[1.5px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
-          </Link>
+            {content.ui.company}
+          </div>
         </div>
 
-      </div>
-    </section>
+        <div
+          ref={contentRef}
+          className="relative z-10 w-full max-w-4xl flex flex-col items-center justify-center text-center gap-10 md:gap-14 font-sans"
+        >
+
+          {/* Logo Icon */}
+          <div className="flex flex-col items-center justify-center text-[#e6e4e2] select-none scale-110">
+            <Logo className="w-14 h-28 md:w-16 md:h-32" />
+          </div>
+
+          {/* Heading */}
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#e6e4e2] font-light tracking-wide lowercase select-none webgl-distort-text">
+            {content.home.company.heading}
+          </h2>
+
+          {/* Text descriptions */}
+          <div className="flex flex-col gap-6 max-w-2xl text-sm sm:text-base leading-relaxed text-[#908e8b] font-light text-center px-4">
+            {content.home.company.paragraphs.map((p, idx) => (
+              <p key={idx}>{p}</p>
+            ))}
+          </div>
+
+          {/* Clocks Detail Container */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-16 w-full max-w-lg py-8 mt-4 select-none">
+            
+            {/* New Delhi Clock */}
+            <div className="flex flex-col items-center gap-2">
+              <div className="flex items-center gap-3 font-mono text-3xl md:text-4xl text-white font-extralight tracking-wider">
+                <span>{delhiTime.h}</span>
+                <span className="text-white/30 font-light select-none"> </span>
+                <span>{delhiTime.m}</span>
+                <span className="text-white/30 font-light select-none"> </span>
+                <span className="text-white/60 text-2xl md:text-3xl font-light">{delhiTime.s}</span>
+              </div>
+              <span className="text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">{content.global.addresses.newDelhi.timezoneLabel}</span>
+            </div>
+
+            {/* New York Clock */}
+            <div className="flex flex-col items-center gap-2">
+              <div className="flex items-center gap-3 font-mono text-3xl md:text-4xl text-white font-extralight tracking-wider">
+                <span>{newYorkTime.h}</span>
+                <span className="text-white/30 font-light select-none"> </span>
+                <span>{newYorkTime.m}</span>
+                <span className="text-white/30 font-light select-none"> </span>
+                <span className="text-white/60 text-2xl md:text-3xl font-light">{newYorkTime.s}</span>
+              </div>
+              <span className="text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">{content.global.addresses.newYork.timezoneLabel}</span>
+            </div>
+
+          </div>
+
+          {/* Button */}
+          <div className="pt-4 relative group w-fit mx-auto">
+            <Link
+              href="/company"
+              className="font-serif text-lg md:text-xl text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
+            >
+              {content.ui.viewCompany}
+              <span className="absolute left-0 top-1/2 w-full h-[1.5px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
+            </Link>
+          </div>
+
+        </div>
+      </section>
+    </LanguageFadeWrapper>
   );
 }

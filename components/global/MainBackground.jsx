@@ -2,6 +2,7 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap, { ScrollTrigger } from "@/lib/gsap";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const HERO_IMAGE_URL = "/images/home/hero-bg-img.webp";
 const PHILO_IMAGE_URL = "/images/home/philosophy-bg-img.webp";
@@ -13,6 +14,7 @@ const COMPANY_PAGE_BG_1 = "/images/home/company-bg-img.webp";
 const COMPANY_PAGE_BG_2 = "/images/home/projects-bg-img.webp";
 
 export default function MainBackground({ forceLayer = null }) {
+  const { content } = useLanguage();
   const containerRef = useRef(null);
   const isCompanyPage = forceLayer === "company-page";
 

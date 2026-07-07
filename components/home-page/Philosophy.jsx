@@ -2,7 +2,8 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "@/lib/gsap";
-import { siteContent } from "@/lib/content";
+import { useLanguage } from "@/lib/LanguageContext";
+import LanguageFadeWrapper from "@/components/global/LanguageFadeWrapper";
 
 // Constants for assets
 const PHI_IMG_1 = "/images/home/phi-img-1.webp";
@@ -10,6 +11,7 @@ const PHI_IMG_3 = "/images/home/phi-img-3.webp";
 const PHI_IMG_2 = "/images/home/phi-img-2.webp";
 
 export default function Philosophy() {
+  const { content } = useLanguage();
   const sectionRef = useRef(null);
   const headlineRef = useRef(null);
   const textRef = useRef(null);
@@ -98,75 +100,77 @@ export default function Philosophy() {
   }, { scope: sectionRef });
 
   return (
-    <section
-      ref={sectionRef}
-      id="philosophy"
-      className="relative w-full bg-transparent text-[#e6e4e2] py-24 md:py-36 px-12 sm:px-12 md:px-20 lg:px-24 flex items-center justify-center font-sans overflow-visible"
-      aria-label="Philosophy Overview"
-    >
-      {/* Sticky Left Vertical Track */}
-      <div className="absolute top-0 bottom-0 left-4 sm:left-12 lg:left-16 w-8 pointer-events-none z-20">
-        <div
-          className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
-          style={{ writingMode: "vertical-lr" }}
-        >
-          philosophy
-        </div>
-      </div>
-
-
-      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-center z-10 relative">
-        {/* Left Column: Headline and Description */}
-        <div className="col-span-1 lg:col-span-6 flex flex-col justify-center text-left pl-0 xs:pl-8 sm:pl-16">
-          
-          {/* Image 1: Incense Burner - bigger */}
-          <div className="flex flex-row gap-6 mb-8 sm:mb-12 max-w-md pl-4 sm:pl-12">
-            <div className="philo-img-1 w-[180px] sm:w-[220px] aspect-[3/4] bg-[#0c0c0c] border border-white/5 shadow-xl overflow-hidden group" role="img" aria-label="Zen incense burner representing engineering precision and system logic">
-              <div
-                className="w-full h-full bg-cover bg-center webgl-distort-image"
-                style={{ backgroundImage: `url(${PHI_IMG_1})` }}
-              />
-            </div>
-          </div>
-
-          <h2
-            ref={headlineRef}
-            className="font-serif text-xl sm:text-3xl md:text-4xl text-[#e6e4e2] leading-[1.3] font-light tracking-wide select-none webgl-distort-text"
+    <LanguageFadeWrapper>
+      <section
+        ref={sectionRef}
+        id="philosophy"
+        className="relative w-full bg-transparent text-[#e6e4e2] py-24 md:py-36 px-12 sm:px-12 md:px-20 lg:px-24 flex items-center justify-center font-sans overflow-visible"
+        aria-label="Philosophy Overview"
+      >
+        {/* Sticky Left Vertical Track */}
+        <div className="absolute top-0 bottom-0 left-4 sm:left-12 lg:left-16 w-8 pointer-events-none z-20">
+          <div
+            className="sticky top-48 text-[10px] uppercase tracking-[0.3em] text-white font-medium select-none"
+            style={{ writingMode: "vertical-lr" }}
           >
-            <span className="char-line block">{siteContent.home.philosophy.headlineLine1}</span>
-            <span className="char-line block pl-12 sm:pl-20 md:pl-28 mt-2">{siteContent.home.philosophy.headlineLine2}</span>
-          </h2>
-
-          <div ref={textRef} className="mt-8 sm:mt-12 pl-4 sm:pl-12 max-w-md">
-            <p className="text-sm sm:text-base leading-relaxed text-[#908e8b] font-light">
-              {siteContent.home.philosophy.description}
-            </p>
+            {content.ui.philosophy}
           </div>
         </div>
 
-        {/* Right Column: Garden Image Card with Image 2 overlapping on top-right */}
-        <div className="col-span-1 lg:col-span-6 flex justify-center lg:justify-end items-center relative mt-16 lg:mt-0 px-4 sm:px-8 lg:px-0 overflow-visible">
-          {/* Container for overlapping layout - explicit sizing */}
-          <div className="relative w-full max-w-[340px] sm:max-w-[400px]">
-            {/* Image 3: Base Zen Garden Card */}
-            <div className="philo-img-3 w-full aspect-[3/4] bg-[#0c0c0c] border border-white/5 shadow-2xl overflow-hidden group" role="img" aria-label="Zen sand garden patterns representing stable systems architecture and database designs">
-              <div
-                className="w-full h-full bg-cover bg-center webgl-distort-image"
-                style={{ backgroundImage: `url(${PHI_IMG_3})` }}
-              />
-              <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
+
+        <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-center z-10 relative">
+          {/* Left Column: Headline and Description */}
+          <div className="col-span-1 lg:col-span-6 flex flex-col justify-center text-left pl-0 xs:pl-8 sm:pl-16">
+            
+            {/* Image 1: Incense Burner - bigger */}
+            <div className="flex flex-row gap-6 mb-8 sm:mb-12 max-w-md pl-4 sm:pl-12">
+              <div className="philo-img-1 w-[180px] sm:w-[220px] aspect-[3/4] bg-[#0c0c0c] border border-white/5 shadow-xl overflow-hidden group" role="img" aria-label="Zen incense burner representing engineering precision and system logic">
+                <div
+                  className="w-full h-full bg-cover bg-center webgl-distort-image"
+                  style={{ backgroundImage: `url(${PHI_IMG_1})` }}
+                />
+              </div>
             </div>
 
-            {/* Image 2: Bamboo - overlapping top-right corner of Image 3 */}
-            <div className="philo-img-2 absolute -top-12 -right-10 sm:-top-16 sm:-right-14 w-[140px] sm:w-[180px] aspect-[3/4] bg-[#0c0c0c] border border-white/5 shadow-2xl overflow-hidden group z-20" role="img" aria-label="Minimal green bamboo representing clean, flexible frontend interface designs">
-              <div
-                className="w-full h-full bg-cover bg-center webgl-distort-image"
-                style={{ backgroundImage: `url(${PHI_IMG_2})` }}
-              />
+            <h2
+              ref={headlineRef}
+              className="font-serif text-xl sm:text-3xl md:text-4xl text-[#e6e4e2] leading-[1.3] font-light tracking-wide select-none webgl-distort-text"
+            >
+              <span className="char-line block">{content.home.philosophy.headlineLine1}</span>
+              <span className="char-line block pl-12 sm:pl-20 md:pl-28 mt-2">{content.home.philosophy.headlineLine2}</span>
+            </h2>
+
+            <div ref={textRef} className="mt-8 sm:mt-12 pl-4 sm:pl-12 max-w-md">
+              <p className="text-sm sm:text-base leading-relaxed text-[#908e8b] font-light">
+                {content.home.philosophy.description}
+              </p>
+            </div>
+          </div>
+
+          {/* Right Column: Garden Image Card with Image 2 overlapping on top-right */}
+          <div className="col-span-1 lg:col-span-6 flex justify-center lg:justify-end items-center relative mt-16 lg:mt-0 px-4 sm:px-8 lg:px-0 overflow-visible">
+            {/* Container for overlapping layout - explicit sizing */}
+            <div className="relative w-full max-w-[340px] sm:max-w-[400px]">
+              {/* Image 3: Base Zen Garden Card */}
+              <div className="philo-img-3 w-full aspect-[3/4] bg-[#0c0c0c] border border-white/5 shadow-2xl overflow-hidden group" role="img" aria-label="Zen sand garden patterns representing stable systems architecture and database designs">
+                <div
+                  className="w-full h-full bg-cover bg-center webgl-distort-image"
+                  style={{ backgroundImage: `url(${PHI_IMG_3})` }}
+                />
+                <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
+              </div>
+
+              {/* Image 2: Bamboo - overlapping top-right corner of Image 3 */}
+              <div className="philo-img-2 absolute -top-12 -right-10 sm:-top-16 sm:-right-14 w-[140px] sm:w-[180px] aspect-[3/4] bg-[#0c0c0c] border border-white/5 shadow-2xl overflow-hidden group z-20" role="img" aria-label="Minimal green bamboo representing clean, flexible frontend interface designs">
+                <div
+                  className="w-full h-full bg-cover bg-center webgl-distort-image"
+                  style={{ backgroundImage: `url(${PHI_IMG_2})` }}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </LanguageFadeWrapper>
   );
 }

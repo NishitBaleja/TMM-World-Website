@@ -2,10 +2,12 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap, { ScrollTrigger } from "@/lib/gsap";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const PHILO_IMAGE_URL = "/images/home/philosophy-bg-img.webp";
 
 export default function ExpertiseBackground() {
+  const { content } = useLanguage();
   const containerRef = useRef(null);
 
   useGSAP(() => {

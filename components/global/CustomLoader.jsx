@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "@/lib/gsap";
-import { siteContent } from "@/lib/content";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function CustomLoader() {
+  const { content } = useLanguage();
   const [progress, setProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -69,7 +70,7 @@ export default function CustomLoader() {
 
   if (isLoaded) return null;
 
-  const text = siteContent.home.hero.tagline;
+  const text = content.home.hero.tagline;
 
   return (
     <div className="loader-container fixed inset-0 z-[9999] bg-[#080808] select-none pointer-events-auto w-full h-screen flex items-center justify-start px-16 sm:px-32 md:px-[20vw] lg:px-[25vw]">
