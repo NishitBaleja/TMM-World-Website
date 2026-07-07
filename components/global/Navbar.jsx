@@ -147,24 +147,24 @@ export default function Navbar() {
             
             <span className="text-white/10 mt-[10px] text-[9px]">|</span>
             
-            {/* HI */}
+            {/* FR */}
             <button
-              onClick={() => setActiveLang("hi")}
+              onClick={() => setActiveLang("fr")}
               className="flex flex-col items-center gap-2 focus:outline-none cursor-pointer group/lang"
-              aria-label="Switch language to Hindi"
-              aria-pressed={activeLang === "hi"}
+              aria-label="Switch language to French"
+              aria-pressed={activeLang === "fr"}
             >
               <span
                 className={`w-1 h-1 rounded-full bg-white transition-all duration-300 ${
-                  activeLang === "hi" ? "opacity-40 scale-100" : "opacity-0 scale-0"
+                  activeLang === "fr" ? "opacity-40 scale-100" : "opacity-0 scale-0"
                 }`}
               />
               <span
                 className={`transition-colors duration-300 ${
-                  activeLang === "hi" ? "text-[#e6e4e2] font-semibold" : "text-[#908e8b] hover:text-white"
+                  activeLang === "fr" ? "text-[#e6e4e2] font-semibold" : "text-[#908e8b] hover:text-white"
                 }`}
               >
-                hi
+                fr
               </span>
             </button>
           </div>
@@ -199,7 +199,7 @@ export default function Navbar() {
           <div className="h-full" />
         </div>
 
-        <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center mt-12 w-full max-w-7xl mx-auto h-full gap-12">
+        <div className="relative flex flex-col md:flex-row justify-start items-start mt-12 w-full max-w-7xl mx-auto h-full gap-16 md:gap-[16vw]">
           <nav className="flex flex-col gap-8 md:gap-12 text-left z-10" aria-label="Main Navigation">
 
             {/* HOME SECTION */}
@@ -210,7 +210,7 @@ export default function Navbar() {
                 className="font-serif text-4xl md:text-6xl text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors uppercase block relative group w-fit"
               >
                 <span className="inline-block relative">
-                  Home
+                  home
                   <span className="absolute left-0 top-1/2 w-full h-[2px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                 </span>
               </Link>
@@ -245,25 +245,26 @@ export default function Navbar() {
             </div>
           </nav>
 
-          <div className="flex flex-col sm:flex-row gap-12 text-left text-[10px] uppercase tracking-[0.2em] text-[#908e8b] max-w-md z-10">
-            <div className="flex flex-col gap-4">
-              <div className="flex items-baseline gap-3">
-                <span className="text-[#e6e4e2] font-semibold">{siteContent.global.addresses.newDelhi.title}</span>
-                <span className="font-mono text-[10px] text-[#e6e4e2]/60 font-light select-none tracking-widest">{delhiTime}</span>
+          {/* Right Column: Timezones & Address */}
+          <div className="flex flex-col gap-10 text-left z-10 max-w-xl md:pt-4">
+            {/* Clocks Row */}
+            <div className="flex flex-col sm:flex-row gap-12 sm:gap-16">
+              <div className="flex flex-col gap-3">
+                <span className="text-[#908e8b] text-[10px] tracking-[0.25em] uppercase font-semibold">{siteContent.global.addresses.newDelhi.title}</span>
+                <span className="font-mono text-2xl sm:text-3xl md:text-4xl text-[#e6e4e2] font-extralight select-none tracking-widest leading-none">{delhiTime}</span>
               </div>
-              <p className="normal-case leading-relaxed font-sans font-light text-[11px] text-[#908e8b] max-w-[200px]">
-                {siteContent.global.addresses.newDelhi.line1},<br />
-                {siteContent.global.addresses.newDelhi.line2}
-              </p>
+              <div className="flex flex-col gap-3">
+                <span className="text-[#908e8b] text-[10px] tracking-[0.25em] uppercase font-semibold">{siteContent.global.addresses.newYork.title}</span>
+                <span className="font-mono text-2xl sm:text-3xl md:text-4xl text-[#e6e4e2] font-extralight select-none tracking-widest leading-none">{newYorkTime}</span>
+              </div>
             </div>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-baseline gap-3">
-                <span className="text-[#e6e4e2] font-semibold">{siteContent.global.addresses.newYork.title}</span>
-                <span className="font-mono text-[10px] text-[#e6e4e2]/60 font-light select-none tracking-widest">{newYorkTime}</span>
-              </div>
-              <p className="normal-case leading-relaxed font-sans font-light text-[11px] text-[#908e8b] max-w-[200px]">
-                {siteContent.global.addresses.newYork.line1},<br />
-                {siteContent.global.addresses.newYork.line2}
+
+            {/* Address Row (below timezones) */}
+            <div className="flex flex-col gap-3 border-t border-white/10 pt-8 max-w-md">
+              <span className="text-white/20 select-none text-[10px] tracking-[0.25em] uppercase font-semibold">{siteContent.global.addresses.gujarat.title}</span>
+              <p className="normal-case leading-relaxed font-sans font-light text-sm sm:text-base md:text-lg text-[#e6e4e2] max-w-[320px]">
+                {siteContent.global.addresses.gujarat.line1},<br />
+                {siteContent.global.addresses.gujarat.line2}
               </p>
             </div>
           </div>

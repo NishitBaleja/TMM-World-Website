@@ -49,7 +49,7 @@ export default function BasicInfo() {
     <section
       ref={containerRef}
       id="basic-info"
-      className="relative w-full h-screen flex flex-col justify-end pb-12 px-12 sm:pl-32 sm:pr-24 lg:pl-[16vw] lg:pr-36 mb-[55vh]"
+      className="relative w-full min-h-screen flex flex-col justify-end pt-36 pb-12 px-12 sm:pl-32 sm:pr-24 lg:pl-[16vw] lg:pr-36 mb-[55vh]"
       aria-label="Company Overview"
     >
       {/* Smoke Video Overlay */}
@@ -72,11 +72,11 @@ export default function BasicInfo() {
         </div>
       </div>
 
-      {/* Two Column Layout: Title on Left, Description on Right */}
-      <div className="pl-4 sm:pl-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start mb-0 lg:translate-y-[8vh]">
-        {/* Left Column: Title */}
-        <div className="lg:col-span-7 flex flex-col gap-4">
-          <h1 className="reveal-el font-serif text-3xl sm:text-4xl md:text-5xl text-[#e6e4e2] leading-[1.1] font-light lowercase select-none webgl-distort-text">
+      {/* Two Column Layout: Title + Subtitle on top, Image Stack (Left) & Description (Right) side-by-side below */}
+      <div className="pl-4 sm:pl-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start mb-0 lg:translate-y-[24vh]">
+        {/* Row 1: Title + Subtitle (Spans 12 columns, restricted width) */}
+        <div className="lg:col-span-12 flex flex-col gap-4 max-w-3xl lg:max-w-[850px]">
+          <h1 className="reveal-el font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#e6e4e2] leading-[1.15] font-light lowercase select-none webgl-distort-text whitespace-pre-line">
             {siteContent.company.basicInfo.title}
           </h1>
           <span className="reveal-el text-[#908e8b] font-sans text-xs tracking-[0.25em] font-light block mt-1 select-none uppercase">
@@ -84,14 +84,48 @@ export default function BasicInfo() {
           </span>
         </div>
 
-        {/* Right Column: Description */}
-        <div className="lg:col-span-5 flex flex-col gap-6 text-left max-w-sm lg:pt-36 lg:translate-y-[15vh]">
+        {/* Row 2 - Left: 3 Vertical Images Stack (Spans 4 columns) */}
+        <div className="lg:col-span-4 flex flex-col gap-6 w-full">
+          <div className="flex flex-col gap-6 mt-6 reveal-el w-full">
+            {[1, 2, 3].map((num) => (
+              <div
+                key={num}
+                className="w-full bg-[#0c0c0c] border border-white/5 relative overflow-hidden group shadow-md"
+              >
+                <img
+                  src={`/images/company/company-hero-${num}.webp`}
+                  alt={`Company Hero ${num}`}
+                  className="w-full h-auto opacity-85 group-hover:opacity-100 transition-opacity duration-500"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Row 2 - Right: Description (Spans 5 columns, starts at col 6 to leave empty columns on the right) */}
+        <div className="lg:col-span-5 lg:col-start-6 flex flex-col gap-6 text-left lg:pt-6 lg:translate-y-[2vh]">
           <p className="reveal-el text-xs sm:text-sm leading-relaxed text-[#e6e4e2] font-light">
             {siteContent.company.basicInfo.paragraph1}
           </p>
           <p className="reveal-el text-xs sm:text-sm leading-relaxed text-[#e6e4e2] font-light">
             {siteContent.company.basicInfo.paragraph2}
           </p>
+          <p className="reveal-el text-xs sm:text-sm leading-relaxed text-[#e6e4e2] font-light">
+            {siteContent.company.basicInfo.paragraph3}
+          </p>
+          <p className="reveal-el text-xs sm:text-sm leading-relaxed text-[#e6e4e2] font-light">
+            {siteContent.company.basicInfo.paragraph4}
+          </p>
+          {siteContent.company.basicInfo.paragraph5 && (
+            <p className="reveal-el text-xs sm:text-sm leading-relaxed text-[#e6e4e2] font-light">
+              {siteContent.company.basicInfo.paragraph5}
+            </p>
+          )}
+          {siteContent.company.basicInfo.paragraph6 && (
+            <p className="reveal-el text-xs sm:text-sm leading-relaxed text-[#e6e4e2] font-light">
+              {siteContent.company.basicInfo.paragraph6}
+            </p>
+          )}
         </div>
       </div>
 

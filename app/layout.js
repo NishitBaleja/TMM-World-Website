@@ -67,14 +67,10 @@ export default function RootLayout({ children }) {
               "address": [
                 {
                   "@type": "PostalAddress",
-                  "addressLocality": "New Delhi",
-                  "addressCountry": "IN"
-                },
-                {
-                  "@type": "PostalAddress",
-                  "addressLocality": "New York",
-                  "addressRegion": "NY",
-                  "addressCountry": "US"
+                  "addressLocality": "Jamnagar",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN",
+                  "postalCode": "361006"
                 }
               ],
               "founder": {
@@ -82,7 +78,7 @@ export default function RootLayout({ children }) {
                 "name": "Nitish Baleja"
               },
               "sameAs": [
-                "https://instagram.com/tmmworld"
+                "https://instagram.com/itstmmworld"
               ]
             })
           }}

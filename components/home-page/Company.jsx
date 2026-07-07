@@ -15,8 +15,8 @@ export default function Company() {
   const contentRef = useRef(null);
   const bgRef = useRef(null);
 
-  const [dubaiTime, setDubaiTime] = useState({ h: "00", m: "00", s: "00" });
-  const [tokyoTime, setTokyoTime] = useState({ h: "00", m: "00", s: "00" });
+  const [delhiTime, setDelhiTime] = useState({ h: "00", m: "00", s: "00" });
+  const [newYorkTime, setNewYorkTime] = useState({ h: "00", m: "00", s: "00" });
 
   const getTzTimeObj = (offsetHours) => {
     const date = new Date();
@@ -31,9 +31,12 @@ export default function Company() {
 
   useEffect(() => {
     const updateTimes = () => {
-      setDubaiTime(getTzTimeObj(siteContent.global.addresses.newDelhi.timezone));
-      setTokyoTime(getTzTimeObj(siteContent.global.addresses.newYork.timezone));
+      setDelhiTime(getTzTimeObj(siteContent.global.addresses.newDelhi.timezone));
+      setNewYorkTime(getTzTime(siteContent.global.addresses.newYork.timezone));
     };
+    // Helper to get time string for NY timezone from getTzTimeObj compatibility
+    const getTzTime = (offsetHours) => getTzTimeObj(offsetHours);
+
     updateTimes();
     const timer = setInterval(updateTimes, 1000);
     return () => clearInterval(timer);
@@ -126,11 +129,11 @@ export default function Company() {
           {/* New Delhi Clock */}
           <div className="flex flex-col items-center gap-2">
             <div className="flex items-center gap-3 font-mono text-3xl md:text-4xl text-white font-extralight tracking-wider">
-              <span>{dubaiTime.h}</span>
+              <span>{delhiTime.h}</span>
               <span className="text-white/30 font-light select-none"> </span>
-              <span>{dubaiTime.m}</span>
+              <span>{delhiTime.m}</span>
               <span className="text-white/30 font-light select-none"> </span>
-              <span className="text-white/60 text-2xl md:text-3xl font-light">{dubaiTime.s}</span>
+              <span className="text-white/60 text-2xl md:text-3xl font-light">{delhiTime.s}</span>
             </div>
             <span className="text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">{siteContent.global.addresses.newDelhi.timezoneLabel}</span>
           </div>
@@ -138,11 +141,11 @@ export default function Company() {
           {/* New York Clock */}
           <div className="flex flex-col items-center gap-2">
             <div className="flex items-center gap-3 font-mono text-3xl md:text-4xl text-white font-extralight tracking-wider">
-              <span>{tokyoTime.h}</span>
+              <span>{newYorkTime.h}</span>
               <span className="text-white/30 font-light select-none"> </span>
-              <span>{tokyoTime.m}</span>
+              <span>{newYorkTime.m}</span>
               <span className="text-white/30 font-light select-none"> </span>
-              <span className="text-white/60 text-2xl md:text-3xl font-light">{tokyoTime.s}</span>
+              <span className="text-white/60 text-2xl md:text-3xl font-light">{newYorkTime.s}</span>
             </div>
             <span className="text-[9px] uppercase tracking-[0.25em] text-[#908e8b]">{siteContent.global.addresses.newYork.timezoneLabel}</span>
           </div>

@@ -22,8 +22,8 @@ export default function Hero() {
     }
   }, []);
 
-  const [dubaiTime, setDubaiTime] = useState("00:00:00");
-  const [tokyoTime, setTokyoTime] = useState("00:00:00");
+  const [delhiTime, setDelhiTime] = useState("00:00:00");
+  const [newYorkTime, setNewYorkTime] = useState("00:00:00");
 
   const getTzTime = (offsetHours) => {
     const date = new Date();
@@ -32,13 +32,13 @@ export default function Hero() {
     const h = String(tzDate.getHours()).padStart(2, "0");
     const m = String(tzDate.getMinutes()).padStart(2, "0");
     const s = String(tzDate.getSeconds()).padStart(2, "0");
-    return `${h} ${m} ${s}`;
+    return `${h}:${m}:${s}`;
   };
 
   useEffect(() => {
     const updateTimes = () => {
-      setDubaiTime(getTzTime(siteContent.global.addresses.newDelhi.timezone));
-      setTokyoTime(getTzTime(siteContent.global.addresses.newYork.timezone));
+      setDelhiTime(getTzTime(siteContent.global.addresses.newDelhi.timezone));
+      setNewYorkTime(getTzTime(siteContent.global.addresses.newYork.timezone));
     };
     updateTimes();
     const timer = setInterval(updateTimes, 1000);
@@ -170,11 +170,11 @@ export default function Hero() {
           <span>©{new Date().getFullYear()}</span>
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-12 md:gap-16 font-mono text-[11px] sm:text-[12px]">
             <div className="flex items-center gap-2">
-              <span className="text-[#e6e4e2]">{dubaiTime}</span>
+              <span className="text-[#e6e4e2]">{delhiTime}</span>
               <span className="text-[#908e8b] font-sans text-[9px] sm:text-[10px] tracking-widest">{siteContent.global.addresses.newDelhi.timezoneLabel}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[#e6e4e2]">{tokyoTime}</span>
+              <span className="text-[#e6e4e2]">{newYorkTime}</span>
               <span className="text-[#908e8b] font-sans text-[9px] sm:text-[10px] tracking-widest">{siteContent.global.addresses.newYork.timezoneLabel}</span>
             </div>
           </div>

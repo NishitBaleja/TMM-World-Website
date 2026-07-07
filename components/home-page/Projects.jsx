@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap, { ScrollTrigger } from "@/lib/gsap";
 import { siteContent } from "@/lib/content";
+import Link from "next/link";
 
 // Constants for assets to allow easy swapping later
 const PROJ_IMG_01 = "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80&w=1000"; // Parent and child / education
@@ -391,6 +392,15 @@ export default function Projects() {
                     <p className="text-xs lg:text-sm leading-relaxed text-[#908e8b] font-light">
                       {practice.description}
                     </p>
+                    <div className="pt-2 relative group w-fit">
+                      <Link
+                        href={`/services/${practice.id}`}
+                        className="font-serif text-xs text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
+                      >
+                        —— view details
+                        <span className="absolute left-0 top-1/2 w-full h-[1px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
 
@@ -480,6 +490,15 @@ export default function Projects() {
                   <p className="text-xs leading-relaxed text-[#908e8b] font-light">
                     {practice.description}
                   </p>
+                  <div className="pt-2 relative group w-fit">
+                    <Link
+                      href={`/services/${practice.id}`}
+                      className="font-serif text-xs text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
+                    >
+                      —— view details
+                      <span className="absolute left-0 top-1/2 w-full h-[1px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}

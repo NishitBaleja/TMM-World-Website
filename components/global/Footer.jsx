@@ -7,8 +7,8 @@ import Logo from "./Logo";
 import { siteContent } from "@/lib/content";
 
 export default function Footer() {
-  const [dubaiTime, setDubaiTime] = useState("00:00:00");
-  const [tokyoTime, setTokyoTime] = useState("00:00:00");
+  const [delhiTime, setDelhiTime] = useState("00:00:00");
+  const [newYorkTime, setNewYorkTime] = useState("00:00:00");
 
   const getTzTime = (offsetHours) => {
     const date = new Date();
@@ -26,8 +26,8 @@ export default function Footer() {
 
   useEffect(() => {
     const updateTimes = () => {
-      setDubaiTime(getTzTime(5.5)); // IST (UTC+5.5)
-      setTokyoTime(getTzTime(-4));  // EDT (UTC-4)
+      setDelhiTime(getTzTime(siteContent.global.addresses.newDelhi.timezone));
+      setNewYorkTime(getTzTime(siteContent.global.addresses.newYork.timezone));
     };
 
     updateTimes();
@@ -87,7 +87,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Middle Footer: Sitemap, Addresses, Socials */}
+        {/* Middle Footer: Sitemap, Services, Address, Socials */}
         <div className="footer-reveal grid grid-cols-2 md:grid-cols-4 gap-12 text-[10px] uppercase tracking-[0.2em] text-[#908e8b]">
           {/* Sitemap */}
           <nav className="flex flex-col gap-4" aria-label="Footer Sitemap">
@@ -105,27 +105,29 @@ export default function Footer() {
               <li>
                 <a href="#company" className="hover:text-white transition-colors">company</a>
               </li>
-              <li>
-                <a href={`mailto:${siteContent.global.contactEmail}`} className="hover:text-white transition-colors">contact</a>
-              </li>
             </ul>
           </nav>
 
-          {/* Address New Delhi */}
-          <address className="flex flex-col gap-4 not-italic">
-            <span className="text-white/20 select-none">{siteContent.global.addresses.newDelhi.title}</span>
-            <div className="normal-case leading-relaxed font-light text-[11px]">
-              <span className="uppercase text-[10px] tracking-[0.2em] font-medium block mb-2 text-[#e6e4e2]">{siteContent.global.addresses.newDelhi.line1}</span>
-              {siteContent.global.addresses.newDelhi.line2}
-            </div>
-          </address>
+          {/* Services */}
+          <nav className="flex flex-col gap-4" aria-label="Footer Services">
+            <span className="text-white/20 select-none">services</span>
+            <ul className="flex flex-col gap-3 font-medium">
+              {siteContent.home.services.map((service, idx) => (
+                <li key={idx}>
+                  <Link href={`/services/${service.id}`} className="hover:text-white transition-colors lowercase">
+                    {service.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-          {/* Address New York */}
+          {/* Address Gujarat */}
           <address className="flex flex-col gap-4 not-italic">
-            <span className="text-white/20 select-none">{siteContent.global.addresses.newYork.title}</span>
+            <span className="text-white/20 select-none">{siteContent.global.addresses.gujarat.title}</span>
             <div className="normal-case leading-relaxed font-light text-[11px]">
-              <span className="uppercase text-[10px] tracking-[0.2em] font-medium block mb-2 text-[#e6e4e2]">{siteContent.global.addresses.newYork.line1}</span>
-              {siteContent.global.addresses.newYork.line2}
+              <span className="uppercase text-[10px] tracking-[0.2em] font-medium block mb-2 text-[#e6e4e2]">{siteContent.global.addresses.gujarat.line1}</span>
+              {siteContent.global.addresses.gujarat.line2}
             </div>
           </address>
 
@@ -166,12 +168,12 @@ export default function Footer() {
 
           <div className="flex flex-wrap gap-x-16 md:gap-x-24 gap-y-2 font-mono text-[10px]">
             <div className="flex items-center gap-2">
-              <span className="text-white">{dubaiTime}</span>
-              <span className="text-[#908e8b] font-sans text-[8px] tracking-widest">ist, new delhi ind</span>
+              <span className="text-white">{delhiTime}</span>
+              <span className="text-[#908e8b] font-sans text-[8px] tracking-widest">{siteContent.global.addresses.newDelhi.timezoneLabel}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-white">{tokyoTime}</span>
-              <span className="text-[#908e8b] font-sans text-[8px] tracking-widest">edt, new york usa</span>
+              <span className="text-white">{newYorkTime}</span>
+              <span className="text-[#908e8b] font-sans text-[8px] tracking-widest">{siteContent.global.addresses.newYork.timezoneLabel}</span>
             </div>
           </div>
 

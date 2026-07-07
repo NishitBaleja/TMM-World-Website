@@ -110,9 +110,9 @@ export default function ExpertiseHero() {
           </h1>
         </div>
 
-        <div className="lg:col-span-5 flex flex-col gap-6 text-left max-w-sm lg:pt-36 lg:translate-y-[15vh]">
+        <div className="lg:col-span-5 flex flex-col gap-6 text-left max-w-md lg:pt-36 lg:translate-y-[15vh]">
           <p className="reveal-hero text-xs sm:text-sm leading-relaxed text-[#908e8b] font-light">
-            through three core disciplines, tmmworld shapes prominent brands, engineers custom web solutions, and manages social media presence with premium precision.
+            Our methodology is rooted in rigorous market research, deep competitive analysis, and strategic consumer insights before we write a single line of code or design a single asset. At TMM-WORLD, we deep dive into your business ecosystem to identify growth bottlenecks and untapped digital opportunities. Through this analytical foundation, we execute our three core disciplines: shaping prominent market-leading brands, engineering high-performance custom web solutions, and orchestrating elite social media architectures with absolute corporate precision. We don't just deliver services; we deploy data-backed digital frameworks that drive measurable enterprise scaling and long-term market dominance.
           </p>
         </div>
       </div>

@@ -131,11 +131,10 @@ export default function Philosophy() {
 
           <h2
             ref={headlineRef}
-            className="font-serif text-2xl sm:text-4xl md:text-5xl text-[#e6e4e2] leading-[1.25] font-light tracking-wide select-none"
+            className="font-serif text-xl sm:text-3xl md:text-4xl text-[#e6e4e2] leading-[1.3] font-light tracking-wide select-none webgl-distort-text"
           >
-            <span className="char-line block webgl-distort-text">{siteContent.home.philosophy.headlineLine1}</span>
-            <span className="char-line block pl-4 sm:pl-12 webgl-distort-text">{siteContent.home.philosophy.headlineLine2}</span>
-            <span className="char-line block pl-8 sm:pl-28 webgl-distort-text">{siteContent.home.philosophy.headlineLine3}</span>
+            <span className="char-line block">{siteContent.home.philosophy.headlineLine1}</span>
+            <span className="char-line block pl-12 sm:pl-20 md:pl-28 mt-2">{siteContent.home.philosophy.headlineLine2}</span>
           </h2>
 
           <div ref={textRef} className="mt-8 sm:mt-12 pl-4 sm:pl-12 max-w-md">

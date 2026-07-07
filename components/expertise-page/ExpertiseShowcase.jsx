@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "@/lib/gsap";
 import { siteContent } from "@/lib/content";
+import Link from "next/link";
 
 export default function ExpertiseShowcase() {
   const containerRef = useRef(null);
@@ -113,6 +114,15 @@ export default function ExpertiseShowcase() {
                     <p className="reveal-text text-xs sm:text-sm leading-relaxed text-[#908e8b] font-light">
                       {item.description}
                     </p>
+                    <div className="reveal-text pt-2 relative group w-fit">
+                      <Link
+                        href={`/services/${item.id}`}
+                        className="font-serif text-xs text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
+                      >
+                        —— view details
+                        <span className="absolute left-0 top-1/2 w-full h-[1px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </>
@@ -142,6 +152,15 @@ export default function ExpertiseShowcase() {
                     <p className="reveal-text text-xs sm:text-sm leading-relaxed text-[#908e8b] font-light">
                       {item.description}
                     </p>
+                    <div className="reveal-text pt-2 relative group w-fit">
+                      <Link
+                        href={`/services/${item.id}`}
+                        className="font-serif text-xs text-[#e6e4e2] hover:text-[#d4c3b3] transition-colors pb-1 lowercase block relative"
+                      >
+                        —— view details
+                        <span className="absolute left-0 top-1/2 w-full h-[1px] bg-[#d4c3b3] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
 
