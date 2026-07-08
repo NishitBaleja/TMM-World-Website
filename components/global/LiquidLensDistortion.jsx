@@ -446,7 +446,7 @@ export default function LiquidLensDistortion({
           });
           hoveredImageRef.current = target;
           lastHoveredImageRef.current = target;
-          targetImageScaleRef.current = 100;
+          targetImageScaleRef.current = 30;
           target.classList.add("is-distorted");
 
           // Cache position relative to document to avoid getBoundingClientRect in loop

@@ -111,7 +111,7 @@ export default function Company() {
 
           {/* Logo Icon */}
           <div className="flex flex-col items-center justify-center text-[#e6e4e2] select-none scale-110">
-            <Logo className="w-14 h-28 md:w-16 md:h-32" />
+            <Logo className="w-32 h-32 md:w-36 md:h-36" />
           </div>
 
           {/* Heading */}

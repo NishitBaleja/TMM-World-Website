@@ -153,7 +153,7 @@ export default function Hero() {
         <div className="relative z-10 max-w-4xl mt-12 md:mt-24 select-none">
           <h1
             ref={titleRef}
-            className="font-serif text-[13px] sm:text-sm md:text-[15px] text-[#e6e4e2] leading-[1.4] font-light tracking-wide max-w-md webgl-distort-text"
+            className="font-serif text-[13px] sm:text-sm md:text-[15px] text-[#e6e4e2] leading-[1.4] font-light tracking-wide max-w-md"
           >
             {content.home.hero.tagline}
           </h1>

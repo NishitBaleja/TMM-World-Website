@@ -14,6 +14,11 @@ export const metadata = {
   alternates: {
     canonical: "/"
   },
+  icons: {
+    icon: "/images/tmm-world-logo.webp",
+    shortcut: "/images/tmm-world-logo.webp",
+    apple: "/images/tmm-world-logo.webp",
+  },
   robots: {
     index: true,
     follow: true,
@@ -63,7 +68,7 @@ export default function RootLayout({ children }) {
               "@type": "Organization",
               "name": "TMMWORLD",
               "url": "https://tmmworld.com",
-              "logo": "https://tmmworld.com/favicon.ico",
+              "logo": "https://tmmworld.com/images/tmm-world-logo.webp",
               "description": "TMMWORLD is an elite software engineering collective crafting resilient cloud architectures, high-fidelity WebGL frontends, and custom machine learning pipelines.",
               "address": [
                 {

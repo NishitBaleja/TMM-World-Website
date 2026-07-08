@@ -78,7 +78,7 @@ export default function Footer() {
           <div className="footer-reveal flex flex-col md:flex-row justify-between items-start md:items-end gap-8 pb-12">
             <div className="flex items-center gap-1">
               <Link href="/" aria-label="Go to homepage">
-                <Logo className="w-10 h-20 md:w-12 md:h-24" />
+                <Logo className="w-28 h-28 md:w-32 md:h-32" />
               </Link>
             </div>
             

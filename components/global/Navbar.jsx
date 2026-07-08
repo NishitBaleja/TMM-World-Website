@@ -117,7 +117,7 @@ export default function Navbar() {
       >
         <div className="flex flex-col items-center gap-4 md:gap-6">
           <Link href="/" className="text-white hover:opacity-85 transition-opacity">
-            <Logo className="w-10 h-20 md:w-12 md:h-24" />
+            <Logo className="w-28 h-28 md:w-32 md:h-32" />
           </Link>
         </div>
 
