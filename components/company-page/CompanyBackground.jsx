@@ -103,7 +103,7 @@ export default function CompanyBackground() {
 
       {/* Background 2 (Map) */}
       <div
-        className="company-bg-layer company-bg-page-2 absolute inset-0 bg-[right_0%_bottom] lg:bg-bottom bg-no-repeat bg-[length:240%] sm:bg-[length:75%]"
+        className="company-bg-layer company-bg-page-2 absolute inset-0 bg-right lg:bg-bottom bg-no-repeat bg-[length:240%] sm:bg-[length:75%]"
         style={{
           top: "-10%",
           bottom: "-10%",

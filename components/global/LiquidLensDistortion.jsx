@@ -142,7 +142,7 @@ export default function LiquidLensDistortion({
       uBg1Opacity: { value: (companyMode || projectsMode) ? 0.99 : 0.0 },
       uBg2Opacity: { value: 0.0 },
       uSolidBlack: { value: solidBlackBg ? 1.0 : 0.0 },
-      uMapXOffset: { value: window.innerWidth < 768 ? 0.3 : 0.0 }
+      uMapXOffset: { value: window.innerWidth < 768 ? 0.25 : 0.0 }
     };
 
     const bgVertexShader = `
@@ -496,7 +496,7 @@ export default function LiquidLensDistortion({
 
       bgUniforms.uViewportAspect.value = width / height;
       bgUniforms.uResolution.value.set(width, height);
-      bgUniforms.uMapXOffset.value = width < 768 ? 0.3 : 0.0;
+      bgUniforms.uMapXOffset.value = width < 768 ? 0.25 : 0.0;
       bgMesh.scale.set(width, height, 1);
     };
 
