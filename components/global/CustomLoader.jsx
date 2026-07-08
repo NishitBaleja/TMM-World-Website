@@ -12,14 +12,8 @@ export default function CustomLoader() {
   useEffect(() => {
     // Disable scrolling while loader is active
     document.body.style.overflow = "hidden";
-    if (window.lenis) {
-      window.lenis.stop();
-    }
     return () => {
       document.body.style.overflow = "";
-      if (window.lenis) {
-        window.lenis.start();
-      }
     };
   }, []);
 
@@ -43,14 +37,10 @@ export default function CustomLoader() {
           onComplete: () => {
             setIsLoaded(true);
             document.body.style.overflow = "";
-            if (window.lenis) {
-              window.lenis.start();
-              // ScrollTrigger might need to refresh once the loader is gone
-              setTimeout(() => {
-                const { ScrollTrigger } = require("gsap/ScrollTrigger");
-                ScrollTrigger.refresh();
-              }, 100);
-            }
+            setTimeout(() => {
+              const { ScrollTrigger } = require("gsap/ScrollTrigger");
+              ScrollTrigger.refresh();
+            }, 100);
           }
         });
       }

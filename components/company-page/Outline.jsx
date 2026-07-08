@@ -34,7 +34,7 @@ export default function Outline() {
       <section
         ref={containerRef}
         id="outline"
-        className="relative w-full min-h-screen flex flex-col justify-center pt-48 pb-48 px-12 sm:px-16 lg:px-24 border-t border-white/5 mb-[15vh]"
+        className="relative w-full min-h-screen flex flex-col justify-center pt-48 pb-48 px-12 sm:px-16 lg:px-24 mb-[15vh]"
         aria-label="Company Details"
       >
         {/* Sticky Left Vertical Track */}

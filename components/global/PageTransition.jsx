@@ -28,11 +28,7 @@ export default function PageTransition({ children }) {
     }
 
     // Scroll to top
-    if (window.lenis) {
-      window.lenis.scrollTo(0, { immediate: true });
-    } else {
-      window.scrollTo(0, 0);
-    }
+    window.scrollTo(0, 0);
 
     // Small delay so the new page has time to render behind the overlay
     const timer = setTimeout(() => {

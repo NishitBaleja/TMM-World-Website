@@ -404,11 +404,6 @@ export default function LiquidLensDistortion({
     let lastTime = performance.now();
 
     const handleMouseMove = (e) => {
-      if (e.target.closest("header") || e.target.closest(".navbar-menu-overlay")) {
-        targetMouseX = -9999;
-        targetMouseY = -9999;
-        return;
-      }
       targetMouseX = e.clientX / window.innerWidth;
       targetMouseY = 1.0 - (e.clientY / window.innerHeight);
 
@@ -419,14 +414,24 @@ export default function LiquidLensDistortion({
     };
 
     const handleMouseOver = (e) => {
+      let target;
       if (e.target.closest("header") || e.target.closest(".navbar-menu-overlay")) {
-        hoveredTextRef.current = null;
-        targetTextScaleRef.current = 0;
-        hoveredImageRef.current = null;
-        targetImageScaleRef.current = 0;
-        return;
+        // Use elementsFromPoint to detect distortion targets beneath the fixed navbar
+        const elements = document.elementsFromPoint(e.clientX, e.clientY);
+        for (const el of elements) {
+          const candidate = el.closest(".webgl-distort-text, .webgl-distort-image");
+          if (candidate) { target = candidate; break; }
+        }
+        if (!target) {
+          hoveredTextRef.current = null;
+          targetTextScaleRef.current = 0;
+          hoveredImageRef.current = null;
+          targetImageScaleRef.current = 0;
+          return;
+        }
+      } else {
+        target = e.target.closest(".webgl-distort-text, .webgl-distort-image");
       }
-      const target = e.target.closest(".webgl-distort-text, .webgl-distort-image");
       if (target) {
         if (target.classList.contains("webgl-distort-text")) {
           document.querySelectorAll(".webgl-distort-text").forEach((el) => {

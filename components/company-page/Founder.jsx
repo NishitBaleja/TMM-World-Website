@@ -50,7 +50,7 @@ export default function Founder() {
         {/* 1. Founder Section */}
         <section
           id="founder"
-          className="team-section relative w-full min-h-screen grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-36 pb-36 px-12 sm:px-16 lg:px-24 border-t border-white/5"
+          className="team-section relative w-full min-h-screen grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-36 pb-36 px-12 sm:px-16 lg:px-24"
           aria-label="Founder Biography"
         >
           {/* Left Column: Description & Quote */}
@@ -92,7 +92,7 @@ export default function Founder() {
         {/* 2. Head of Tech Section (Alternating: Image Left, Text Right) */}
         <section
           id="head-of-tech"
-          className="team-section relative w-full min-h-screen grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-36 pb-36 px-12 sm:px-16 lg:px-24 border-t border-white/5"
+          className="team-section relative w-full min-h-screen grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-36 pb-36 px-12 sm:px-16 lg:px-24"
           aria-label="Head of Technology Biography"
         >
           {/* Left Column: Image */}
@@ -134,7 +134,7 @@ export default function Founder() {
         {/* 3. Head of Media Section (Alternating: Text Left, Image Right) */}
         <section
           id="head-of-media"
-          className="team-section relative w-full min-h-screen grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-36 pb-36 px-12 sm:px-16 lg:px-24 border-t border-white/5 mb-[35vh]"
+          className="team-section relative w-full min-h-screen grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-36 pb-36 px-12 sm:px-16 lg:px-24 mb-[10vh]"
           aria-label="Head of Media & Production Biography"
         >
           {/* Left Column: Description & Quote */}

@@ -34,7 +34,7 @@ export default function WorldMap() {
       <section
         ref={containerRef}
         id="map"
-        className="relative w-full h-[70vh] sm:h-[80vh] flex flex-col justify-center items-center py-12 px-12 sm:px-16 lg:px-24 bg-transparent mb-[35vh]"
+        className="relative w-full h-[70vh] sm:h-[80vh] flex flex-col justify-center items-center py-12 px-12 sm:px-16 lg:px-24 bg-transparent mb-[15vh]"
         aria-label="Global Presence Map"
       >
         {/* Sticky Left Vertical Track */}
