@@ -76,7 +76,7 @@ export default function Founder() {
 
           {/* Right Column: Image */}
           <div className="lg:col-span-6 flex items-center justify-center lg:justify-end px-4 lg:px-0">
-            <div className="reveal-team-el w-full max-w-[400px] lg:max-w-lg h-[85vh] bg-[#0c0c0c] border border-white/5 relative overflow-hidden group" role="img" aria-label={`Portrait of ${founder.name}`}>
+            <div className="reveal-team-el w-full max-w-[400px] lg:max-w-lg aspect-[3/4] lg:h-[85vh] bg-[#0c0c0c] border border-white/5 relative overflow-hidden group" role="img" aria-label={`Portrait of ${founder.name}`}>
               <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{
@@ -97,7 +97,7 @@ export default function Founder() {
         >
           {/* Left Column: Image */}
           <div className="lg:col-span-6 order-2 lg:order-1 flex items-center justify-center lg:justify-start px-4 lg:px-0 lg:pl-16">
-            <div className="reveal-team-el w-full max-w-[400px] lg:max-w-lg h-[85vh] bg-[#0c0c0c] border border-white/5 relative overflow-hidden group" role="img" aria-label={`Portrait of ${headOfTech.name}`}>
+            <div className="reveal-team-el w-full max-w-[400px] lg:max-w-lg aspect-[3/4] lg:h-[85vh] bg-[#0c0c0c] border border-white/5 relative overflow-hidden group" role="img" aria-label={`Portrait of ${headOfTech.name}`}>
               <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{
@@ -160,7 +160,7 @@ export default function Founder() {
 
           {/* Right Column: Image */}
           <div className="lg:col-span-6 flex items-center justify-center lg:justify-end px-4 lg:px-0">
-            <div className="reveal-team-el w-full max-w-[400px] lg:max-w-lg h-[85vh] bg-[#0c0c0c] border border-white/5 relative overflow-hidden group" role="img" aria-label={`Portrait of ${headOfMedia.name}`}>
+            <div className="reveal-team-el w-full max-w-[400px] lg:max-w-lg aspect-[3/4] lg:h-[85vh] bg-[#0c0c0c] border border-white/5 relative overflow-hidden group" role="img" aria-label={`Portrait of ${headOfMedia.name}`}>
               <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{

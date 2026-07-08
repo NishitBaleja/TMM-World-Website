@@ -141,7 +141,8 @@ export default function LiquidLensDistortion({
       uCompanyMode: { value: (companyMode || projectsMode) ? 1.0 : 0.0 },
       uBg1Opacity: { value: (companyMode || projectsMode) ? 0.99 : 0.0 },
       uBg2Opacity: { value: 0.0 },
-      uSolidBlack: { value: solidBlackBg ? 1.0 : 0.0 }
+      uSolidBlack: { value: solidBlackBg ? 1.0 : 0.0 },
+      uMapXOffset: { value: window.innerWidth < 768 ? 0.3 : 0.0 }
     };
 
     const bgVertexShader = `
@@ -187,6 +188,7 @@ export default function LiquidLensDistortion({
       uniform float uBg1Opacity;
       uniform float uBg2Opacity;
       uniform float uSolidBlack;
+      uniform float uMapXOffset;
 
       varying vec2 vUv;
 
@@ -217,9 +219,10 @@ export default function LiquidLensDistortion({
         return (shiftedUv - 0.5) * ratio * zoomScale + 0.5;
       }
 
-      vec2 getBottomUv(vec2 uv, float imgAspect, float screenAspect, float yOffset, float zoomScale) {
+      vec2 getBottomUv(vec2 uv, float imgAspect, float screenAspect, float yOffset, float zoomScale, float xOffset) {
         vec2 shiftedUv = uv;
         shiftedUv.y += (yOffset + 0.05) * 0.25;
+        shiftedUv.x += xOffset;
         
         vec2 ratio = vec2(
           min(screenAspect / imgAspect, 1.0),
@@ -266,7 +269,7 @@ export default function LiquidLensDistortion({
 
         vec2 uvHero = getCoverUv(finalUv, uHeroAspect, uViewportAspect, uBgYOffset, 0.85);
         vec2 uvPhilo = (uCompanyMode > 0.5)
-          ? getBottomUv(finalUv, uPhiloAspect, uViewportAspect, uBgYOffset, 1.35)
+          ? getBottomUv(finalUv, uPhiloAspect, uViewportAspect, uBgYOffset, 1.35, uMapXOffset)
           : getCoverUv(finalUv, uPhiloAspect, uViewportAspect, uBgYOffset, 0.85);
         vec2 uvProj = getCoverUv(finalUv, uProjAspect, uViewportAspect, uBgYOffset, 0.85);
         vec2 uvComp = getCoverUv(finalUv, uCompAspect, uViewportAspect, uBgYOffset, 0.85);
@@ -282,10 +285,10 @@ export default function LiquidLensDistortion({
           colHero = vec4(sampleTex(uHeroTex, uvHeroR).r, sampleTex(uHeroTex, uvHero).g, sampleTex(uHeroTex, uvHeroB).b, sampleTex(uHeroTex, uvHero).a);
 
           vec2 uvPhiloR = (uCompanyMode > 0.5)
-            ? getBottomUv(finalUv + caDisp, uPhiloAspect, uViewportAspect, uBgYOffset, 1.35)
+            ? getBottomUv(finalUv + caDisp, uPhiloAspect, uViewportAspect, uBgYOffset, 1.35, uMapXOffset)
             : getCoverUv(finalUv + caDisp, uPhiloAspect, uViewportAspect, uBgYOffset, 0.85);
           vec2 uvPhiloB = (uCompanyMode > 0.5)
-            ? getBottomUv(finalUv - caDisp, uPhiloAspect, uViewportAspect, uBgYOffset, 1.35)
+            ? getBottomUv(finalUv - caDisp, uPhiloAspect, uViewportAspect, uBgYOffset, 1.35, uMapXOffset)
             : getCoverUv(finalUv - caDisp, uPhiloAspect, uViewportAspect, uBgYOffset, 0.85);
           colPhilo = vec4(sampleTex(uPhiloTex, uvPhiloR).r, sampleTex(uPhiloTex, uvPhilo).g, sampleTex(uPhiloTex, uvPhiloB).b, sampleTex(uPhiloTex, uvPhilo).a);
 
@@ -493,6 +496,7 @@ export default function LiquidLensDistortion({
 
       bgUniforms.uViewportAspect.value = width / height;
       bgUniforms.uResolution.value.set(width, height);
+      bgUniforms.uMapXOffset.value = width < 768 ? 0.3 : 0.0;
       bgMesh.scale.set(width, height, 1);
     };
 
@@ -515,17 +519,18 @@ export default function LiquidLensDistortion({
       const dt = now - lastTime;
       lastTime = now;
 
-      // Interpolate mouse coordinates (spring-physics / lerp)
-      if (targetMouseX > -9000) {
-        const dx = targetMouseX - currentMouseX;
-        const dy = targetMouseY - currentMouseY;
+        // Interpolate mouse coordinates (velocity-adaptive lerp)
+        if (targetMouseX > -9000) {
+          const dx = targetMouseX - currentMouseX;
+          const dy = targetMouseY - currentMouseY;
 
-        currentMouseX += dx * lerpAmount;
-        currentMouseY += dy * lerpAmount;
+          const velocity = Math.sqrt(dx * dx + dy * dy);
+          currentVelocity += (velocity - currentVelocity) * 0.15;
 
-        const velocity = Math.sqrt(dx * dx + dy * dy);
-        currentVelocity += (velocity - currentVelocity) * 0.15;
-      }
+          const dynamicLerp = Math.min(lerpAmount + currentVelocity * 1.5, 0.5);
+          currentMouseX += dx * dynamicLerp;
+          currentMouseY += dy * dynamicLerp;
+        }
 
       if (projectsMode) {
         // Projects or Project Detail page: read opacity from DOM background layer

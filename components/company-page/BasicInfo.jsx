@@ -98,6 +98,8 @@ export default function BasicInfo() {
                   <img
                     src={`/images/company/company-hero-${num}.webp`}
                     alt={`Company Hero ${num}`}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-auto opacity-85 group-hover:opacity-100 transition-opacity duration-500"
                   />
                 </div>
