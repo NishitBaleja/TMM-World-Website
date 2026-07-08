@@ -1,5 +1,5 @@
 export default function sitemap() {
-  const baseUrl = "https://tmmworld.com";
+  const baseUrl = "https://tmm-world.com";
 
   // Static routes
   const routes = [

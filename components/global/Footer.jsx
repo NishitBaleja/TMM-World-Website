@@ -140,6 +140,11 @@ export default function Footer() {
                 <span className="text-white/20 select-none">{content.ui.connect}</span>
                 <ul className="flex flex-col gap-3">
                   <li>
+                    <a href={`mailto:${content.global.contactEmail}`} className="hover:text-white transition-colors lowercase">
+                      {content.global.contactEmail}
+                    </a>
+                  </li>
+                  <li>
                     <a href={content.global.socials.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2" aria-label="Send WhatsApp message (opens in new tab)">
                       whatsapp
                       <svg className="w-3.5 h-3.5 fill-current text-current opacity-70" viewBox="0 0 16 16" aria-hidden="true">

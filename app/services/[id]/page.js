@@ -12,19 +12,19 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const service = siteContent.serviceDetails[id];
-  const title = service ? `${service.title} | TMMWORLD` : "Service Detail | TMMWORLD";
-  const desc = service ? service.extendedDesc : "Premium IT and Web agency service in Jamnagar.";
+  const title = service ? `${service.title} | TMMWORLD` : "Brand Building Service | TMMWORLD";
+  const desc = service ? service.extendedDesc : "Premium brand building and web development service in Jamnagar.";
 
   return {
     title: title,
     description: desc,
     alternates: {
-      canonical: `https://tmmworld.com/services/${id}`,
+      canonical: `https://tmm-world.com/services/${id}`,
     },
     openGraph: {
       title: `${title} | TMMWORLD Jamnagar`,
       description: desc,
-      url: `https://tmmworld.com/services/${id}`,
+      url: `https://tmm-world.com/services/${id}`,
       type: "website",
     },
     twitter: {

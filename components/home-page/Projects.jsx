@@ -49,8 +49,8 @@ export default function Projects() {
           invalidateOnRefresh: true,
           snap: {
             snapTo: 1 / 3,
-            duration: { min: 0.5, max: 1.2 }, // Slower snapping animation
-            delay: 0.05,
+            duration: { min: 0.3, max: 0.6 }, // Fast snapping animation
+            delay: 0.02,
             ease: "power2.out"
           },
           onEnter: () => {
@@ -100,7 +100,7 @@ export default function Projects() {
         if (window.lenis) {
           window.lenis.stop(); // Lock user input
           window.lenis.scrollTo(targetScroll, {
-            duration: 1.4, // Slower snapping animation
+            duration: 0.7, // Fast snapping animation
             force: true, // Force scroll even when stopped
             onComplete: () => {
               window.lenis.start(); // Unlock user input
@@ -111,7 +111,7 @@ export default function Projects() {
           const scrollObj = { y: window.scrollY };
           gsap.to(scrollObj, {
             y: targetScroll,
-            duration: 1.4, // Slower snapping animation
+            duration: 0.7, // Fast snapping animation
             ease: "power2.out",
             onUpdate: () => window.scrollTo(0, scrollObj.y),
             onComplete: () => {

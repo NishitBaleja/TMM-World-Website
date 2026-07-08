@@ -274,6 +274,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center text-[10px] text-[#908e8b] tracking-[0.2em] w-full max-w-7xl mx-auto z-10 mt-8 pt-6">
           <span>©{new Date().getFullYear()}</span>
           <div className="flex gap-6">
+            <a href={`mailto:${content.global.contactEmail}`} className="hover:text-white cursor-pointer transition-colors">EMAIL</a>
             <a href={content.global.socials.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">WHATSAPP</a>
             <a href={content.global.socials.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">INSTAGRAM</a>
           </div>

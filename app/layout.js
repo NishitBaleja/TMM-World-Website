@@ -7,10 +7,10 @@ import { LanguageProvider } from "@/lib/LanguageContext";
 export const metadata = {
   title: {
     default: "TMMWORLD",
-    template: "%s | TMMWORLD Jamnagar"
+    template: "%s | TMMWORLD Brand Building & Web Development"
   },
-  description: "TMMWORLD is a premier IT company and web development agency in Jamnagar. We help businesses and people build brands, custom software architectures, and scalable digital systems.",
-  metadataBase: new URL("https://tmmworld.com"),
+  description: "TMMWORLD is a brand building and web development agency in Jamnagar. We help businesses and people build brands, custom software architectures, and scalable digital systems.",
+  metadataBase: new URL("https://tmm-world.com"),
   alternates: {
     canonical: "/"
   },
@@ -32,16 +32,16 @@ export const metadata = {
   },
   openGraph: {
     title: "TMMWORLD",
-    description: "TMMWORLD is a premier IT company and web development agency in Jamnagar. We help businesses and people build brands, custom software architectures, and scalable digital systems.",
-    url: "https://tmmworld.com",
+    description: "TMMWORLD is a brand building and web development agency in Jamnagar. We help businesses and people build brands, custom software architectures, and scalable digital systems.",
+    url: "https://tmm-world.com",
     siteName: "TMMWORLD",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "TMMWORLD | IT Company & Premium Web Development in Jamnagar",
-    description: "TMMWORLD is a premier IT company and web development agency in Jamnagar. We help businesses and people build brands, custom software architectures, and scalable digital systems.",
+    title: "TMMWORLD | Brand Building & Web Development Agency in Jamnagar",
+    description: "TMMWORLD is a brand building and web development agency in Jamnagar. We help businesses and people build brands, custom software architectures, and scalable digital systems.",
   }
 };
 
@@ -67,9 +67,9 @@ export default function RootLayout({ children }) {
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "TMMWORLD",
-              "url": "https://tmmworld.com",
-              "logo": "https://tmmworld.com/images/tmm-world-logo.webp",
-              "description": "TMMWORLD is an elite software engineering collective crafting resilient cloud architectures, high-fidelity WebGL frontends, and custom machine learning pipelines.",
+              "url": "https://tmm-world.com",
+              "logo": "https://tmm-world.com/images/tmm-world-logo.webp",
+              "description": "TMMWORLD is an elite brand building and software engineering collective crafting resilient cloud architectures, high-fidelity WebGL frontends, and custom machine learning pipelines.",
               "address": [
                 {
                   "@type": "PostalAddress",
@@ -96,10 +96,10 @@ export default function RootLayout({ children }) {
               "@context": "https://schema.org",
               "@type": "WebSite",
               "name": "TMMWORLD",
-              "url": "https://tmmworld.com",
+              "url": "https://tmm-world.com",
               "potentialAction": {
                 "@type": "SearchAction",
-                "target": "https://tmmworld.com/expertise?search={search_term_string}",
+                "target": "https://tmm-world.com/expertise?search={search_term_string}",
                 "query-input": "required name=search_term_string"
               }
             })

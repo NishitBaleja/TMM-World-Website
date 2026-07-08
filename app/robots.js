@@ -4,6 +4,6 @@ export default function robots() {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://tmmworld.com/sitemap.xml",
+    sitemap: "https://tmm-world.com/sitemap.xml",
   };
 }

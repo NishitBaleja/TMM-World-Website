@@ -1,20 +1,20 @@
 import CompanyPageClient from "@/components/company-page/CompanyPageClient";
 
 export const metadata = {
-  title: "IT Company & Leadership",
-  description: "Meet Nitish Baleja (Founder) and learn about TMMWORLD, a top IT company in Jamnagar specializing in premium web development, brand building, and systems engineering.",
+  title: "Brand Building Company & Leadership",
+  description: "Meet Nitish Baleja (Founder) and learn about TMMWORLD, a top brand building and IT company in Jamnagar specializing in brand building, web development, and systems engineering.",
   alternates: {
-    canonical: "https://tmmworld.com/company",
+    canonical: "https://tmm-world.com/company",
   },
   openGraph: {
-    title: "IT Company & Leadership | TMMWORLD Jamnagar",
-    description: "Meet Nitish Baleja (Founder) and learn about TMMWORLD, a top IT company in Jamnagar specializing in premium web development, brand building, and systems engineering.",
-    url: "https://tmmworld.com/company",
+    title: "Brand Building Company & Leadership | TMMWORLD Jamnagar",
+    description: "Meet Nitish Baleja (Founder) and learn about TMMWORLD, a top brand building and IT company in Jamnagar specializing in brand building, web development, and systems engineering.",
+    url: "https://tmm-world.com/company",
     type: "website",
   },
   twitter: {
-    title: "IT Company & Leadership | TMMWORLD Jamnagar",
-    description: "Meet Nitish Baleja (Founder) and learn about TMMWORLD, a top IT company in Jamnagar specializing in premium web development, brand building, and systems engineering.",
+    title: "Brand Building Company & Leadership | TMMWORLD Jamnagar",
+    description: "Meet Nitish Baleja (Founder) and learn about TMMWORLD, a top brand building and IT company in Jamnagar specializing in brand building, web development, and systems engineering.",
   }
 };
 
