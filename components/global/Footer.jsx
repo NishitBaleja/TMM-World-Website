@@ -40,7 +40,11 @@ export default function Footer() {
   const footerRef = useRef(null);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (window.lenis) {
+      window.lenis.scrollTo(0, { duration: 1.5 });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   // Hierarchical scroll-reveal for footer sections
