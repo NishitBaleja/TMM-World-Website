@@ -17,7 +17,7 @@ export const metadata = {
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
-    apple: "/images/tmm-world-logo.webp",
+    apple: "/apple-icon.png",
   },
   robots: {
     index: true,
