@@ -15,8 +15,8 @@ export const metadata = {
     canonical: "/"
   },
   icons: {
-    icon: "/images/tmm-world-logo.webp",
-    shortcut: "/images/tmm-world-logo.webp",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
     apple: "/images/tmm-world-logo.webp",
   },
   robots: {
